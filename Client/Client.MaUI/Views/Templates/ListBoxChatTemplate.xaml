@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Client.MaUI.Views.Templates.ListBoxChatTemplate"
+             xmlns:viewmodes="clr-namespace:Client.MaUI.ViewModels"
+             >
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+
+
+            <Style x:Key="NameTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontFamily" Value="Metropolis Regular" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="Margin" Value="12, 0" />
+            </Style>
+
+            <Style x:Key="MessageTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontFamily" Value="Metropolis Regular" />
+                <Setter Property="LineBreakMode" Value="TailTruncation" />
+                <Setter Property="MaxLines" Value="1" />
+                <Setter Property="Margin" Value="12, 12, 12, 0" />
+            </Style>
+
+            <Color x:Key="TimeColor">#B2ACBE</Color>
+
+            <Style x:Key="TimeTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource TimeColor}" />
+                <Setter Property="FontFamily" Value="Metropolis Regular" />
+                <Setter Property="FontSize" Value="11" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid
+          ColumnDefinitions="Auto, *"
+          Margin="0,15,0,15">
+            <Grid>
+                <Frame HeightRequest="70" WidthRequest="70" CornerRadius="50">
+                    <Image
+                    Source="{Binding UrlImage}"
+                    HeightRequest="70" WidthRequest="70" Aspect="AspectFill" />
+                </Frame>
+                <Ellipse
+                                        Fill="Green"
+                                        HeightRequest="15"
+                                        HorizontalOptions="End"
+                                        IsVisible="true"
+                                        StrokeThickness="3"
+                                        VerticalOptions="End"
+                                        WidthRequest="15" />
+            </Grid>
+            <Grid
+                Grid.Column="1"   
+                ColumnDefinitions="*, Auto">
+                <StackLayout>
+                    <Label        
+                        Text="{Binding UserName}"
+                        Style="{StaticResource NameTextStyle}" />
+                    <Label         
+                        Text="{Binding Chat}"
+                        Style="{StaticResource MessageTextStyle}"/>
+                </StackLayout>
+                <Label 
+                    Grid.Column="1"
+                    Text="{Binding DateTimeCreated}"
+                    Style="{StaticResource TimeTextStyle}"/>
+            </Grid>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

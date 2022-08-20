@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Client.MaUI.Controls.UserOnlineControl"
+             xmlns:controls="clr-namespace:Client.MaUI.ViewModels">
+    <ContentView.Content>
+        <CollectionView  HeightRequest="70" SelectionMode="None" ItemsSource="{Binding urlUserOnline}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="0" Orientation="Horizontal" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="x:String" >
+                    <Grid Margin="0,0,15,0">
+                        <Frame  CornerRadius="50" IsClippedToBounds="True" WidthRequest="60" HeightRequest="60" BorderColor="White" >
+                            <Image             
+                    Aspect="AspectFill"
+                    HeightRequest="60"
+                    Source="{Binding .}"
+                    WidthRequest="60"></Image>
+                        </Frame>
+                                <Ellipse
+                                        Fill="Green"
+                                        HeightRequest="15"
+                                        HorizontalOptions="End"
+                                        IsVisible="true"
+                                        StrokeThickness="3"
+                                        VerticalOptions="End"
+                                        WidthRequest="15" />
+                    </Grid>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </ContentView.Content>
+</ContentView>
