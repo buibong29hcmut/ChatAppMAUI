@@ -15,6 +15,7 @@ namespace ChatApp.Domain.Entities
         public string PhoneNumber { get; private set; }
         public string Email { get; private set; }
         public byte[] Salt { get; private set; }
+        public string Name { get; private set; }
         protected User()
         {
 
@@ -31,6 +32,11 @@ namespace ChatApp.Domain.Entities
         public void ReadMessage(Message message)
         {
             message.SetMessageRead();
+        }
+        public void UpdateInfo(string Name, string UrlAvatar)
+        {
+            this.Name = Name;
+            this.UrlAvatar = UrlAvatar;
         }
         public static User CreateRegister(string UserName, string Password, byte[] Salt)
         {
