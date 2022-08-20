@@ -8,5 +8,6 @@ namespace ChatApp.Domain.Commons
 {
     public class Entity:IEntity<Guid>
     {
+        public Guid Id { get; set; }
     }
 }

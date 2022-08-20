@@ -11,6 +11,6 @@ namespace ChatApp.Domain.Commons
     }
     public interface IEntity<Tid> : IEntity
     {
-
+        Tid Id { get; set; }
     }
 }

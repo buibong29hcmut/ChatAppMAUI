@@ -11,11 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.MaUI", "Client\Clien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApp.API", "Sever\ChatApp.API\ChatApp.API.csproj", "{F728E51E-EEFC-44E1-B69D-8AFD14E93888}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApp.Domain", "Sever\ChatApp.Domain\ChatApp.Domain.csproj", "{EA7AC5B5-4672-42A5-8E06-711E94B91EE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApp.Domain", "Sever\ChatApp.Domain\ChatApp.Domain.csproj", "{EA7AC5B5-4672-42A5-8E06-711E94B91EE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApp.Application", "Sever\ChatApp.Application\ChatApp.Application.csproj", "{4925451D-21D2-4BDA-AF8B-95D255B1D03E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApp.Application", "Sever\ChatApp.Application\ChatApp.Application.csproj", "{4925451D-21D2-4BDA-AF8B-95D255B1D03E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApp.Infrastructure", "Sever\ChatApp.Infrastructure\ChatApp.Infrastructure.csproj", "{6D1226DA-A31B-4DF0-BC20-AE68CABF343F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApp.Infrastructure", "Sever\ChatApp.Infrastructure\ChatApp.Infrastructure.csproj", "{6D1226DA-A31B-4DF0-BC20-AE68CABF343F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApp.Share", "Sever\ChatApp.Share\ChatApp.Share.csproj", "{67C9BE03-D271-4C84-B5D6-63419BFE6EE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{6D1226DA-A31B-4DF0-BC20-AE68CABF343F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D1226DA-A31B-4DF0-BC20-AE68CABF343F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D1226DA-A31B-4DF0-BC20-AE68CABF343F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67C9BE03-D271-4C84-B5D6-63419BFE6EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67C9BE03-D271-4C84-B5D6-63419BFE6EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67C9BE03-D271-4C84-B5D6-63419BFE6EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67C9BE03-D271-4C84-B5D6-63419BFE6EE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{EA7AC5B5-4672-42A5-8E06-711E94B91EE2} = {50C65272-2586-4E1D-8A98-97C1CAB92FC8}
 		{4925451D-21D2-4BDA-AF8B-95D255B1D03E} = {50C65272-2586-4E1D-8A98-97C1CAB92FC8}
 		{6D1226DA-A31B-4DF0-BC20-AE68CABF343F} = {50C65272-2586-4E1D-8A98-97C1CAB92FC8}
+		{67C9BE03-D271-4C84-B5D6-63419BFE6EE0} = {50C65272-2586-4E1D-8A98-97C1CAB92FC8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73ED18DB-884B-429F-8A43-2EE74C649B1D}

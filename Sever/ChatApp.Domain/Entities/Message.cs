@@ -18,7 +18,7 @@ namespace ChatApp.Domain.Entities
         }
         public void SetMessageRead()
         {
-            Read = DateTimeOffset.Now;
+            SetMessageRead(DateTimeOffset.Now);
         }
         public void SetMessageRead(DateTimeOffset time)
         {
