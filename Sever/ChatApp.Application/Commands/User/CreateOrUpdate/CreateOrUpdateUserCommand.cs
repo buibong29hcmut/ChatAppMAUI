@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApp.Application.Interfaces.Services
+namespace ChatApp.Application.Commands.User.CreateOrUpdate
 {
-    internal interface IStorePasswordService
+    public class CreateOrUpdateUserCommand
     {
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApp.Infrastructure.Contexts
+namespace ChatApp.Application.Interfaces.DAL
 {
     public interface IDbFactory
     {

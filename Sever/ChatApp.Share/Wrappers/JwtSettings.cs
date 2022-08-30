@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApp.Application.Requests.Users
+namespace ChatApp.Share.Wrappers
 {
-    public class CreateUserCommand
+    internal class JwtSettings
     {
-        UserForLoginOrRegister User { get; set; }
     }
 }

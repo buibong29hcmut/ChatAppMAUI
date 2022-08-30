@@ -16,6 +16,20 @@ namespace ChatApp.Domain.Entities
             Content = content;
             SendTime = sendTime;
         }
+        public Guid FromUserId { get; private set; }
+        public Guid ToUserId { get; private set; }
+        public string Content { get; private set; }
+        public DateTimeOffset? Read { get; private set; }
+        public DateTimeOffset SendTime { get; private set; }
+        public bool IsRead
+        {
+            get
+            {
+                return Read != null;
+            }
+        }
+        public User FromUser { get; set; }
+        public User ToUSer { get; set; }
         public void SetMessageRead()
         {
             SetMessageRead(DateTimeOffset.Now);
@@ -23,19 +37,6 @@ namespace ChatApp.Domain.Entities
         public void SetMessageRead(DateTimeOffset time)
         {
             Read = time;
-        }
-
-        public Guid FromUserId { get; private set; }
-        public Guid ToUserId { get; private set; }
-        public string Content { get; private set; }
-        public DateTimeOffset? Read { get; private set; }
-        public DateTimeOffset? SendTime { get; private set; }
-        public bool IsRead
-        {
-            get
-            {
-                return Read != null;
-            }
         }
 
     }

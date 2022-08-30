@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApp.Infrastructure.Services
+namespace ChatApp.Application.Interfaces.Services
 {
-    internal class StorePasswordService
+    public interface IDateTimeProvider
     {
+        DateTime UtcNow { get; }
     }
 }

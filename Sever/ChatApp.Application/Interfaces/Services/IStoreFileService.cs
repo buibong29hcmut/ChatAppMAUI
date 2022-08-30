@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Application.Interfaces.Services
 {
-    public interface IGenerateSaltService
+    public interface IStoreFileService
     {
     }
 }

@@ -8,7 +8,7 @@ namespace Client.MaUI
         {
             InitializeComponent();
 
-            MainPage = new ChatDetailView();
+            MainPage = new ChatViewTest();
         }
     }
 }

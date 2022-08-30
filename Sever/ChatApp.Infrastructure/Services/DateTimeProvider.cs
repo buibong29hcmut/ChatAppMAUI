@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Infrastructure.Services
 {
-    public class UploadFileService:IStoreFileService
+    public class DateTimeProvider:IDateTimeProvider
     {
+        public DateTime UtcNow { get; private set; } = DateTime.UtcNow;
     }
 }

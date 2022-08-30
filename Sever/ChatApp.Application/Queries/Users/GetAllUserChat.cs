@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApp.Application.Requests.Users
+namespace ChatApp.Application.Queries.Users
 {
-    public class CreateUserCommand
+    public class GetAllUserChat
     {
-        UserForLoginOrRegister User { get; set; }
     }
 }

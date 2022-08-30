@@ -1,3 +1,5 @@
+using ChatApp.Domain.Entities;
+using ChatApp.Infrastructure.Contexts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatApp.API.Controllers
@@ -12,22 +14,17 @@ namespace ChatApp.API.Controllers
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        private readonly ChatDbContext _Db;
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, ChatDbContext db)
         {
             _logger = logger;
+            _Db = db;   
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public IEnumerable<User> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return _Db.Users.ToList();
         }
     }
 }

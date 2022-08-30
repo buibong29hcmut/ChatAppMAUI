@@ -11,11 +11,11 @@ namespace ChatApp.Domain.Entities
     {
         public string UserName { get; private set; }
         public string Password { get; private set; }
-        public string UrlAvatar { get; private set; }
-        public string PhoneNumber { get; private set; }
-        public string Email { get; private set; }
-        public byte[] Salt { get; private set; }
-        public string Name { get; private set; }
+        public string ?UrlAvatar { get; private set; }
+        public string ?PhoneNumber { get; private set; }
+        public string ?Email { get; private set; }
+        public string Salt { get; private set; }
+        public string ?Name { get; private set; }
         protected User()
         {
 
@@ -25,6 +25,7 @@ namespace ChatApp.Domain.Entities
             this.UserName = UserName;
             
         }
+
         public Message SendMessage(Guid FromUserId, Guid ToUserId, DateTimeOffset Send,string content)
         {
             return new Message(this.Id, ToUserId, content, Send);
@@ -38,13 +39,15 @@ namespace ChatApp.Domain.Entities
             this.Name = Name;
             this.UrlAvatar = UrlAvatar;
         }
-        public static User CreateRegister(string UserName, string Password, byte[] Salt)
+        public static User CreateRegister(string UserName, string Password, string Salt)
         {
             return new User()
             {
+                Id = Guid.NewGuid(),
                 UserName = UserName,
                 Password = Password,
                 Salt = Salt,
+                UrlAvatar="A",
 
             };
         }

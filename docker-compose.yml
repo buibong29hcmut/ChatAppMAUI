@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  chatapp.api:
+    image: ${DOCKER_REGISTRY-}chatappapi
+    build:
+      context: .
+      dockerfile: Sever/ChatApp.API/Dockerfile
+  chatdb:
+    image: postgres
+  pgadmin:
+    image: dpage/pgadmin4
+volumes:
+  postgres_data:  
+  pgadmin_data:

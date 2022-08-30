@@ -1,5 +1,4 @@
 ﻿using ChatApp.Application.Models;
-using ChatApp.Application.Requests.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Application.Interfaces.Services
 {
-    public interface IAuthenticateService
+    public interface IPasswordHasher
     {
-        Task<IdentityResult> LoginOrRegister(UserForLoginOrRegister userInfo);
+        HashPassWordResult HashWithSHA256Algo(string password);
+        bool CheckPassWord(string passWordInput, string passWordHash, string salt);
+       
     }
 }
