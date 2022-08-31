@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Share.Wrappers
 {
-    internal class JwtSettings
+    public class JwtSettings
     {
     }
 }

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\Cache\" />
+    <Folder Include="Validator\" />
     <Folder Include="Response\" />
   </ItemGroup>
 

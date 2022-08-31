@@ -20,19 +20,9 @@ namespace ChatApp.Test
         [TestMethod]
         public async Task TestCreateUser()
         {
-            IConfiguration configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.test.json")
-                .AddEnvironmentVariables()
-                .Build();
-
-            ServiceCollection service = new ServiceCollection();
-            service.AddSingleton(configuration);
-            service.AddScoped<IDbFactory, DbFactory>();
-            service.AddScoped<IDateTimeProvider, DateTimeProvider>();
-            service.AddScoped<IPasswordHasher, PasswordHasher>();
-            service.AddScoped<IJwtGenerator, JwtGenerator>();
-            service.AddScoped<IAuthenticateService, AuthenticateService>();
-            var provider = service.BuildServiceProvider();
+            ServiceCollectionContainer container = new ServiceCollectionContainer();
+           
+            var provider = container.ServiceCollection().BuildServiceProvider();
             var authenticateService = provider.CreateScope().ServiceProvider.GetRequiredService<IAuthenticateService>();
             var result = await authenticateService.LoginOrRegister(new UserForLoginOrRegister("buibong2912", "29122002Az@"));
             Assert.AreEqual(result.Success, true, "Create User Failed");

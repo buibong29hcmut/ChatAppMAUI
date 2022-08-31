@@ -15,21 +15,21 @@ namespace ChatApp.Infrastructure.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IDateTimeProvider _datetimeProvider;
-        public JwtGenerator(/*IConfiguration configuration,*/ IDateTimeProvider datetimeProvider)
+        public JwtGenerator(IConfiguration configuration, IDateTimeProvider datetimeProvider)
         {
-            //_configuration = configuration;
+            _configuration = configuration;
             _datetimeProvider = datetimeProvider;   
         }
         public string GenerateToken(Guid userId,string UserName)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("ABACACACA");
+            var key = Encoding.ASCII.GetBytes(_configuration.GetSection("SecretKey").Value);
            
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] 
                 {
-                    new Claim("id", userId.ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
                     new Claim(ClaimTypes.NameIdentifier, UserName),
                 }),
                 Expires = _datetimeProvider.UtcNow.AddDays(7),
