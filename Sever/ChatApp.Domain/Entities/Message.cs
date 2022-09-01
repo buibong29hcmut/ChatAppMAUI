@@ -11,6 +11,7 @@ namespace ChatApp.Domain.Entities
     {
         public Message(Guid fromUserId, Guid toUserId, string content, DateTimeOffset sendTime)
         {
+            Id = Guid.NewGuid();
             FromUserId = fromUserId;
             ToUserId = toUserId;
             Content = content;

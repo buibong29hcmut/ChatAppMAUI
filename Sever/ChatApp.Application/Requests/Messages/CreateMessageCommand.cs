@@ -8,5 +8,10 @@ namespace ChatApp.Application.Requests.Messages
 {
     public class CreateMessageCommand
     {
+        public Guid FromUSerId { get; set; }
+        public Guid ToUSerID { get; set; }
+        public string Content { get; set; }
+        public DateTime SendTime { get; set; }= DateTime.Now;   
+
     }
 }

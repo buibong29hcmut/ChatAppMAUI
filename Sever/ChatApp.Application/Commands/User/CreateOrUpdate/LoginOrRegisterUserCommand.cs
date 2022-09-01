@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Application.Commands.User.CreateOrUpdate
 {
-    public class CreateOrUpdateUserCommand
+    public class LoginOrRegisterUserCommandHandler
     {
     }
 }

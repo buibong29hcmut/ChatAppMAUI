@@ -8,11 +8,12 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\Cache\" />
-    <Folder Include="Validator\" />
+    <Folder Include="Validators\" />
     <Folder Include="Response\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.2.1" />
     <PackageReference Include="MediatR" Version="10.0.1" />
   </ItemGroup>
 

@@ -9,14 +9,14 @@ namespace ChatApp.Domain.Entities
 {
     public class User : Entity
     {
-        public string UserName { get; private set; }
-        public string Password { get; private set; }
-        public string ?UrlAvatar { get; private set; }
-        public string ?PhoneNumber { get; private set; }
-        public string ?Email { get; private set; }
-        public string Salt { get; private set; }
-        public string ?Name { get; private set; }
-        protected User()
+        public string UserName { get;  set; }
+        public string Password { get;  set; }
+        public string ?UrlAvatar { get;  set; }
+        public string ?PhoneNumber { get;  set; }
+        public string ?Email { get;  set; }
+        public string Salt { get;  set; }
+        public string ?Name { get;  set; }
+        public User()
         {
 
         }
@@ -39,7 +39,7 @@ namespace ChatApp.Domain.Entities
             this.Name = Name;
             this.UrlAvatar = UrlAvatar;
         }
-        public static User CreateRegister(string UserName, string Password, string Salt)
+        public static User CreateRegister(string UserName, string Password, string Salt,string Name)
         {
             return new User()
             {
@@ -47,7 +47,8 @@ namespace ChatApp.Domain.Entities
                 UserName = UserName,
                 Password = Password,
                 Salt = Salt,
-                UrlAvatar="A",
+
+                Name=Name,
 
             };
         }
