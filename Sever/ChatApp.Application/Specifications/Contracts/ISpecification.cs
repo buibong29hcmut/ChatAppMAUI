@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApp.Application.Queries.Messages
+namespace ChatApp.Application.Specifications.Contracts
 {
-    public class GetMessageByConversationHandler
+    public interface ISpecification<T>
     {
+        bool IsSatisfiedBy(T item);   
     }
 }

@@ -47,7 +47,7 @@ namespace ChatApp.Infrastructure.Services
                     }
                 }
                 var hashPassWordResult= _hasher.HashWithSHA256Algo(userInfo.Password);
-                User registerUser = User.CreateRegister(userInfo.UserName, hashPassWordResult.PasswordHash, hashPassWordResult.Salt,"");
+                User registerUser = User.CreateRegister(userInfo.UserName, hashPassWordResult.PasswordHash, hashPassWordResult.Salt);
               int result=
                     await connection
                     .ExecuteAsync($"INSERT INTO public.\"Users\"(\r\n\t \"Id\", \"UserName\", \"Password\",\"Salt\")\r\n\tVALUES (@Id,@UserName,@Password,@Salt)", 

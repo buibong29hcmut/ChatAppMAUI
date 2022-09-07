@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ChatApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChatDbContext))]
-    [Migration("20220830155710_updateTableUSer")]
-    partial class updateTableUSer
+    [Migration("20220907125534_initialDb")]
+    partial class initialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,30 @@ namespace ChatApp.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ChatApp.Domain.Entities.Conversation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("OtherUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OtherUserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Conversations");
+                });
 
             modelBuilder.Entity("ChatApp.Domain.Entities.Message", b =>
                 {
@@ -34,6 +58,9 @@ namespace ChatApp.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("ConversationId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("FromUserId")
                         .HasColumnType("uuid");
 
@@ -43,14 +70,11 @@ namespace ChatApp.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("SendTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("ToUserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("FromUserId");
+                    b.HasIndex("ConversationId");
 
-                    b.HasIndex("ToUserId");
+                    b.HasIndex("FromUserId");
 
                     b.ToTable("Messages");
                 });
@@ -62,10 +86,12 @@ namespace ChatApp.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Email")
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -78,7 +104,8 @@ namespace ChatApp.Infrastructure.Migrations
 
                     b.Property<string>("Salt")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("UrlAvatar")
                         .HasMaxLength(200)
@@ -94,23 +121,47 @@ namespace ChatApp.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("ChatApp.Domain.Entities.Conversation", b =>
+                {
+                    b.HasOne("ChatApp.Domain.Entities.User", "OtherUser")
+                        .WithMany()
+                        .HasForeignKey("OtherUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ChatApp.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OtherUser");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ChatApp.Domain.Entities.Message", b =>
                 {
+                    b.HasOne("ChatApp.Domain.Entities.Conversation", "Conversation")
+                        .WithMany("Messages")
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ChatApp.Domain.Entities.User", "FromUser")
                         .WithMany()
                         .HasForeignKey("FromUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ChatApp.Domain.Entities.User", "ToUSer")
-                        .WithMany()
-                        .HasForeignKey("ToUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Conversation");
 
                     b.Navigation("FromUser");
+                });
 
-                    b.Navigation("ToUSer");
+            modelBuilder.Entity("ChatApp.Domain.Entities.Conversation", b =>
+                {
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

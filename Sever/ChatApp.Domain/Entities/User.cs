@@ -26,9 +26,9 @@ namespace ChatApp.Domain.Entities
             
         }
 
-        public Message SendMessage(Guid FromUserId, Guid ToUserId, DateTimeOffset Send,string content)
+        public Message SendMessage(Guid FromUserId, Guid ConversationId, DateTimeOffset Send,string content)
         {
-            return new Message(this.Id, ToUserId, content, Send);
+            return new Message(this.Id, content, Send,ConversationId);
         }
         public void ReadMessage(Message message)
         {
@@ -39,16 +39,14 @@ namespace ChatApp.Domain.Entities
             this.Name = Name;
             this.UrlAvatar = UrlAvatar;
         }
-        public static User CreateRegister(string UserName, string Password, string Salt,string Name)
+        public static User CreateRegister(string UserName, string PasswordHash, string Salt)
         {
             return new User()
             {
                 Id = Guid.NewGuid(),
                 UserName = UserName,
-                Password = Password,
+                Password = PasswordHash,
                 Salt = Salt,
-
-                Name=Name,
 
             };
         }

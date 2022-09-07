@@ -16,6 +16,7 @@ builder.Services.AddDbContext<ChatDbContext>(options =>
 });
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 var app = builder.Build();
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 using (var scope= app.Services.CreateScope())
 {
     var hashser = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();

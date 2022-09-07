@@ -17,7 +17,8 @@ namespace ChatApp.Infrastructure.Configurations
             builder
                 .Property(b => b.Id)
                 .IsRequired();
-      
+            builder.HasOne(p => p.Conversation)
+                   .WithMany(b => b.Messages).HasForeignKey(p => p.ConversationId);
 
         }
     }

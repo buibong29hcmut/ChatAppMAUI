@@ -20,7 +20,7 @@ namespace ChatApp.Infrastructure.Contexts
         }
         public DbSet<Message> Messages { get; set; }
         public DbSet<User> Users { get; set; }
-    
+        public DbSet<Conversation> Conversations { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MessageConfiguration).Assembly);
