@@ -7,18 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\Cache\" />
     <Folder Include="Validators\" />
-    <Folder Include="Response\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="FluentValidation" Version="11.2.1" />
     <PackageReference Include="MediatR" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ChatApp.Domain\ChatApp.Domain.csproj" />
+    <ProjectReference Include="..\ChatApp.Share\ChatApp.Share.csproj" />
   </ItemGroup>
 
 </Project>

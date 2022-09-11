@@ -9,7 +9,7 @@ DbContextOptions options = new DbContextOptionsBuilder<ChatDbContext>()
                          .UseNpgsql(connectionString)
                          .EnableSensitiveDataLogging(true)
                          .Options;
-ChatDbContext db = new ChatDbContext(options);
+ChatDbContext db = new ChatDbContext(options,null);
 string password = "29122002Az@";
 string UserName = "buibong2912";
 IPasswordHasher PasswordHasher = new PasswordHasher();

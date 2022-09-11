@@ -3,6 +3,7 @@ using System;
 using ChatApp.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ChatApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChatDbContext))]
-    partial class ChatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220910144804_initialDb3")]
+    partial class initialDb3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,11 +33,15 @@ namespace ChatApp.Infrastructure.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("LastMessageId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("LastMessage")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid>("OtherUserId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("TimeLastMessage")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");

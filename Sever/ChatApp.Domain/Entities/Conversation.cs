@@ -15,6 +15,7 @@ namespace ChatApp.Domain.Entities
         public User User { get; private set; }
         public User OtherUser { get; private set; }
         public virtual ICollection<Message> Messages { get; private set; }
+        public Guid LastMessageId { get; private set; }
         public Conversation(Guid userId, Guid otherUserId, DateTime created)
         {
             UserId = userId;
@@ -22,5 +23,10 @@ namespace ChatApp.Domain.Entities
             Created = created;
       
         }
+        public void SetLastMessage(Guid LastMessageId)
+        {
+            this.LastMessageId = LastMessageId;
+        }
+ 
     }
 }
