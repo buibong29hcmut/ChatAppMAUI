@@ -23,6 +23,8 @@ namespace ChatApp.Application.Queries.BoxChats
         public async Task<Result<IReadOnlyCollection<BoxChatResponse>>> Handle(GetBoxChatByUserId request, CancellationToken cancellationToken)
         {
             string query = "\tSELECT c.\"Id\" as \"ConversationId\", \"UserId\", \"OtherUserId\",\r\n\t \"LastMessageId\",m.\"Content\", m.\"SendTime\", m.\"Read\"\r\n\tFROM public.\"Conversations\" c\r\n    INNER JOIN \"Messages\" m \r\n\tON c.\"LastMessageId\"=m.\"Id\"\r\n\tAND (\"UserId\"=@userId OR \"OtherUserId\"=@userId )\r\n\tORDER BY m.\"SendTime\" desc";
+            IReadOnlyCollection<BoxChatResponse> result = new List<BoxChatResponse>();
+
             using (var db = _factory.CreateConnection())
             {
                 IEnumerable<BoxChatRawQuery> boxChatRaws = await db.QueryAsync<BoxChatRawQuery>(query, new { UserId = request.UserId });
@@ -48,9 +50,10 @@ namespace ChatApp.Application.Queries.BoxChats
                         Name=userByConersation.UserName,
 
                     };
+                    result.Append(boxChatResponse);
                 }
             }
-            return null;
+            return Result<IReadOnlyCollection<BoxChatResponse>>.Success(result);
         }
     }
 }
