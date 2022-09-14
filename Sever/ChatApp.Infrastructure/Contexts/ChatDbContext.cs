@@ -1,4 +1,5 @@
-﻿using ChatApp.Domain.Entities;
+﻿using ChatApp.Application.Interfaces.DAL;
+using ChatApp.Domain.Entities;
 using ChatApp.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Infrastructure.Contexts
 {
-    public class ChatDbContext:DbContext
+    public class ChatDbContext:DbContext, IChatDbContext
     {
         private readonly IDistributedCache _cache;
         public ChatDbContext(DbContextOptions options,
@@ -31,6 +32,7 @@ namespace ChatApp.Infrastructure.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
             base.OnModelCreating(modelBuilder);
         }
+       
         public async Task<int> SaveChangesAndRemoveCacheAsync( CancellationToken cancellationToken=default, params string[] cacheKey)
         {
             for(int i = 0; i < cacheKey.Length; i++)

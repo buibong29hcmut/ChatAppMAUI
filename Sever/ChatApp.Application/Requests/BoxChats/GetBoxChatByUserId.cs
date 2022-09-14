@@ -12,11 +12,13 @@ namespace ChatApp.Application.Requests.BoxChats
     public class GetBoxChatByUserId:IQuery<Result<IReadOnlyCollection<BoxChatResponse>>>
     {
         public Guid UserId { get; private set; }
-        public Guid LastConversationId { get; private set; }
-        public GetBoxChatByUserId(Guid userId,Guid LastConversationId)
+        public int CountConversation { get; private set; }
+        public int RowFetch { get; private set; }
+        public GetBoxChatByUserId(Guid userId,int countConversation, int rowFetch)
         {
             UserId = userId;
-            this.LastConversationId = LastConversationId;
-        }   
+            RowFetch = rowFetch;
+            CountConversation = countConversation;
+        }
     }
 }

@@ -22,31 +22,32 @@ namespace ChatApp.Application.Queries.BoxChats
 
         public async Task<Result<IReadOnlyCollection<BoxChatResponse>>> Handle(GetBoxChatByUserId request, CancellationToken cancellationToken)
         {
-            string query = "\tSELECT c.\"Id\" as \"ConversationId\", \"UserId\", \"OtherUserId\",\r\n\t \"LastMessageId\",m.\"Content\", m.\"SendTime\", m.\"Read\"\r\n\tFROM public.\"Conversations\" c\r\n    INNER JOIN \"Messages\" m \r\n\tON c.\"LastMessageId\"=m.\"Id\"\r\n\tAND (\"UserId\"=@userId OR \"OtherUserId\"=@userId )\r\n\tORDER BY m.\"SendTime\" desc";
+            string query = "SELECT c.\"Id\" as \"ConversationId\", \"UserId\", \"OtherUserId\",\r\n    \"LastMessageId\",m.\"Content\", m.\"SendTime\", m.\"Read\"\r\n\tFROM public.\"Conversations\" c\r\n    INNER JOIN \"Messages\" m \r\n\tON c.\"LastMessageId\"=m.\"Id\"\r\n\tAND (\"UserId\"=@userId \r\n\tOR \"OtherUserId\"=@userId)\r\n\tORDER BY m.\"SendTime\" desc\r\n\tLIMIT @rowcount\r\n\tOFFSET @rowConversation\r\n\t";
             IReadOnlyCollection<BoxChatResponse> result = new List<BoxChatResponse>();
 
             using (var db = _factory.CreateConnection())
             {
-                IEnumerable<BoxChatRawQuery> boxChatRaws = await db.QueryAsync<BoxChatRawQuery>(query, new { UserId = request.UserId });
-                foreach(var boxChatRaw in boxChatRaws)
+                var parametterQueryConversation = new
                 {
-                    Guid UserQueryProfile = Guid.Empty;
-                    if (boxChatRaw.UserId != request.UserId)
-                    {
-                        UserQueryProfile= boxChatRaw.UserId;
-                    }
-                    else
-                    {
-                        UserQueryProfile = boxChatRaw.OtherUserId;
-                    }
-                    UserProfileByConversation userByConersation = await db.QueryFirstOrDefaultAsync<UserProfileByConversation>(query);
+                    UserId = request.UserId,
+                    OtherUserId = request.UserId,
+                    rowConversation = request.CountConversation,
+                    rowcount = request.RowFetch
+                };
+                IEnumerable<BoxChatRawQuery> boxChatRaws = await db.QueryAsync<BoxChatRawQuery>(query, parametterQueryConversation);
+                foreach(var boxChatRaw in boxChatRaws)
+                {  
+                    Guid UserQueryProfile = boxChatRaw.UserId==request.UserId? boxChatRaw.UserId: boxChatRaw.OtherUserId;
+                    string queryProfile = "SELECT  \"Name\",\"UrlAvatar\" FROM public.\"Users\"\r\n\tWHERE \"Id\"= @userId\r\n\tLIMIT 1";
+                    UserProfileByConversation userByConersation = await db.QueryFirstOrDefaultAsync<UserProfileByConversation>(queryProfile, new {userId=boxChatRaw.UserId});
+                    
                     BoxChatResponse boxChatResponse = new BoxChatResponse()
                     {
                         ConversationId = boxChatRaw.ConversationId,
                         Message = boxChatRaw.Message,
                         SeenMessage = boxChatRaw.Read,
                         TimeMessage= boxChatRaw.SendTime,
-                        UrlProfile=userByConersation.UrlProfile,
+                        UrlProfile=userByConersation.UrlAvatar,
                         Name=userByConersation.UserName,
 
                     };
