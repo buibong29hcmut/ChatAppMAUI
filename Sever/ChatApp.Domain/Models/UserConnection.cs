@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApp.Application.Queries.Users
+namespace ChatApp.Domain.Models
 {
-    public class GetAllUserChat
-    {
-    }
+   public record UserConnection(string connectionId);
 }

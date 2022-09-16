@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApp.Application.Requests.Users.Queries
+namespace ChatApp.Application.Response.Users
 {
-    public class GetProfileUserQuery
+    public class ProfileUserResponse
     {
         public string UserName { get; set; }
-          
+        public string UrlProfile { get; set; }
+      
     }
 }

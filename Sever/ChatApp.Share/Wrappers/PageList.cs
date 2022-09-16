@@ -42,6 +42,10 @@ namespace ChatApp.Share.Wrappers
             return new PageList<T>(items, count, pageNumber, pageSize);
 
         }
+        public static PageList<T> ToPageList<T>(this IEnumerable<T> source, int pageNumber, int pageSize)
+        {
+            return new PageList<T>(source.ToList(), 0, pageNumber, pageSize);
+        }
     }
 }
 
