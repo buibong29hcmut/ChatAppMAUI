@@ -10,14 +10,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
+using ChatApp.Application.Interfaces.Services;
+
 namespace ChatApp.Application.Queries.BoxChats
 {
     public class GetBoxChatOfUser:IQueryHandler<GetBoxChatByUserId,Result<IReadOnlyCollection<BoxChatResponse>>>
     {
         private readonly IDbFactory _factory;
-        public GetBoxChatOfUser(IDbFactory factory)
+        private readonly IUserOperation _operation;
+        public GetBoxChatOfUser(IDbFactory factory,IUserOperation operation)
         {
             _factory = factory;
+            _operation = operation; 
         }
 
         public async Task<Result<IReadOnlyCollection<BoxChatResponse>>> Handle(GetBoxChatByUserId request, CancellationToken cancellationToken)
@@ -49,7 +53,8 @@ namespace ChatApp.Application.Queries.BoxChats
                         TimeMessage= boxChatRaw.SendTime,
                         UrlProfile=userByConersation.UrlAvatar,
                         Name=userByConersation.UserName,
-
+                        IsOnline=await _operation.IsUserOnline(userByConersation.UserName)
+                        
                     };
                     result.Append(boxChatResponse);
                 }

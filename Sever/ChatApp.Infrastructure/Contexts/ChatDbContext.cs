@@ -1,4 +1,5 @@
 ﻿using ChatApp.Application.Interfaces.DAL;
+using ChatApp.Domain.Commons;
 using ChatApp.Domain.Entities;
 using ChatApp.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,10 @@ namespace ChatApp.Infrastructure.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MessageConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
             base.OnModelCreating(modelBuilder);
+        }
+        public override DbSet<T> Set<T>() where T:class
+        {
+            return base.Set<T>();
         }
        
         public async Task<int> SaveChangesAndRemoveCacheAsync( CancellationToken cancellationToken=default, params string[] cacheKey)

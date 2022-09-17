@@ -12,9 +12,11 @@ namespace ChatApp.Application.Response
         public string Message { get; set; }
         public string UrlProfile { get; set; }
         public string Name { get; set; }
+        public bool IsOnline { get; set; }
         public DateTimeOffset SeenMessage { get; set; }
         public DateTimeOffset TimeMessage { get; set; }
     }
+
     public class BoxChatRawQuery
     {
         public Guid ConversationId { get; set; }

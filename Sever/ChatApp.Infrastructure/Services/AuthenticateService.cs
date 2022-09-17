@@ -1,7 +1,7 @@
 ﻿using ChatApp.Application.Interfaces.DAL;
 using ChatApp.Application.Interfaces.Services;
 using ChatApp.Application.Models;
-using ChatApp.Application.Requests.Users;
+using ChatApp.Application.Requests.Users.Commands;
 using ChatApp.Domain.Entities;
 using Dapper;
 using System;

@@ -1,6 +1,7 @@
 ﻿using ChatApp.Application.Cores.Commands;
 using ChatApp.Application.Interfaces.DAL;
 using ChatApp.Application.Requests.Messages.Commands;
+using ChatApp.Application.Specifications.Contracts;
 using ChatApp.Domain.Entities;
 using ChatApp.Share.Wrappers;
 using MediatR;
@@ -15,6 +16,7 @@ namespace ChatApp.Application.Commands.Messages
     public class CreateMessageCommandHandler : ICommandHandler<CreateMessageCommand, Result<Unit>>
     {
         private readonly IChatDbContext _db;
+        private readonly IBussinessRule<Conversation> conversation;
         public CreateMessageCommandHandler(IChatDbContext db)
         {
             _db = db;   

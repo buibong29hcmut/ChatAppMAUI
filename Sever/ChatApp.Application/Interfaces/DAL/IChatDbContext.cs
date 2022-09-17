@@ -10,6 +10,7 @@ namespace ChatApp.Application.Interfaces.DAL
 {
     public interface IChatDbContext
     {
+         DbSet<T> Set<T>() where T:class;
          DbSet<Message> Messages { get; set; }
          DbSet<User> Users { get; set; }
          DbSet<Conversation> Conversations { get; set; }

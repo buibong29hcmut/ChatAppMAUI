@@ -40,7 +40,7 @@ namespace ChatApp.Infrastructure.Contexts
         }
         public int CountConnection(string userName)
         {
-            return UserOnlines[userName].Count();
+            return UserOnlines[userName].Count;
         }
         public async  Task<bool> IsUserOnline(string userName)
         {

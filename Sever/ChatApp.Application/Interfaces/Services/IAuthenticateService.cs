@@ -1,5 +1,5 @@
 ﻿using ChatApp.Application.Models;
-using ChatApp.Application.Requests.Users;
+using ChatApp.Application.Requests.Users.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;

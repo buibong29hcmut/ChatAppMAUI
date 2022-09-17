@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Application.Specifications.Contracts
 {   
-    public interface ISpecification
+    public interface IBussinessRule
     {
         bool IsSatisfied();
     }
-    public interface ISpecification<T>
+    public interface IBussinessRule<T> where T:class
     {
-        bool IsSatisfiedBy(T item);   
+        bool IsSatisfied(Func<T,bool> item);   
     }
 }

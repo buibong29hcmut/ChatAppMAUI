@@ -8,8 +8,8 @@ namespace ChatApp.Application.Interfaces.Services
 {
     public interface IUserOperation
     {
-        Task<bool> UserConnectedAsync(string userName, string connectionId);
-        Task<bool> UserDisConnectedAsync(string userName, string connectionId);
-        bool IsUserOnline(string userName);
+        Task UserConnectedAsync(string userName, string connectionId);
+        Task UserDisConnectedAsync(string userName, string connectionId);
+        Task<bool> IsUserOnline(string userName);
     }
 }
