@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Application.Rules.Users
 {
-    public class UserExistedInDatabaseSpecification : IBussinessRule
+    public class UserExistedInDatabaseSpecification : IBusinessChecker
     {
         private string UserName { get; set; }
         private readonly IBussinessRule<User> _rule;

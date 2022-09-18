@@ -10,6 +10,7 @@ namespace ChatApp.Application.Response.Users
     {
         public string UserName { get; set; }
         public string UrlProfile { get; set; }
+        public string Name { get; set; }
       
     }
 }

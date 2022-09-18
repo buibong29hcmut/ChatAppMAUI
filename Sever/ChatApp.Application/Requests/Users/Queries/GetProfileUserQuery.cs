@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ChatApp.Application.Cores.Queries;
+using ChatApp.Application.Response.Users;
+using ChatApp.Share.Wrappers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Application.Requests.Users.Queries
 {
-    public class GetProfileUserQuery
+    public class GetProfileUserQuery:IQuery<Result<ProfileUserResponse>>
     {
         public string UserName { get; set; }
           

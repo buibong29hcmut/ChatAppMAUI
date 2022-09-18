@@ -2,6 +2,7 @@
 using ChatApp.Application.Interfaces.Services;
 using ChatApp.Application.Models;
 using ChatApp.Application.Requests.Users.Commands;
+using ChatApp.Application.Specifications.Contracts;
 using ChatApp.Domain.Entities;
 using Dapper;
 using System;
@@ -17,14 +18,15 @@ namespace ChatApp.Infrastructure.Services
         private readonly IDbFactory _dbFactory;
         private readonly IPasswordHasher _hasher;
         private readonly IJwtGenerator _jwtGenerator;
-        public  AuthenticateService(
+        public AuthenticateService(
             IDbFactory dbFactory,
             IPasswordHasher hasher
-            ,IJwtGenerator jwtGenerator)
+            ,IJwtGenerator jwtGenerator,
+           )
         {
             _dbFactory = dbFactory;
             _hasher = hasher;
-            _jwtGenerator = jwtGenerator;   
+            _jwtGenerator = jwtGenerator;
         }
         public async  Task<IdentityResult> LoginOrRegister(UserForLoginOrRegister userInfo)
         {

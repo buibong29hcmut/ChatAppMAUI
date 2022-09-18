@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Application.Specifications.Contracts
 {   
-    public interface IBussinessRule
+    public interface IBusinessChecker
     {
         bool IsSatisfied();
     }

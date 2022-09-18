@@ -87,6 +87,11 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:BoxChatModel">
                             <Grid Padding="0,5,0,5">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainChatViewModel}}, Path=GetChatDetailViewCommand}"
+                                           />
+                                    </Grid.GestureRecognizers>
                                 <Frame HeightRequest="80" Style="{StaticResource CardView}">
                                     <Grid Padding="0" ColumnDefinitions="80,*">
                                         <Frame   CornerRadius="50" IsClippedToBounds="True" WidthRequest="80" HeightRequest="80" Margin="0,0,10,0" BackgroundColor="#f8f4f4" >

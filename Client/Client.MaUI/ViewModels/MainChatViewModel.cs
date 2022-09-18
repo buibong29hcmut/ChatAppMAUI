@@ -1,4 +1,7 @@
-﻿using Client.MaUI.Models;
+﻿using AndroidX.Navigation;
+using Client.MaUI.Models;
+using Client.MaUI.Views;
+using Microsoft.Maui.ApplicationModel.Communication;
 using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System;
@@ -19,6 +22,7 @@ namespace Client.MaUI.ViewModels
         {   
             GetUserOnline();
             GetBoxChatModels();
+            
         }
         public void GetUserOnline()
         {
@@ -45,6 +49,11 @@ namespace Client.MaUI.ViewModels
                     });
                 }
             }
+        }
+        [ICommand]
+        public async void GetChatDetailView()
+        {
+            App.Current.MainPage = new NavigationPage(new ChatDetailView());
         }
         
     }

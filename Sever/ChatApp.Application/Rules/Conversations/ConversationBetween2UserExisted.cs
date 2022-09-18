@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Application.Rules.Conversations
 {
-    public class ConversationBetween2UserExisted: IBussinessRule 
+    public class ConversationBetween2UserExisted: IBusinessChecker
     { 
         private readonly IBussinessRule<Conversation> _rule;
         private  Guid UserId { get; set; }

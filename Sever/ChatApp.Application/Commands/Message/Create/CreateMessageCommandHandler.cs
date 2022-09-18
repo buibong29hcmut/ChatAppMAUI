@@ -25,6 +25,7 @@ namespace ChatApp.Application.Commands.Messages
         public async Task<Result<Unit>> Handle(CreateMessageCommand request, CancellationToken cancellationToken)
         {
             var message = new Message(request.FromUserId,request.Content,request.SendTime,request.ConversationId);
+           
             await _db.Messages.AddAsync(message);
             await _db.SaveChangesAsync();
             return Result<Unit>.Success(Unit.Value);
