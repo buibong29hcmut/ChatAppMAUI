@@ -1,5 +1,7 @@
-﻿using ChatApp.Application.Interfaces.DAL;
+﻿using ChatApp.Application;
+using ChatApp.Application.Interfaces.DAL;
 using ChatApp.Application.Interfaces.Services;
+using ChatApp.Infrastructure;
 using ChatApp.Infrastructure.Contexts;
 using ChatApp.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
@@ -23,11 +25,8 @@ namespace ChatApp.Test
 
             ServiceCollection service = new ServiceCollection();
             service.AddSingleton(configuration);
-            service.AddScoped<IDbFactory, DbFactory>();
-            service.AddScoped<IDateTimeProvider, DateTimeProvider>();
-            service.AddScoped<IPasswordHasher, PasswordHasher>();
-            service.AddScoped<IJwtGenerator, JwtGenerator>();
-            service.AddScoped<IAuthenticateService, AuthenticateService>();
+            service.AddInfrastructure(configuration).AddApplication();
+           
             return service;
         }
     }

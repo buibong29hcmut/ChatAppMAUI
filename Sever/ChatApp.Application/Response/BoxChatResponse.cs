@@ -30,14 +30,9 @@ namespace ChatApp.Application.Response
     }
     public class UserProfileByConversation
     {
-        public string UserName { get; private set; }
-        public string UrlAvatar { get; private set; }
-        public bool IsOnline { get; private set; }
-        public UserProfileByConversation(string userName, string urlAvatar, bool isOnline=false)
-        {
-            UserName = userName;
-            UrlAvatar = urlAvatar;
-            IsOnline = isOnline;
-        }
+        public string UserName { get;  set; }
+        public string UrlAvatar { get;  set; }
+        public string Name { get;  set; }
+      
     }
 }

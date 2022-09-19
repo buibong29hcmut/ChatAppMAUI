@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Infrastructure.Contexts
 {
-    public  class UserOnlineInMemory: IUserOnlineInMemmory
+    public  class UserOperationInMemmory : IUserOperationInMemmory
     {
         private static readonly  ConcurrentDictionary<string, List<UserConnection>> UserOnlines  = new ConcurrentDictionary<string, List<UserConnection>>();
         public void AddUserConnection(string userName, string connectionId)
@@ -39,7 +39,8 @@ namespace ChatApp.Infrastructure.Contexts
             }
         }
         public int CountConnection(string userName)
-        {
+        {   if (!UserOnlines.ContainsKey(userName))
+                return 0;
             return UserOnlines[userName].Count;
         }
         public async  Task<bool> IsUserOnline(string userName)

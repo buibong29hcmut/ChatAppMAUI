@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Application.Interfaces.DAL
 {
-    public interface IUserOnlineInMemmory
+    public interface IUserOperationInMemmory
     {
          void AddUserConnection(string userName, string connectionId);
 

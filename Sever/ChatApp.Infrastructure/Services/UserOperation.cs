@@ -1,5 +1,6 @@
 ﻿using ChatApp.Application.Interfaces.DAL;
 using ChatApp.Application.Interfaces.Services;
+using ChatApp.Infrastructure.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,8 @@ namespace ChatApp.Infrastructure.Services
 {
     public class UserOperation : IUserOperation
     {
-        private readonly IUserOnlineInMemmory _memoryStoreStatus;
-        public UserOperation(IUserOnlineInMemmory memoryStoreStatus)
+        private readonly IUserOperationInMemmory _memoryStoreStatus;
+        public UserOperation(IUserOperationInMemmory memoryStoreStatus)
         {
             _memoryStoreStatus = memoryStoreStatus;
         }

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using ChatApp.Application.Interfaces.Services;
+using System.Collections.ObjectModel;
 
 namespace ChatApp.Application.Queries.BoxChats
 {
@@ -27,7 +28,7 @@ namespace ChatApp.Application.Queries.BoxChats
         public async Task<Result<IReadOnlyCollection<BoxChatResponse>>> Handle(GetBoxChatByUserId request, CancellationToken cancellationToken)
         {
             string query = "SELECT c.\"Id\" as \"ConversationId\", \"UserId\", \"OtherUserId\",\r\n    \"LastMessageId\",m.\"Content\", m.\"SendTime\", m.\"Read\"\r\n\tFROM public.\"Conversations\" c\r\n    INNER JOIN \"Messages\" m \r\n\tON c.\"LastMessageId\"=m.\"Id\"\r\n\tAND (\"UserId\"=@userId \r\n\tOR \"OtherUserId\"=@userId)\r\n\tORDER BY m.\"SendTime\" desc\r\n\tLIMIT @rowcount\r\n\tOFFSET @rowConversation\r\n\t";
-            IReadOnlyCollection<BoxChatResponse> result = new List<BoxChatResponse>();
+            List<BoxChatResponse> result = new List<BoxChatResponse>();
 
             using (var db = _factory.CreateConnection())
             {
@@ -42,7 +43,7 @@ namespace ChatApp.Application.Queries.BoxChats
                 foreach(var boxChatRaw in boxChatRaws)
                 {  
                     Guid UserQueryProfile = boxChatRaw.UserId==request.UserId? boxChatRaw.UserId: boxChatRaw.OtherUserId;
-                    string queryProfile = "SELECT  \"Name\",\"UrlAvatar\" FROM public.\"Users\"\r\n\tWHERE \"Id\"= @userId\r\n\tLIMIT 1";
+                    string queryProfile = "SELECT  \"Name\",\"UserName\",\"UrlAvatar\" FROM public.\"Users\"\r\n\tWHERE \"Id\"= @userId\r\n\tLIMIT 1";
                     UserProfileByConversation userByConersation = await db.QueryFirstOrDefaultAsync<UserProfileByConversation>(queryProfile, new {userId=boxChatRaw.UserId});
                     
                     BoxChatResponse boxChatResponse = new BoxChatResponse()
@@ -56,7 +57,7 @@ namespace ChatApp.Application.Queries.BoxChats
                         IsOnline=await _operation.IsUserOnline(userByConersation.UserName)
                         
                     };
-                    result.Append(boxChatResponse);
+                    result.Add(boxChatResponse);
                 }
             }
             return Result<IReadOnlyCollection<BoxChatResponse>>.Success(result);

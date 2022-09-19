@@ -8,7 +8,7 @@ namespace ChatApp.Share.Wrappers
 {
     public class PageList<T>:List<T>
     {
-        public PageList(List<T> data, int count = 0, int pageNumer = 1, int pageSize = 6)
+        public PageList(IEnumerable<T> data, int count = 0, int pageNumer = 1, int pageSize = 6)
         {
             this.PageSize = pageSize;
             this.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
