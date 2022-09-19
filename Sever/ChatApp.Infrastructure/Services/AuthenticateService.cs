@@ -21,7 +21,7 @@ namespace ChatApp.Infrastructure.Services
         public AuthenticateService(
             IDbFactory dbFactory,
             IPasswordHasher hasher
-            ,IJwtGenerator jwtGenerator,
+            ,IJwtGenerator jwtGenerator
            )
         {
             _dbFactory = dbFactory;

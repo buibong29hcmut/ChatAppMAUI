@@ -1,5 +1,4 @@
-﻿using AndroidX.Navigation;
-using Client.MaUI.Models;
+﻿using Client.MaUI.Models;
 using Client.MaUI.Views;
 using Microsoft.Maui.ApplicationModel.Communication;
 using Microsoft.Toolkit.Mvvm.Input;

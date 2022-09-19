@@ -13,4 +13,8 @@ namespace ChatApp.Application.Response.Users
         public string Name { get; set; }
       
     }
+    public class ProfileUserResponseWithOperation:ProfileUserResponse
+    {
+        public bool IsOnline { get; set; } = false;
+    }
 }

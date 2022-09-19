@@ -16,9 +16,11 @@ namespace ChatApp.Share.Wrappers
 
             AddRange(data);
         }
-        public PageList()
+        public PageList(int count = 0, int pageNumer = 1, int pageSize = 6)
         {
-
+            this.PageSize = pageSize;
+            this.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            this.CurrentPage = pageNumer;
         }
 
         public int CurrentPage { get; set; }
