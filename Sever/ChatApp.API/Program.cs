@@ -1,5 +1,8 @@
 using ChatApp.API.Extensions;
+using ChatApp.Application;
+using ChatApp.Application.Interfaces.DAL;
 using ChatApp.Application.Interfaces.Services;
+using ChatApp.Infrastructure;
 using ChatApp.Infrastructure.Contexts;
 using ChatApp.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -22,17 +25,11 @@ builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetValue<string>("CacheSettings:ConnectionString");
 });
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddApplication()
+                .AddInfrastructure(builder.Configuration, typeof(IChatDbContext), typeof(ChatDbContext));
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-//using (var scope = app.Services.CreateScope())
-//{
-//    var cache = scope.ServiceProvider.GetRequiredService<IDistributedCache>();
-//    var hasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
-//    var db = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
-//    await db.UpdateLastMessageToCache(cache);
 
-//}
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

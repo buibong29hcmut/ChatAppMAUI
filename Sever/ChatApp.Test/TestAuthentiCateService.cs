@@ -14,8 +14,10 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Test
 {
+    [TestClass]   
     public class TestAuthentiCateService
     {
+        [TestMethod]   
         public async Task TestCreateUser()
         {
             ServiceCollectionContainer container = new ServiceCollectionContainer();

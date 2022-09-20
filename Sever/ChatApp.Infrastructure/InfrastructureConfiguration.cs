@@ -37,6 +37,7 @@ namespace ChatApp.Infrastructure
             services.AddScoped<IUserOperation, UserOperation>();
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<IAuthenticateService, AuthenticateService>();
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
             return services;
