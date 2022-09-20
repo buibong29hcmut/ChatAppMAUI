@@ -9,6 +9,10 @@ namespace ChatApp.API.Controllers
     {
         protected readonly ICommandBus _command;
         protected readonly IQueryBus _query;
-      
+        public BaseApiController(ICommandBus command, IQueryBus query)
+        {
+            _command = command;
+            _query = query;
+        }
     }
 }

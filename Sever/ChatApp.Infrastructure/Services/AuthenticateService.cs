@@ -30,8 +30,8 @@ namespace ChatApp.Infrastructure.Services
         }
         public async  Task<IdentityResult> LoginOrRegister(UserForLoginOrRegister userInfo)
         {
-            string queryUser = "SELECT \"Id\", \"UserName\", \"Password\", \"UrlAvatar\", \"PhoneNumber\", " +
-                "\"Email\", \"Salt\", \"Name\"\r\n\tFROM public.\"Users\" WHERE \"UserName\"=@UserName";
+            string queryUser = "SELECT \"Id\", \"UserName\", \"UrlAvatar\",\"Password\"," +
+                "\"Password\" FROM public.\"Users\" WHERE \"UserName\"=@UserName";
 
 
 
@@ -44,7 +44,13 @@ namespace ChatApp.Infrastructure.Services
                     if (checkPassword)
                     {
                         string token = _jwtGenerator.GenerateToken(user.Id, user.UserName);
-                        return new IdentityResult(true, token, user);
+                        return new IdentityResult(true, token, new UserInfo()
+                        {
+                            Id = user.Id,
+                            Name = user.UserName,
+                            UrlAvatar=user.UrlAvatar,
+                            UserName=user.UserName
+                        });
 
                     }
                 }
@@ -60,7 +66,13 @@ namespace ChatApp.Infrastructure.Services
                         Salt= registerUser.Salt
                        });
                 string tokenForRegister= _jwtGenerator.GenerateToken(registerUser.Id, registerUser.UserName);
-                return new IdentityResult(true,tokenForRegister, user);
+                return new IdentityResult(true,tokenForRegister, new UserInfo()
+                {
+                    Id = user.Id,
+                    Name = user.UserName,
+                    UrlAvatar = user.UrlAvatar,
+                    UserName = user.UserName
+                });
 
             }
         }

@@ -38,6 +38,7 @@ namespace ChatApp.Infrastructure
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<IAuthenticateService, AuthenticateService>();
+            services.AddScoped<IUploadFileToAzureBlobService, UploadFileToAzureBlobService>();
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
             return services;

@@ -25,7 +25,7 @@ namespace ChatApp.Application.Queries.Users
         }
         public async Task<Result<PageList<ProfileUserResponseWithOperation>>> Handle(GetAllProfileUserQuery para, CancellationToken cancellationToken)
         {
-            string query = "SELECT  \"UserName\",  \"UrlAvatar\",  \"Name\"\r\n\tFROM public.\"Users\"\r\n\tWHERE \"Id\"!=@userName\r\n\tORDER BY \"UserName\"\r\n\tLIMIT @pageSize\r\n\tOFFSET (@pageNumber-1)*@pageSize";
+            string query = "SELECT  \"UserName\",  \"UrlAvatar\",  \"Name\"\r\n\tFROM public.\"Users\"\r\n\tWHERE \"Id\"!=@userId\r\n\tORDER BY \"UserName\"\r\n\tLIMIT @pageSize\r\n\tOFFSET (@pageNumber-1)*@pageSize";
             using (var connection = _factory.CreateConnection())
             {
                 var allProfile = (await connection.QueryAsync<ProfileUserResponse>(query, 
