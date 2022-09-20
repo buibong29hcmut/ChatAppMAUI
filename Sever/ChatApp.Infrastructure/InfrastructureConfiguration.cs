@@ -22,11 +22,16 @@ namespace ChatApp.Infrastructure
                 services.AddMediatR(assembly);
             }
             var connectionString = configuration.GetConnectionString("ChatDb");
-            services.AddPooledDbContextFactory<ChatDbContext>(options =>
+            services.AddDbContext<ChatDbContext>(options =>
             {
                 options.UseNpgsql(connectionString);
                 options.EnableSensitiveDataLogging(true);
             });
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = configuration.GetValue<string>("CacheSettings:ConnectionString");
+            });
+            services.AddScoped<IChatDbContext>(provider=>provider.GetRequiredService<ChatDbContext>());
             services.AddScoped<IDbFactory, DbFactory>();
             services.AddScoped<IUserOperationInMemmory, UserOperationInMemmory>();
             services.AddScoped<IUserOperation, UserOperation>();

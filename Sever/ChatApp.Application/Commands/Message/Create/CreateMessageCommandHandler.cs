@@ -5,6 +5,7 @@ using ChatApp.Application.Specifications.Contracts;
 using ChatApp.Domain.Entities;
 using ChatApp.Share.Wrappers;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,6 @@ namespace ChatApp.Application.Commands.Messages
     public class CreateMessageCommandHandler : ICommandHandler<CreateMessageCommand, Result<Unit>>
     {
         private readonly IChatDbContext _db;
-        private readonly IBussinessRule<Conversation> conversation;
         public CreateMessageCommandHandler(IChatDbContext db)
         {
             _db = db;   
@@ -27,6 +27,8 @@ namespace ChatApp.Application.Commands.Messages
             var message = new Message(request.FromUserId,request.Content,request.SendTime,request.ConversationId);
            
             await _db.Messages.AddAsync(message);
+            var conversation = await _db.Conversations.Where(p => p.Id == request.ConversationId).FirstOrDefaultAsync();
+            conversation.SetLastMessage(message.Id);
             await _db.SaveChangesAsync();
             return Result<Unit>.Success(Unit.Value);
         }

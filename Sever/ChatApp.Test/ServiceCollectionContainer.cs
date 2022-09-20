@@ -25,7 +25,7 @@ namespace ChatApp.Test
 
             ServiceCollection service = new ServiceCollection();
             service.AddSingleton(configuration);
-            service.AddInfrastructure(configuration).AddApplication();
+            service.AddApplication().AddInfrastructure(configuration,typeof(IChatDbContext),typeof(ChatDbContext));
            
             return service;
         }
