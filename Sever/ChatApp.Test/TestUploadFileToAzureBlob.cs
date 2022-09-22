@@ -20,7 +20,10 @@ namespace ChatApp.Test
             using(FileStream stream= File.OpenRead(filePath))
             {
                 var formfile = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name));
-                var fileService = serviceCollectionContainer.ServiceCollection().BuildServiceProvider().GetRequiredService<IUploadFileToAzureBlobService>();
+                var fileService = serviceCollectionContainer.
+                    ServiceCollection().
+                    BuildServiceProvider().
+                    GetRequiredService<IUploadFileToAzureBlobService>();
                 await fileService.UploadFile(formfile);
             }
             Assert.AreEqual(0, 0);

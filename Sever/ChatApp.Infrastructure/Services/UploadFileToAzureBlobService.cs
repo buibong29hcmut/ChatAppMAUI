@@ -23,19 +23,19 @@ namespace ChatApp.Infrastructure.Services
         public async Task<string> UploadFile(IFormFile file)
         {
 
-            string connectionString = _configuration.GetValue<string>("AzureBlob");
+                string connectionString = _configuration.GetValue<string>("AzureBlob");
                 using (Stream stream = file.OpenReadStream())
                 {
-                string fileNameInBlob=  Guid.NewGuid().ToString();
-                BlobClient _blobClient = new BlobClient(connectionString, "useravt", fileNameInBlob+"."+GetExtension(file.FileName));
+                 string fileNameInBlob=  Guid.NewGuid().ToString();
+                 BlobClient _blobClient = new BlobClient(connectionString, "useravt", fileNameInBlob+"."+GetExtension(file.FileName));
 
-                var blobHttpHeader = new BlobHttpHeaders { ContentType = "image/jpeg" };
+                 var blobHttpHeader = new BlobHttpHeaders { ContentType = "image/jpeg" };
 
                     var response = await _blobClient.UploadAsync(stream,new BlobUploadOptions()
                     {
                         HttpHeaders = blobHttpHeader
                     });
-                return _blobClient.Uri.ToString();
+                 return _blobClient.Uri.ToString();
                 }
         }
         private string GetExtension(string attachment_name)

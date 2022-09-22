@@ -1,4 +1,5 @@
-﻿using ChatApp.Application.Commands.User.CreateOrUpdate;
+﻿using Azure.Core.Pipeline;
+using ChatApp.Application.Commands.User.CreateOrUpdate;
 using ChatApp.Application.Cores.Commands;
 using ChatApp.Application.Cores.Queries;
 using ChatApp.Application.Interfaces.Services;
@@ -14,7 +15,8 @@ using System.Security.Claims;
 
 namespace ChatApp.API.Controllers
 {
-    [Route("api/v1/user/")]   
+    [Route("api/v1/user/")]
+    [Authorize]     
     public class UserController:BaseApiController
     {
         private readonly IUploadFileToAzureBlobService _uploader;
@@ -30,27 +32,22 @@ namespace ChatApp.API.Controllers
             }
         }
         [HttpGet]
+    
         public async Task<IActionResult> GetAllUser()
         {
             var result = await _query.Send<Result<PageList<ProfileUserResponseWithOperation>>>(new GetAllProfileUserQuery()
             {
-                UserId= new Guid("e12da499-5c64-44bb-a581-7a304b312860"),
+                UserId= new Guid(UserId),
                 PageNumber=1,
                 PageSize=10
             });
             return Ok(result);
 
         }
-        [HttpPost]
-        public async Task<IActionResult> LoginOrRegister([FromBody] UserForLoginOrRegisterCommand cmd)
-        {
-            var result= await  _command.Send<Result<IdentityResult>>(cmd);
-            return Ok(result);
-        }
         [HttpPost("upload_avt")]
         public async Task<IActionResult> UploadAvatar([FromForm] IFormFile file)
         {
-            var result = _uploader.UploadFile(file);
+            var result =await _uploader.UploadFile(file);
             return Ok(new
             {
                 Url = result

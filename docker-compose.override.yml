@@ -13,7 +13,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
  pgadmin:
-    container_name: pgadmin
+    container_name: pgadmin1
     environment:
       - PGADMIN_DEFAULT_EMAIL=bong.buibuibong29@hcmut.edu.vn
       - PGADMIN_DEFAULT_PASSWORD=admin1234

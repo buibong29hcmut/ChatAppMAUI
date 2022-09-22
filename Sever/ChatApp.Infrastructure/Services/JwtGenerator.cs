@@ -24,16 +24,19 @@ namespace ChatApp.Infrastructure.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration.GetSection("SecretKey").Value);
-           
+         
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] 
                 {
                     new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-                    new Claim(ClaimTypes.NameIdentifier, UserName),
+                    new Claim(ClaimTypes.Name, UserName),
                 }),
                 Expires = _datetimeProvider.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256),
+                Issuer= "JWTAuthenticationServer",
+                Audience= "JWTServicePostmanClient",
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);

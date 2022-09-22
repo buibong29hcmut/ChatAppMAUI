@@ -35,7 +35,7 @@ namespace ChatApp.Application.Queries.Users
                         pageSize=para.PageSize,
                         pageNumber=para.PageNumber
                     })).ToList();
-                PageList<ProfileUserResponseWithOperation> result = new PageList<ProfileUserResponseWithOperation>(allProfile.Count,para.PageSize,para.PageSize);
+                PageList<ProfileUserResponseWithOperation> result = new PageList<ProfileUserResponseWithOperation>(allProfile.Count,para.PageNumber,para.PageSize);
                 foreach(var profile in allProfile)
                 {
                     ProfileUserResponseWithOperation profileUserResponseWithOperation =
@@ -49,7 +49,7 @@ namespace ChatApp.Application.Queries.Users
                     result.Add(profileUserResponseWithOperation);
                 }
                 return Result<PageList<ProfileUserResponseWithOperation>>.Success(result);
-
+               
 
             }
         }
