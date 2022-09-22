@@ -33,13 +33,13 @@ namespace ChatApp.API.Controllers
         }
         [HttpGet]
     
-        public async Task<IActionResult> GetAllUser()
+        public async Task<IActionResult> GetAllUser(int pageSize,int pageNumber)
         {
             var result = await _query.Send<Result<PageList<ProfileUserResponseWithOperation>>>(new GetAllProfileUserQuery()
             {
                 UserId= new Guid(UserId),
-                PageNumber=1,
-                PageSize=10
+                PageNumber= pageNumber,
+                PageSize= pageSize
             });
             return Ok(result);
 
