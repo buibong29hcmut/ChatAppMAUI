@@ -27,7 +27,7 @@ namespace ChatApp.Application.Queries.BoxChats
 
         public async Task<Result<IReadOnlyCollection<BoxChatResponse>>> Handle(GetBoxChatByUserId request, CancellationToken cancellationToken)
         {
-            string query = "SELECT c.\"Id\" as \"ConversationId\", \"UserId\", \"OtherUserId\",\r\n    \"LastMessageId\",m.\"Content\", m.\"SendTime\", m.\"Read\"\r\n\tFROM public.\"Conversations\" c\r\n    INNER JOIN \"Messages\" m \r\n\tON c.\"LastMessageId\"=m.\"Id\"\r\n\tAND (\"UserId\"=@userId \r\n\tOR \"OtherUserId\"=@userId)\r\n\tORDER BY m.\"SendTime\" desc\r\n\tLIMIT @rowcount\r\n\tOFFSET @rowConversation\r\n\t";
+            string query = "SELECT c.\"Id\" as \"ConversationId\", \"UserId\", \"OtherUserId\",\r\n \"LastMessageId\",m.\"Content\", m.\"SendTime\", m.\"Read\"\r\n\tFROM public.\"Conversations\" c\r\n    INNER JOIN \"Messages\" m \r\n\tON c.\"LastMessageId\"=m.\"Id\"\r\n\tAND (\"UserId\"=@userId \r\n\tOR \"OtherUserId\"=@userId)\r\n\tORDER BY m.\"SendTime\" desc\r\n\tLIMIT @rowcount\r\n\tOFFSET @rowConversation\r\n\t";
             List<BoxChatResponse> result = new List<BoxChatResponse>();
 
             using (var db = _factory.CreateConnection())
@@ -52,9 +52,12 @@ namespace ChatApp.Application.Queries.BoxChats
                         Message = boxChatRaw.Message,
                         SeenMessage = boxChatRaw.Read,
                         TimeMessage= boxChatRaw.SendTime,
-                        UrlProfile=userByConersation.UrlAvatar,
-                        Name=userByConersation.UserName,
-                        IsOnline=await _operation.IsUserOnline(userByConersation.UserName)
+                        User= new UserBoxChatResponse()
+                        {
+                            UrlProfile = userByConersation.UrlAvatar,
+                            Name = userByConersation.UserName,
+                            IsOnline = await _operation.IsUserOnline(userByConersation.UserName)
+                        }
                         
                     };
                     result.Add(boxChatResponse);

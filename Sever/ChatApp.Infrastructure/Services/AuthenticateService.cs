@@ -4,6 +4,7 @@ using ChatApp.Application.Models;
 using ChatApp.Application.Requests.Users.Commands;
 using ChatApp.Application.Specifications.Contracts;
 using ChatApp.Domain.Entities;
+using ChatApp.Share.Wrappers;
 using Dapper;
 using System;
 using System.Collections.Generic;
@@ -28,31 +29,36 @@ namespace ChatApp.Infrastructure.Services
             _hasher = hasher;
             _jwtGenerator = jwtGenerator;
         }
-        public async  Task<IdentityResult> LoginOrRegister(UserForLoginOrRegister userInfo)
+        public async  Task<Result<UserIdentity>> LoginOrRegister(UserForLoginOrRegister userInfo)
         {
-            string queryUser = "SELECT \"Id\", \"UserName\", \"UrlAvatar\",\"Password\"," +
-                "\"Password\" FROM public.\"Users\" WHERE \"UserName\"=@UserName";
-
-
-
             using (var connection = _dbFactory.CreateConnection())
             {
-               var user= await connection.QueryFirstOrDefaultAsync<User>(queryUser,new { UserName = userInfo.UserName});
+                string queryUser = "SELECT \"Id\", \"UserName\", \"UrlAvatar\",\"Password\",\"Salt\"" +","+
+                "\"Password\" FROM public.\"Users\" WHERE \"UserName\"=@UserName LIMIT 1";
+                var user= await connection.QueryFirstOrDefaultAsync<User>(queryUser,new { UserName = userInfo.UserName});
                 if (user != null)
                 {
                     bool checkPassword = _hasher.CheckPassWord(userInfo.Password, user.Password, user.Salt);
                     if (checkPassword)
                     {
                         string token = _jwtGenerator.GenerateToken(user.Id, user.UserName);
-                        return new IdentityResult(true, token, new UserInfo()
+                        return IdentityResult.Success(new UserIdentity()
                         {
-                            Id = user.Id,
-                            Name = user.UserName,
-                            UrlAvatar=user.UrlAvatar,
-                            UserName=user.UserName
+                            JwtToken= token,
+                            Info= new UserInfo()
+                            {
+                                UrlAvatar=user.UrlAvatar,
+                                UserName=user.UserName,
+                                Name=user.Name,
+                                Id=user.Id,
+                            }
                         });
 
                     }
+                    return IdentityResult.Fail(new List<string>()
+                    {
+                        "Password is not correct"
+                    });
                 }
                 var hashPassWordResult= _hasher.HashWithSHA256Algo(userInfo.Password);
                 User registerUser = User.CreateRegister(userInfo.UserName, hashPassWordResult.PasswordHash, hashPassWordResult.Salt);
@@ -66,12 +72,16 @@ namespace ChatApp.Infrastructure.Services
                         Salt= registerUser.Salt
                        });
                 string tokenForRegister= _jwtGenerator.GenerateToken(registerUser.Id, registerUser.UserName);
-                return new IdentityResult(true,tokenForRegister, new UserInfo()
+                return IdentityResult.Success(new UserIdentity()
                 {
-                    Id = user.Id,
-                    Name = user.UserName,
-                    UrlAvatar = user.UrlAvatar,
-                    UserName = user.UserName
+                    JwtToken = tokenForRegister,
+                    Info = new UserInfo()
+                    {
+                        UrlAvatar = user.UrlAvatar,
+                        UserName = user.UserName,
+                        Name = user.Name,
+                        Id = user.Id,
+                    }
                 });
 
             }

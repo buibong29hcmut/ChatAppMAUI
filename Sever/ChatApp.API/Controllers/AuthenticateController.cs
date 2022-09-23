@@ -57,7 +57,7 @@ namespace ChatApp.API.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginOrRegister([FromBody] UserForLoginOrRegisterCommand cmd)
         {
-            var result = await _command.Send<Result<IdentityResult>>(cmd);
+            var result = await _command.Send<Result<UserIdentity>>(cmd);
             return Ok(result);
         }
     }

@@ -32,7 +32,6 @@ namespace ChatApp.API.Controllers
             }
         }
         [HttpGet]
-    
         public async Task<IActionResult> GetAllUser(int pageSize,int pageNumber)
         {
             var result = await _query.Send<Result<PageList<ProfileUserResponseWithOperation>>>(new GetAllProfileUserQuery()

@@ -97,5 +97,32 @@ namespace ChatApp.API.Extensions
                 Console.WriteLine("Đã update"+count);
             }
         }
+        public static async Task SeedUrlProfile(this ChatDbContext db)
+        {
+            HttpClient httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("563492ad6f91700001000001a5f1a924e439437e87eca4b78639f989");
+            var reponse = httpClient.GetAsync(new Uri(@"https://api.pexels.com/v1/curated?per_page=80")).Result;
+            var stringJson = reponse.Content.ReadAsStringAsync().Result;
+            dynamic parseJson = JsonConvert.DeserializeObject(stringJson);
+            List<string> urls = new List<string>();
+            foreach (var user in parseJson.photos)
+            {
+                string url = Convert.ToString(user.src.original);
+                urls.Add(url);
+            }
+            var users =await db.Users.ToListAsync();
+            int j = 0;
+            for(int i = 0; i < users.Count; i++)
+            {
+                if (i > 79)
+                {
+                    users[i].UploadAvatar(urls[j++]);
+                    await db.SaveChangesAsync();
+                    continue;
+                }
+                users[i].UploadAvatar(urls[i]);
+                await  db.SaveChangesAsync();
+            }
+        }
     }
 }

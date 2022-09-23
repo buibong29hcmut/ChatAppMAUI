@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Application.Commands.User.CreateOrUpdate
 {
-    public class LoginOrRegisterUserCommandHandler:ICommandHandler<UserForLoginOrRegisterCommand,Result<IdentityResult>>
+    public class LoginOrRegisterUserCommandHandler:ICommandHandler<UserForLoginOrRegisterCommand, Result<UserIdentity>>
     {
         private readonly IAuthenticateService _auth;
         public LoginOrRegisterUserCommandHandler(IAuthenticateService auth)
@@ -19,10 +19,10 @@ namespace ChatApp.Application.Commands.User.CreateOrUpdate
             _auth = auth;
         }
 
-        public async Task<Result<IdentityResult>> Handle(UserForLoginOrRegisterCommand request, CancellationToken cancellationToken)
+        public async Task<Result<UserIdentity>> Handle(UserForLoginOrRegisterCommand request, CancellationToken cancellationToken)
         {
             var identityResult = await _auth.LoginOrRegister(request);
-            return Result<IdentityResult>.Success(identityResult);
+            return identityResult;
         }
     }
 }
