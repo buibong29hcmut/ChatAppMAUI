@@ -9,7 +9,7 @@ namespace ChatApp.Application.Response.Users
     public class ProfileUserResponse
     {
         public string UserName { get; set; }
-        public string UrlProfile { get; set; }
+        public string UrlAvatar { get; set; }
         public string Name { get; set; }
       
     }

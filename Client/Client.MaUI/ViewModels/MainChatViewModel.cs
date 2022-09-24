@@ -1,8 +1,10 @@
-﻿using Client.MaUI.Models;
+﻿using Client.MaUI.DataStructures;
+using Client.MaUI.Models;
 using Client.MaUI.Views;
 using Microsoft.Maui.ApplicationModel.Communication;
 using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,12 +17,16 @@ namespace Client.MaUI.ViewModels
     public partial class MainChatViewModel:BaseViewModel
     {
         
-        public ObservableCollection<string> urlUserOnline { get; } = new();
-        public ObservableCollection<BoxChatModel> BoxChatModels { get; } = new();
-        public MainChatViewModel() 
-        {   
+        public RangeObservableCollection<string> urlUserOnline { get; } = new();
+        public RangeObservableCollection<BoxChatModel> BoxChatModels { get; private set; } = new();
+        private readonly HttpClient _httclient;
+        public MainChatViewModel(HttpClient httpclient) 
+        {
+            _httclient = httpclient;
             GetUserOnline();
             GetBoxChatModels();
+            
+            
             
         }
         public void GetUserOnline()
@@ -36,21 +42,29 @@ namespace Client.MaUI.ViewModels
                 urlUserOnline.Add(url);
             }
         }
-        public void GetBoxChatModels()
+        [ICommand]
+        public async void LoadMoreConversation()
         {
-            if (urlUserOnline.Count>0)
-            {
-                foreach (var item in urlUserOnline)
-                {
-                    BoxChatModels.Add(new BoxChatModel()
-                    {
-                        UrlImage = item
-                    });
-                }
-            }
+            if (IsBusy)
+                return;
+            IsBusy = true;
+            var response =await _httclient.GetAsync($"api/v1/user/105c659e-abd1-4821-9d1d-905ccd5a9e87/conversation?CountConversation={BoxChatModels.Count}&RowFetch=10");
+            var content = await response.Content.ReadAsStringAsync();
+            var data = JObject.Parse(content)["data"].ToString();
+            var item = JsonConvert.DeserializeObject<RangeObservableCollection<BoxChatModel>>(data);
+            BoxChatModels.AddRange(item);
+            IsBusy = false;
+
+        }
+        public  void GetBoxChatModels()
+        {
+          var response=    _httclient.GetAsync("api/v1/user/105c659e-abd1-4821-9d1d-905ccd5a9e87/conversation?CountConversation=0&RowFetch=10").Result;
+            var content =  response.Content.ReadAsStringAsync().Result;
+            var data = JObject.Parse(content)["data"].ToString();
+            BoxChatModels = JsonConvert.DeserializeObject<RangeObservableCollection<BoxChatModel>>(data);
         }
         [ICommand]
-        public async void GetChatDetailView()
+        public  void GetChatDetailView()
         {
             App.Current.MainPage = new NavigationPage(new ChatDetailView());
         }

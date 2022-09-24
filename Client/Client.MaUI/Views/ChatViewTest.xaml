@@ -79,7 +79,16 @@
             <Grid
                 Grid.Row="3">
                 <CollectionView
-                    ItemsSource="{Binding BoxChatModels}">
+                    ItemsSource="{Binding BoxChatModels}"
+                    RemainingItemsThreshold="5"
+                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreConversationCommand}"
+                    VerticalScrollBarVisibility="Always"
+                    >
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout
+                     ItemSpacing="00" 
+                          Orientation="Vertical"/>
+                    </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <templates:ListBoxChatTemplate />

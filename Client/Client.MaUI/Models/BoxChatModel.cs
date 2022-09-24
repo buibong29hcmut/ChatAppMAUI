@@ -8,10 +8,17 @@ namespace Client.MaUI.Models
 {
     public class BoxChatModel
     {
-        public string UrlImage { get; set; }
-        public string UserName { get; set; } = FactoryBoxChatProperty.Names[new Random().Next(0, FactoryBoxChatProperty.Names.Count())];
-        public string Chat { get; set; } = "Hello, Ngày hôm ";
-        public string DateTimeCreated { get; set; } = "6:30 PM";
+        public Guid ConversationId { get; set; }
+        public UserBoxChatResponse User { get; set; }
+        public string Message { get; set; }
+        public DateTimeOffset SeenMessage { get; set; }
+        public DateTimeOffset TimeMessage { get; set; }
+    }
+    public class UserBoxChatResponse
+    {
+        public string UrlProfile { get; set; }
+        public string Name { get; set; }
+        public bool IsOnline { get; set; }
     }
     public class FactoryBoxChatProperty
     {

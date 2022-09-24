@@ -44,7 +44,7 @@ namespace ChatApp.Application.Queries.Users
                             UserName = profile.UserName,
                             Name = profile.Name,
                             IsOnline = await _operation.IsUserOnline(profile.UserName),
-                            UrlProfile=profile.UrlProfile
+                            UrlAvatar = profile.UrlAvatar
                         };
                     result.Add(profileUserResponseWithOperation);
                 }

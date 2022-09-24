@@ -5,6 +5,7 @@ using ChatApp.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+using System.Formats.Asn1;
 
 namespace ChatApp.API.Extensions
 {
@@ -33,7 +34,6 @@ namespace ChatApp.API.Extensions
             await db.AddRangeAsync(users);
             await db.SaveChangesAsync();
             var allUser = db.Users.ToList();
-            int cp = 0;
             for (int i = 0; i < allUser.Count; i++)
             {
                 List<Conversation> conversations = new List<Conversation>();
@@ -124,5 +124,16 @@ namespace ChatApp.API.Extensions
                 await  db.SaveChangesAsync();
             }
         }
+        public static async Task SeedName(this ChatDbContext db)
+        {
+            string[] Names = { "Bùi Bổng", "Huy Bùi", "Ngọc Bảo", "Đoàn Thế Đạt", "Thu Hà", "Thu Trà", "Ánh Ngọc", "Lê Hồng Phúc" };
+            var users = await db.Users.ToListAsync();
+            foreach(var u in users)
+            {
+                u.Name = Names[new Random().Next(0, Names.Length)];
+                await db.SaveChangesAsync();
+            }
+        }
+
     }
 }

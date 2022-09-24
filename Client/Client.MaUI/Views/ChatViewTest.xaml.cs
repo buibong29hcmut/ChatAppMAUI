@@ -4,9 +4,10 @@ namespace Client.MaUI.Views;
 
 public partial class ChatViewTest : ContentPage
 {
-	public ChatViewTest()
-	{
-		InitializeComponent();
-        BindingContext = new MainChatViewModel();
+	public ChatViewTest(MainChatViewModel viewmodel)
+    {
+        BindingContext = viewmodel;
+        InitializeComponent();
+   
     }
 }

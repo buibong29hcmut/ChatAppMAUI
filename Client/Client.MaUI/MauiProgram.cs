@@ -1,5 +1,7 @@
-﻿using Client.MaUI.ViewModels;
+﻿
+using Client.MaUI.ViewModels;
 using Client.MaUI.Views;
+
 
 namespace Client.MaUI
 {
@@ -21,9 +23,14 @@ namespace Client.MaUI
                     fonts.AddFont("Metropolis-Regular.otf", "Metropolis Regular");
                     fonts.AddFont("MaterialIcons-Regular.ttf", "Material Icons");
                 });
-
+            builder.Services.AddScoped<HttpClient>(p =>
+            {
+                var httpclient = new HttpClient(new HttpsClientHandlerService().GetPlatformMessageHandler());
+                httpclient.BaseAddress = new Uri("https://10.0.2.2:7028");
+                return httpclient;
+            });
             builder.Services.AddScoped<MainChatViewModel>();
-            builder.Services.AddScoped<ChatView>();
+            builder.Services.AddScoped<ChatViewTest>();
             builder.Services.AddScoped<App>();
             return builder.Build();
         }

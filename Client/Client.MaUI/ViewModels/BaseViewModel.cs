@@ -10,7 +10,7 @@ namespace Client.MaUI.ViewModels
     public partial  class BaseViewModel : ObservableObject
     {
         [ObservableProperty]
-        bool isBusy;
+        bool isBusy=false;
 
         [ObservableProperty]
         string title;

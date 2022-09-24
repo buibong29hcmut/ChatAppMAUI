@@ -4,11 +4,11 @@ namespace Client.MaUI
 {
     public partial class App : Application
     {
-        public App()
+        public App(ChatViewTest view)
         {
             InitializeComponent();
 
-            MainPage = new ChatViewTest();
+            MainPage = view;
         }
     }
 }

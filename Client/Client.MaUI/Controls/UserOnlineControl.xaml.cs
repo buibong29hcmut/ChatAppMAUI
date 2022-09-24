@@ -24,6 +24,6 @@ public partial class UserOnlineControl : ContentView
     public UserOnlineControl()
 	{
 		InitializeComponent();
-        BindingContext = new MainChatViewModel();
+        
 	}
 }

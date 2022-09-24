@@ -46,7 +46,8 @@ builder.Services.AddApplication()
                 typeof(IChatDbContext), typeof(ChatDbContext));
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
+//var chat= app.Services.CreateScope().ServiceProvider.GetService<ChatDbContext>();
+//await chat.SeedName();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -42,19 +42,19 @@
           Margin="0,15,0,15">
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer
-                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainChatViewModel}}, Path=GetChatDetailViewCommand}"                                       />
+                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainChatViewModel}}, Path= GetChatDetailViewCommand}"                                       />
             </Grid.GestureRecognizers>
             <Grid>
                 <Frame HeightRequest="70" WidthRequest="70" CornerRadius="50">
                     <Image
-                    Source="{Binding UrlImage}"
+                    Source="{Binding User.UrlProfile}"
                     HeightRequest="70" WidthRequest="70" Aspect="AspectFill" />
                 </Frame>
                 <Ellipse
                                         Fill="Green"
                                         HeightRequest="15"
                                         HorizontalOptions="End"
-                                        IsVisible="true"
+                                        IsVisible="{Binding User.IsOnline}"
                                         StrokeThickness="3"
                                         VerticalOptions="End"
                                         WidthRequest="15" />
@@ -64,15 +64,15 @@
                 ColumnDefinitions="*, Auto">
                 <StackLayout>
                     <Label        
-                        Text="{Binding UserName}"
+                        Text="{Binding User.Name}"
                         Style="{StaticResource NameTextStyle}" />
                     <Label         
-                        Text="{Binding Chat}"
+                        Text="{Binding Message}"
                         Style="{StaticResource MessageTextStyle}"/>
                 </StackLayout>
                 <Label 
                     Grid.Column="1"
-                    Text="{Binding DateTimeCreated}"
+                    Text="{Binding TimeMessage}"
                     Style="{StaticResource TimeTextStyle}"/>
             </Grid>
         </Grid>
