@@ -45,7 +45,7 @@ namespace Client.MaUI.ViewModels
         [ICommand]
         public async void LoadMoreConversation()
         {
-            if (IsBusy)
+            if (IsBusy==true)
                 return;
             IsBusy = true;
             var response =await _httclient.GetAsync($"api/v1/user/105c659e-abd1-4821-9d1d-905ccd5a9e87/conversation?CountConversation={BoxChatModels.Count}&RowFetch=10");

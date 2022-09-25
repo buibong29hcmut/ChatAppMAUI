@@ -4,6 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Client.MaUI"
+    xmlns:view="clr-namespace:Client.MaUI.Views"
+    NavigationPage.HasNavigationBar="False"
     Shell.FlyoutBehavior="Disabled">
     <Shell.Resources>
         <ResourceDictionary>
@@ -21,9 +23,17 @@
             <Style BasedOn="{StaticResource BaseStyle}" TargetType="ShellItem" ApplyToDerivedTypes="True" />
         </ResourceDictionary>
     </Shell.Resources>
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <Tab Title="Message"
+            Shell.NavBarIsVisible="False"
+            Icon="appicon.svg">
+            <ShellContent ContentTemplate="{DataTemplate view:ChatViewTest}" />
+        </Tab>
+        <Tab Title="User"
+             Shell.NavBarIsVisible="False"
+            Icon="appiconfg.svg">
+            <ShellContent ContentTemplate="{DataTemplate view:ListUserView}" />
+        </Tab>
+    </TabBar>
 
 </Shell>

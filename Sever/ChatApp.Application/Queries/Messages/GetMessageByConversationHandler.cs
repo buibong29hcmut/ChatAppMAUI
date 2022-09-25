@@ -34,7 +34,7 @@ namespace ChatApp.Application.Queries.Messages
                         pageSize=para.PageSize,
                         pageNumber=para.PageNumber,
                     });
-                PageList<MessageResponseByConversationId> result = new PageList<MessageResponseByConversationId>(messageResult, totalCount, para.PageNumber, para.PageSize);
+                PageList<MessageResponseByConversationId> result = new PageList<MessageResponseByConversationId>(messageResult.ToList(), totalCount, para.PageNumber, para.PageSize);
                 return Result<PageList<MessageResponseByConversationId>>.Success(result);
             }
         }

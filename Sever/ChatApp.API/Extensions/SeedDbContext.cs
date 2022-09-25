@@ -58,7 +58,7 @@ namespace ChatApp.API.Extensions
             }
 
             var allConver = await db.Conversations.ToListAsync();
-            for (int i = 0; i < allConver.Count; i++)
+            for (int i = 0; i < allConver.Count(); i++)
             {
                 List<Message> messages = new();
                 for (int j = 0; j < 100; j++)
@@ -112,7 +112,7 @@ namespace ChatApp.API.Extensions
             }
             var users =await db.Users.ToListAsync();
             int j = 0;
-            for(int i = 0; i < users.Count; i++)
+            for(int i = 0; i < users.Count(); i++)
             {
                 if (i > 79)
                 {

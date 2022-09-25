@@ -26,7 +26,6 @@ namespace ChatApp.Test
                     PageNumber=1,
                     PageSize=10,
                 });
-            Assert.AreEqual<int>(message.Data.Count, 10);
         }
     }
 }

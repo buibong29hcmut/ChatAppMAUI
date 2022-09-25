@@ -1,26 +1,31 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 namespace ChatApp.Share.Wrappers
 {
-    public class PageList<T>:List<T>
+    public class PageList<T>
     {
-        public PageList(IEnumerable<T> data, int count = 0, int pageNumer = 1, int pageSize = 6)
+        [JsonConstructor]   
+        public PageList(List<T> data, int count = 0, int pageNumer = 1, int pageSize = 6)
         {
             this.PageSize = pageSize;
             this.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             this.CurrentPage = pageNumer;
 
-            AddRange(data);
+            Items = data;
         }
+        public List<T> Items { get;  set; }
         public PageList(int count = 0, int pageNumer = 1, int pageSize = 6)
         {
             this.PageSize = pageSize;
             this.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             this.CurrentPage = pageNumer;
+            Items = new List<T>();
         }
 
         public int CurrentPage { get; set; }
@@ -28,9 +33,16 @@ namespace ChatApp.Share.Wrappers
         public int PageSize { get; set; }
 
         public bool HasPreviousPage => CurrentPage > 1;
-        public List<string> Messages { get; set; }
 
         public bool HasNextPage => CurrentPage < TotalPages;
+        public void Add(T item)
+        {
+            Items.Add(item);
+        }
+        public void AddRange(IEnumerable<T> items)
+        {
+            Items.AddRange(items);
+        }
 
 
     }

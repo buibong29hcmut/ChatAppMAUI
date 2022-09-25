@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Client.MaUI.Views.ChatViewTest"
-             Title="ChatViewTest" 
-             xmlns:viewmodels="clr-namespace:Client.MaUI.ViewModels"
-             xmlns:models="clr-namespace:Client.MaUI.Models"
-             xmlns:controls="clr-namespace:Client.MaUI.Controls" BackgroundColor="White"
-             xmlns:templates="clr-namespace:Client.MaUI.Views.Templates"
+             x:Class="Client.MaUI.Views.ListUserView"
              NavigationPage.HasNavigationBar="False"
-
-             >
-   
+             xmlns:template="clr-namespace:Client.MaUI.Views.Templates"
+             Title="ListUserView">
     <ContentPage.Content>
-        
         <Grid  Margin="15,15,15,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -75,26 +67,25 @@
                     </SearchBar>
                 </Frame>
 
-                <controls:UserOnlineControl  Margin="0,8,0,10" ItemsSource="{ Binding urlUserOnline}" >
-
-                </controls:UserOnlineControl>
             </StackLayout>
             <Grid
                 Grid.Row="3">
                 <CollectionView
-                    ItemsSource="{Binding BoxChatModels}"
-                    RemainingItemsThreshold="5"
-                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreConversationCommand}"
+                     ItemsSource="{Binding Users}"
+                     RemainingItemsThreshold="5"
+                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreUserAsyncCommand}"
                     VerticalScrollBarVisibility="Always"
                     >
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout
-                     ItemSpacing="00" 
+                         ItemSpacing="00" 
                           Orientation="Vertical"/>
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <templates:ListBoxChatTemplate />
+                            <template:ListUserChatTemplate>
+                                
+                            </template:ListUserChatTemplate>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

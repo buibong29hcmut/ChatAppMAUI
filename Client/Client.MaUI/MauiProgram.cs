@@ -30,7 +30,11 @@ namespace Client.MaUI
                 return httpclient;
             });
             builder.Services.AddScoped<MainChatViewModel>();
+            builder.Services.AddScoped<ListUserViewModel>();
             builder.Services.AddScoped<ChatViewTest>();
+            builder.Services.AddSingleton<ListUserView>();
+
+            builder.Services.AddSingleton<AppShell>();
             builder.Services.AddScoped<App>();
             return builder.Build();
         }
