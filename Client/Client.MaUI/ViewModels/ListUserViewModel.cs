@@ -29,9 +29,10 @@ namespace Client.MaUI.ViewModels
         }
         public  void GetListUser()
         {
-            string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOlsiNWIxYTk5ZjktZGZhOC00MTE3LWJhMjYtOTMwODQ0NjlkMzVlIiwiYnVpYm9uZzI5MTIiXSwibmJmIjoxNjYzNzMyNjY1LCJleHAiOjE2NjQzMzc0NjMsImlhdCI6MTY2MzczMjY2NSwiaXNzIjoiSldUQXV0aGVudGljYXRpb25TZXJ2ZXIiLCJhdWQiOiJKV1RTZXJ2aWNlUG9zdG1hbkNsaWVudCJ9.WcHICsqq0OQ1PO4L3Xq5GUMrZGQJlTbo7he_6host5g";
+            string JwtToken = SecureStorage.GetAsync("chattoken").Result;
+
             _httpClient.DefaultRequestHeaders.Authorization =
-              new AuthenticationHeaderValue("Bearer", token);
+              new AuthenticationHeaderValue("Bearer", JwtToken);
             var response =  _httpClient.GetAsync("api/v1/user?pageSize=10&pageNumber=1").Result;
             var content =  response.Content.ReadAsStringAsync().Result;
             var data = JObject.Parse(content)["data"].ToString();
@@ -45,9 +46,10 @@ namespace Client.MaUI.ViewModels
             if (IsBusy==true|| HasNextPage==false)
                 return;
             IsBusy = true;
-            string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOlsiNWIxYTk5ZjktZGZhOC00MTE3LWJhMjYtOTMwODQ0NjlkMzVlIiwiYnVpYm9uZzI5MTIiXSwibmJmIjoxNjYzNzMyNjY1LCJleHAiOjE2NjQzMzc0NjMsImlhdCI6MTY2MzczMjY2NSwiaXNzIjoiSldUQXV0aGVudGljYXRpb25TZXJ2ZXIiLCJhdWQiOiJKV1RTZXJ2aWNlUG9zdG1hbkNsaWVudCJ9.WcHICsqq0OQ1PO4L3Xq5GUMrZGQJlTbo7he_6host5g";
+            string JwtToken = SecureStorage.GetAsync("chattoken").Result;
+
             _httpClient.DefaultRequestHeaders.Authorization =
-              new AuthenticationHeaderValue("Bearer", token);
+              new AuthenticationHeaderValue("Bearer", JwtToken);
             var response = await _httpClient.GetAsync($"api/v1/user?pageSize=10&pageNumber={PageNumber+1}");
             var content = await response.Content.ReadAsStringAsync();
 

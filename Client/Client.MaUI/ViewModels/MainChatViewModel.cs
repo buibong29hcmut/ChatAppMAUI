@@ -23,7 +23,6 @@ namespace Client.MaUI.ViewModels
         public MainChatViewModel(HttpClient httpclient) 
         {
             _httclient = httpclient;
-            GetUserOnline();
             GetBoxChatModels();
             
             

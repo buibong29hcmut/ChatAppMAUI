@@ -1,4 +1,6 @@
 ﻿
+using Client.MaUI.Contracts;
+using Client.MaUI.Services;
 using Client.MaUI.ViewModels;
 using Client.MaUI.Views;
 
@@ -29,11 +31,15 @@ namespace Client.MaUI
                 httpclient.BaseAddress = new Uri("https://10.0.2.2:7028");
                 return httpclient;
             });
+            builder.Services.AddScoped<IHttpClientService, HttpClientService>();
+            builder.Services.AddScoped<IAuthenticateClientService, AuthenticateClientService>();
             builder.Services.AddScoped<MainChatViewModel>();
             builder.Services.AddScoped<ListUserViewModel>();
+            Routing.RegisterRoute("Login", typeof(LoginView));
+
+            builder.Services.AddScoped<LoginView>();
             builder.Services.AddScoped<ChatViewTest>();
             builder.Services.AddSingleton<ListUserView>();
-
             builder.Services.AddSingleton<AppShell>();
             builder.Services.AddScoped<App>();
             return builder.Build();

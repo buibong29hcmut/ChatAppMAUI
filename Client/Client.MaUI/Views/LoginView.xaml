@@ -63,6 +63,7 @@
                     <Entry
                         Grid.Row="2"
                         Margin="0,20,0,0"
+                        x:Name="userTxt"
                         HorizontalOptions="FillAndExpand"
                         Placeholder="Username"
                         Text="{Binding UserName}"
@@ -72,6 +73,7 @@
                         HorizontalOptions="FillAndExpand"
                         IsPassword="True"
                         Placeholder="Password"
+                        x:Name="passwordTxt"
                         Text="{Binding UserPassword}"
                         VerticalOptions="FillAndExpand" />
                     <Button
@@ -79,6 +81,7 @@
                         BackgroundColor="#1C375C"
                         Command="{Binding LoginBtn}"
                         CornerRadius="20"
+                        Clicked="Button_Clicked"
                         Text="Login" />
 
                     <Button

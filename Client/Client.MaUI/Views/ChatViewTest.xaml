@@ -75,9 +75,7 @@
                     </SearchBar>
                 </Frame>
 
-                <controls:UserOnlineControl  Margin="0,8,0,10" ItemsSource="{ Binding urlUserOnline}" >
-
-                </controls:UserOnlineControl>
+          
             </StackLayout>
             <Grid
                 Grid.Row="3">
