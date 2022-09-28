@@ -1,0 +1,237 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
+		<OutputType>Exe</OutputType>
+		<RootNamespace>ChatApp.Client</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<!-- Display name -->
+		<ApplicationTitle>ChatApp.Client</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.companyname.chatapp.client</ApplicationId>
+		<ApplicationIdGuid>4EF77D8C-B8FF-4CCB-8677-3A04E9484CC6</ApplicationIdGuid>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Platforms\Android\Resources\values\colors.xml" />
+	  <None Remove="Platforms\Android\Resources\xml\network_security_config.xml" />
+	  <None Remove="Resources\AppIcon\appicon.svg" />
+	  <None Remove="Resources\Fonts\MaterialIcons-Regular.ttf" />
+	  <None Remove="Resources\Fonts\Metropolis-Black.otf" />
+	  <None Remove="Resources\Fonts\Metropolis-Light.otf" />
+	  <None Remove="Resources\Fonts\Metropolis-Medium.otf" />
+	  <None Remove="Resources\Fonts\Metropolis-Regular.otf" />
+	  <None Remove="Resources\Fonts\OpenSans-Regular.ttf" />
+	  <None Remove="Resources\Fonts\OpenSans-Semibold.ttf" />
+	  <None Remove="Resources\Images\arrow.png" />
+	  <None Remove="Resources\Images\arrow_right.png" />
+	  <None Remove="Resources\Images\back.png" />
+	  <None Remove="Resources\Images\camera.svg" />
+	  <None Remove="Resources\Images\camera2.png" />
+	  <None Remove="Resources\Images\camera3.svg" />
+	  <None Remove="Resources\Images\camera5.png" />
+	  <None Remove="Resources\Images\dotnet_bot.svg" />
+	  <None Remove="Resources\Images\download.svg" />
+	  <None Remove="Resources\Images\graduation.png" />
+	  <None Remove="Resources\Images\logo.png" />
+	  <None Remove="Resources\Images\menu.png" />
+	  <None Remove="Resources\Images\mic.png" />
+	  <None Remove="Resources\Images\notification.png" />
+	  <None Remove="Resources\Images\pencilicon.png" />
+	  <None Remove="Resources\Images\phone.png" />
+	  <None Remove="Resources\Images\phone3.svg" />
+	  <None Remove="Resources\Images\phone4.png" />
+	  <None Remove="Resources\Images\ping_pong.png" />
+	  <None Remove="Resources\Images\send.png" />
+	  <None Remove="Resources\Images\send2.png" />
+	  <None Remove="Resources\Raw\AboutAssets.txt" />
+	  <None Remove="Resources\Splash\splash.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Toolkit" Version="7.1.2" />
+	  <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Sever\ChatApp.Share\ChatApp.Share.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="App.xaml.cs">
+	    <SubType>Code</SubType>
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="AppShell.xaml.cs">
+	    <SubType>Code</SubType>
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Controls\MessageControl.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Controls\MessageControl2.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Controls\MessageMainControl.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Controls\UserOnlineControl.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="MainPage.xaml.cs">
+	    <SubType>Code</SubType>
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Platforms\Android\MainActivity.cs">
+	    <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+	  </Compile>
+	  <Compile Update="Platforms\Android\MainApplication.cs">
+	    <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+	  </Compile>
+	  <Compile Update="Platforms\iOS\AppDelegate.cs">
+	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+	  </Compile>
+	  <Compile Update="Platforms\iOS\Program.cs">
+	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+	  </Compile>
+	  <Compile Update="Platforms\MacCatalyst\AppDelegate.cs">
+	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+	  </Compile>
+	  <Compile Update="Platforms\MacCatalyst\Program.cs">
+	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+	  </Compile>
+	  <Compile Update="Platforms\Tizen\Main.cs">
+	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+	  </Compile>
+	  <Compile Update="Platforms\Windows\App.xaml.cs">
+	    <SubType>Code</SubType>
+	    <DependentUpon>%(Filename)</DependentUpon>
+	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+	  </Compile>
+	  <Compile Update="Views\ChatDetailView.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ChatViewTest.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ListUserView.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\LoginView.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Templates\ListBoxChatTemplate.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Templates\ListUserChatTemplate.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\UserProfileView.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="App.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="AppShell.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\MessageControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\MessageControl2.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\MessageMainControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\UserOnlineControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MainPage.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Platforms\Windows\App.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\Colors.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\Styles.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ChatDetailView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ChatViewTest.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ListUserView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\LoginView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Templates\ListBoxChatTemplate.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Templates\ListUserChatTemplate.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\UserProfileView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Platforms\Windows\Package.appxmanifest">
+	    <SubType>Designer</SubType>
+	  </None>
+	  <MauiAsset Update="Resources\Raw\AboutAssets.txt">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiImage Update="Resources\Images\dotnet_bot.svg">
+	    <BaseSize>168,208</BaseSize>
+	  </MauiImage>
+	</ItemGroup>
+
+</Project>

@@ -25,23 +25,16 @@ namespace Client.MaUI
                     fonts.AddFont("Metropolis-Regular.otf", "Metropolis Regular");
                     fonts.AddFont("MaterialIcons-Regular.ttf", "Material Icons");
                 });
-            builder.Services.AddScoped<HttpClient>(p =>
-            {
-                var httpclient = new HttpClient(new HttpsClientHandlerService().GetPlatformMessageHandler());
-                httpclient.BaseAddress = new Uri("https://10.0.2.2:7028");
-                return httpclient;
-            });
-            builder.Services.AddScoped<IHttpClientService, HttpClientService>();
-            builder.Services.AddScoped<IAuthenticateClientService, AuthenticateClientService>();
-            builder.Services.AddScoped<MainChatViewModel>();
-            builder.Services.AddScoped<ListUserViewModel>();
+            builder.Services.AddSingleton<HttpClientService>();
+            builder.Services.AddSingleton<IAuthenticateClientService, AuthenticateClientService>();
+            builder.Services.AddSingleton<MainChatViewModel>();
+            builder.Services.AddSingleton<ListUserViewModel>();
             Routing.RegisterRoute("Login", typeof(LoginView));
-
-            builder.Services.AddScoped<LoginView>();
-            builder.Services.AddScoped<ChatViewTest>();
+            builder.Services.AddSingleton<LoginView>();
+            builder.Services.AddSingleton<ChatViewTest>();
             builder.Services.AddSingleton<ListUserView>();
             builder.Services.AddSingleton<AppShell>();
-            builder.Services.AddScoped<App>();
+            builder.Services.AddSingleton<App>();
             return builder.Build();
         }
     }

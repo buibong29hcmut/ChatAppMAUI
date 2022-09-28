@@ -1,4 +1,5 @@
-﻿using Client.MaUI.DataStructures;
+﻿using Client.MaUI.Contracts;
+using Client.MaUI.DataStructures;
 using Client.MaUI.Models;
 using Client.MaUI.Views;
 using Microsoft.Maui.ApplicationModel.Communication;
@@ -11,7 +12,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Client.MaUI.Services;
 namespace Client.MaUI.ViewModels
 {   
     public partial class MainChatViewModel:BaseViewModel
@@ -19,13 +20,12 @@ namespace Client.MaUI.ViewModels
         
         public RangeObservableCollection<string> urlUserOnline { get; } = new();
         public RangeObservableCollection<BoxChatModel> BoxChatModels { get; private set; } = new();
-        private readonly HttpClient _httclient;
-        public MainChatViewModel(HttpClient httpclient) 
+        public string UrlProFileUser { get; set; }
+        private  HttpClientService _httpClient;
+        public MainChatViewModel() 
         {
-            _httclient = httpclient;
+            _httpClient = new HttpClientService();
             GetBoxChatModels();
-            
-            
             
         }
         public void GetUserOnline()
@@ -42,25 +42,20 @@ namespace Client.MaUI.ViewModels
             }
         }
         [ICommand]
-        public async void LoadMoreConversation()
+        public async void LoadMoreConversationAsync()
         {
             if (IsBusy==true)
                 return;
             IsBusy = true;
-            var response =await _httclient.GetAsync($"api/v1/user/105c659e-abd1-4821-9d1d-905ccd5a9e87/conversation?CountConversation={BoxChatModels.Count}&RowFetch=10");
-            var content = await response.Content.ReadAsStringAsync();
-            var data = JObject.Parse(content)["data"].ToString();
-            var item = JsonConvert.DeserializeObject<RangeObservableCollection<BoxChatModel>>(data);
+        
+            var item =await _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>($"api/v1/user/105c659e-abd1-4821-9d1d-905ccd5a9e87/conversation?CountConversation={BoxChatModels.Count}&RowFetch=10");
             BoxChatModels.AddRange(item);
             IsBusy = false;
 
         }
         public  void GetBoxChatModels()
         {
-          var response=    _httclient.GetAsync("api/v1/user/105c659e-abd1-4821-9d1d-905ccd5a9e87/conversation?CountConversation=0&RowFetch=10").Result;
-            var content =  response.Content.ReadAsStringAsync().Result;
-            var data = JObject.Parse(content)["data"].ToString();
-            BoxChatModels = JsonConvert.DeserializeObject<RangeObservableCollection<BoxChatModel>>(data);
+             BoxChatModels = _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>("api/v1/user/105c659e-abd1-4821-9d1d-905ccd5a9e87/conversation?CountConversation=0&RowFetch=10").Result;
         }
         [ICommand]
         public  void GetChatDetailView()

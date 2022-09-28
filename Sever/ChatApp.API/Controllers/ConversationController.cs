@@ -15,7 +15,6 @@ using System.Security.Claims;
 namespace ChatApp.API.Controllers
 {
     [Route("api/v1/user/{userId}/conversation")]
-    [Authorize]
     public class ConversationController:BaseApiController
     {
         public ConversationController(ICommandBus _cmd, IQueryBus _query) : base(_cmd, _query)
@@ -32,8 +31,6 @@ namespace ChatApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetConversationByUserId(Guid userId,[BindRequired] int CountConversation, [BindRequired] int RowFetch)
         {
-            if (!userId.Equals(UserId))
-                return Unauthorized();
             var result= await _query.Send<Result<IReadOnlyCollection<BoxChatResponse>>>(new GetBoxChatByUserId(userId, CountConversation, RowFetch));
             return Ok(result);
         }

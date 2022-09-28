@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace Client.MaUI.Models
 {
-    public class UserModel
+    public class UserModel:UserProfileModel
+    {
+        public bool IsOnline { get; set; }
+
+    }
+    public class UserProfileModel
     {
         public string Name { get; set; }
         public string UserName { get; set; }
-        public bool IsOnline { get; set; }
         public string UrlAvatar { get; set; }
+
     }
 }

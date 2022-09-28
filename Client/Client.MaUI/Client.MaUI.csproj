@@ -111,6 +111,15 @@
 	  <MauiXaml Update="Views\Templates\ListUserChatTemplate.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\UserProfileView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="NewFolder\" />
+	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionClientMaUIHideInfoBar="True" XamarinHotReloadGenericExceptionInfoBarClientMaUIHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

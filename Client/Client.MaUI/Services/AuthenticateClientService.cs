@@ -9,8 +9,8 @@ namespace Client.MaUI.Services
 {
     public class AuthenticateClientService : IAuthenticateClientService
     {
-        private readonly IHttpClientService _http;
-        public AuthenticateClientService(IHttpClientService http)
+        private readonly HttpClientService _http;
+        public AuthenticateClientService(HttpClientService http)
         {
             _http = http;
         }

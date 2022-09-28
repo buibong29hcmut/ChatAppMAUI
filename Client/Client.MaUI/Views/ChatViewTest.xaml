@@ -82,7 +82,7 @@
                 <CollectionView
                     ItemsSource="{Binding BoxChatModels}"
                     RemainingItemsThreshold="5"
-                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreConversationCommand}"
+                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreConversationAsyncCommand}"
                     VerticalScrollBarVisibility="Always"
                     >
                     <CollectionView.ItemsLayout>
