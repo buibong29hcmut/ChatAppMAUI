@@ -1,4 +1,6 @@
 ﻿using ChatApp.Client.Contracts;
+using ChatApp.Client.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +19,9 @@ namespace ChatApp.Client.Services
 
         public async Task Login(string userName, string Password)
         {
-            var response = await _http.PostAsync<AuthenticateResult>("api/v1/auth", new { userName = userName, password = Password });
+            var response = await _http.PostAsync<AuthenticateModel>("api/v1/auth", new { userName = userName, password = Password });
             await SecureStorage.SetAsync("chattoken", response.JwtToken);
+            await SecureStorage.SetAsync("profile",response.Info.Id.ToString());
         }
     }
     public class AuthenticateResult

@@ -28,6 +28,9 @@ namespace ChatApp.Client.ViewModels
             _httpClient = new HttpClientService();
             GetBoxChatModels();
             
+            
+
+
         }
         public void GetUserOnline()
         {
@@ -43,20 +46,22 @@ namespace ChatApp.Client.ViewModels
             }
         }
         [ICommand]
-        public async void LoadMoreConversationAsync()
+        public async Task LoadMoreConversationAsync()
         {
             if (IsBusy==true)
                 return;
             IsBusy = true;
-        
-            var item =await _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>($"api/v1/user/105c659e-abd1-4821-9d1d-905ccd5a9e87/conversation?CountConversation={BoxChatModels.Count}&RowFetch=10");
+            var userId =await SecureStorage.GetAsync("profile");
+            var item =await _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>($"api/v1/user/{userId}/ conversation?CountConversation={BoxChatModels.Count}&RowFetch=10");
             BoxChatModels.AddRange(item);
             IsBusy = false;
 
         }
         public  void GetBoxChatModels()
         {
-             BoxChatModels = _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>("api/v1/user/105c659e-abd1-4821-9d1d-905ccd5a9e87/conversation?CountConversation=0&RowFetch=10").Result;
+            var userId = SecureStorage.GetAsync("profile").Result;
+
+            BoxChatModels = _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>($"api/v1/user/{userId}/conversation?CountConversation=0&RowFetch=10").Result;
         }
         [ICommand]
         public  void GetChatDetailView()

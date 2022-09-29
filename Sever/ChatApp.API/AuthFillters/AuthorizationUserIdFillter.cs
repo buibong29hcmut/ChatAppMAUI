@@ -5,21 +5,21 @@ using System.Security.Claims;
 
 namespace ChatApp.API.AuthFillters
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class AuthorizationUserIdFillter : AuthorizeAttribute,IAuthorizationFilter
-    {   private string UserId { get; set; }
-        public AuthorizationUserIdFillter(string userId)
-        {
-            UserId = userId;
-        }
+    public class AuthorizationUserIdFillter: IAsyncActionFilter
+    {   
+        
 
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            string userId=context.HttpContext.User.Claims.FirstOrDefault(p=>p.Type==ClaimTypes.NameIdentifier).Value;
-            if (string.IsNullOrEmpty(userId)|| UserId.Equals(userId))
+            var userIdRequest = (Guid)context.ActionArguments["userId"];
+            var userIdAuthorization = context.HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier).Value;
+            if (userIdRequest != new Guid(userIdAuthorization))
             {
                 context.Result = new UnauthorizedResult();
+                return;
             }
+            await next();
+
         }
     }
 }

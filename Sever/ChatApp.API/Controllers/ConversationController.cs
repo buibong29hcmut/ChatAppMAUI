@@ -21,14 +21,9 @@ namespace ChatApp.API.Controllers
         {
 
         }
-        public string UserId
-        {
-            get
-            {
-                return HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier).Value;
-            }
-        }
+   
         [HttpGet]
+        [ServiceFilter(typeof(AuthorizationUserIdFillter))]
         public async Task<IActionResult> GetConversationByUserId(Guid userId,[BindRequired] int CountConversation, [BindRequired] int RowFetch)
         {
             var result= await _query.Send<Result<IReadOnlyCollection<BoxChatResponse>>>(new GetBoxChatByUserId(userId, CountConversation, RowFetch));

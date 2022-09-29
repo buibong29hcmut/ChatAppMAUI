@@ -1,3 +1,4 @@
+using ChatApp.API.AuthFillters;
 using ChatApp.API.Extensions;
 using ChatApp.Application;
 using ChatApp.Application.Interfaces.DAL;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using System.Net.WebSockets;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,13 +43,13 @@ builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetValue<string>("CacheSettings:ConnectionString");
 });
+builder.Services.AddScoped<AuthorizationUserIdFillter>();
 builder.Services.AddApplication()
                 .AddInfrastructure(builder.Configuration, 
                 typeof(IChatDbContext), typeof(ChatDbContext));
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-//var chat= app.Services.CreateScope().ServiceProvider.GetService<ChatDbContext>();
-//await chat.SeedName();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -13,33 +13,28 @@ using ChatApp.Share.Wrappers;
 using Microsoft.Toolkit.Mvvm.Input;
 using ChatApp.Client.DataStructures;
 using ChatApp.Client.Models;
+using ChatApp.Client.Services;
 
 namespace ChatApp.Client.ViewModels
 {
     public partial class ListUserViewModel:BaseViewModel
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClientService _httpClient;
         public RangeObservableCollection<UserModel> Users { get; private set; } = new();
         private int PageNumber = 0;
         bool HasNextPage;
-        public ListUserViewModel(HttpClient httpClient)
+        public ListUserViewModel()
         {
-            _httpClient = httpClient;
+            _httpClient= new HttpClientService();
             GetListUser();
             
         }
         public  void GetListUser()
-        {
-            string JwtToken = SecureStorage.GetAsync("chattoken").Result;
-
-            _httpClient.DefaultRequestHeaders.Authorization =
-              new AuthenticationHeaderValue("Bearer", JwtToken);
-            var response =  _httpClient.GetAsync("api/v1/user?pageSize=10&pageNumber=1").Result;
-            var content =  response.Content.ReadAsStringAsync().Result;
-            var data = JObject.Parse(content)["data"].ToString();
-            var firstUserPage = JsonConvert.DeserializeObject<PageList<UserModel>>(data);
-            Users.AddRange(firstUserPage.Items);
-            HasNextPage = firstUserPage.HasNextPage;
+        {           
+            var data =  _httpClient.GetAsync<PageList<UserModel>>("api/v1/user?pageSize=10&pageNumber=1").Result;
+        
+            Users.AddRange(data.Items);
+            HasNextPage = data.HasNextPage;
         }
         [ICommand]
         public async void LoadMoreUserAsync()
@@ -47,15 +42,9 @@ namespace ChatApp.Client.ViewModels
             if (IsBusy==true|| HasNextPage==false)
                 return;
             IsBusy = true;
-            string JwtToken = SecureStorage.GetAsync("chattoken").Result;
-
-            _httpClient.DefaultRequestHeaders.Authorization =
-              new AuthenticationHeaderValue("Bearer", JwtToken);
-            var response = await _httpClient.GetAsync($"api/v1/user?pageSize=10&pageNumber={PageNumber+1}");
-            var content = await response.Content.ReadAsStringAsync();
-
-            var data = JObject.Parse(content)["data"].ToString();
-            var listUser = JsonConvert.DeserializeObject<PageList<UserModel>>(data);
+       
+            var listUser = await _httpClient.GetAsync<PageList<UserModel>>($"api/v1/user?pageSize=10&pageNumber={PageNumber+1}");
+       
             Users.AddRange(listUser.Items);
             HasNextPage = listUser.HasNextPage;
             PageNumber += 1;

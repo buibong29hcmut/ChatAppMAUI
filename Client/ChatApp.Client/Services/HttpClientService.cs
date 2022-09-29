@@ -21,7 +21,7 @@ namespace ChatApp.Client.Services
         }
         private  HttpClient OnInitialHttp()
         {
-            var devSslHelper = new DevHttpsConnectionHelper(sslPort: 7068);
+            var devSslHelper = new DevHttpsConnectionHelper(sslPort: 7028);
             var httpClient = devSslHelper.HttpClient;
             var token=  SecureStorage.GetAsync("chattoken").Result;
             if (string.IsNullOrEmpty(token))
@@ -36,7 +36,7 @@ namespace ChatApp.Client.Services
         public  async  Task<T> GetAsync<T>(string uri)
         {
             var _httpClient= OnInitialHttp();
-            var response = await _httpClient.GetAsync(uri);
+            var response =  _httpClient.GetAsync(uri).Result;
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 SecureStorage.Remove("chattoken");
