@@ -21,7 +21,7 @@ namespace ChatApp.Client.ViewModels
     {
         private readonly HttpClientService _httpClient;
         public RangeObservableCollection<UserModel> Users { get; private set; } = new();
-        private int PageNumber = 0;
+        private int PageNumber = 1;
         bool HasNextPage;
         public ListUserViewModel()
         {
@@ -31,7 +31,7 @@ namespace ChatApp.Client.ViewModels
         }
         public  void GetListUser()
         {           
-            var data =  _httpClient.GetAsync<PageList<UserModel>>("api/v1/user?pageSize=10&pageNumber=1").Result;
+            var data =  _httpClient.GetAsync<PageList<UserModel>>($"api/v1/user?pageSize=10&pageNumber={PageNumber}").Result;
         
             Users.AddRange(data.Items);
             HasNextPage = data.HasNextPage;
@@ -42,9 +42,7 @@ namespace ChatApp.Client.ViewModels
             if (IsBusy==true|| HasNextPage==false)
                 return;
             IsBusy = true;
-       
-            var listUser = await _httpClient.GetAsync<PageList<UserModel>>($"api/v1/user?pageSize=10&pageNumber={PageNumber+1}");
-       
+            var listUser = await _httpClient.GetAsync<PageList<UserModel>>($"api/v1/user?pageSize=10&pageNumber={PageNumber+1}");     
             Users.AddRange(listUser.Items);
             HasNextPage = listUser.HasNextPage;
             PageNumber += 1;
