@@ -10,10 +10,6 @@ namespace ChatApp.Client
             InitializeComponent();
 
             MainPage = view;
-
-
-
-
         }
     }
 }

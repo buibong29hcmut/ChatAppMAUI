@@ -14,6 +14,7 @@ namespace ChatApp.Application.Requests.Messages.Queries
         public Guid ConversationId { get; set; }
         public int PageSize { get; set; }
         public int PageNumber { get; set; }
+        public Guid UserId { get; set; }
        
     }
 }

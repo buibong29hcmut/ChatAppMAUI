@@ -3,6 +3,7 @@ using ChatApp.Application.Cores.Queries;
 using ChatApp.Application.Requests.Messages.Queries;
 using ChatApp.Application.Response.Messages;
 using ChatApp.Share.Wrappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatApp.API.Controllers
@@ -15,13 +16,15 @@ namespace ChatApp.API.Controllers
 
         }
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetMessageByConversation(Guid conversationId,int pageSize, int PageNumber)
         {
             GetMesssageByConversationIdQuery param = new GetMesssageByConversationIdQuery()
             {
                 ConversationId = conversationId,
                 PageSize = pageSize,
-                PageNumber = PageNumber
+                PageNumber = PageNumber,
+                UserId=new Guid(UserId)
             };
             var result = await _query.Send<Result<PageList<MessageResponseByConversationId>>>(param);
             return Ok(result);

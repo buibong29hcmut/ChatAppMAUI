@@ -24,13 +24,7 @@ namespace ChatApp.API.Controllers
         {
             _uploader = uploader;
         }
-        public string UserId
-        {
-            get
-            {
-                return HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier).Value;
-            }
-        }
+      
         [HttpGet]
         public async Task<IActionResult> GetAllUser(int pageSize,int pageNumber)
         {

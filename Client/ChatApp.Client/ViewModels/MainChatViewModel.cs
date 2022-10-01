@@ -13,6 +13,7 @@ using ChatApp.Client.Services;
 using ChatApp.Client.DataStructures;
 using ChatApp.Client.Models;
 using ChatApp.Client.Views;
+using Microsoft.Toolkit;
 
 namespace ChatApp.Client.ViewModels
 {   
@@ -28,7 +29,8 @@ namespace ChatApp.Client.ViewModels
             _httpClient = new HttpClientService();
             GetBoxChatModels();
             
-            
+
+
 
 
         }
@@ -63,12 +65,17 @@ namespace ChatApp.Client.ViewModels
 
             BoxChatModels = _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>($"api/v1/user/{userId}/conversation?CountConversation=0&RowFetch=10").Result;
         }
+  
         [ICommand]
-        public  void GetChatDetailView()
+        public   void  GoToConversationDetail(Guid ConversationId)
         {
-            App.Current.MainPage = new NavigationPage(new ChatDetailView());
+            Shell.Current.GoToAsync(nameof(ChatDetailView), true, new Dictionary<string, object>()
+            {
+                {"ConversationId",ConversationId}
+            }).Wait() ;
+
         }
-        
+
     }
     
 }

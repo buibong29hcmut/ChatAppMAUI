@@ -54,7 +54,7 @@
                     </HorizontalStackLayout>
                 </Grid>
             </VerticalStackLayout>
-            
+
             <CollectionView Grid.Row="1" ItemsSource="{Binding Messages}" >
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -63,13 +63,13 @@
                                 <Grid.Triggers>
                                     <MultiTrigger TargetType="Grid">
                                         <MultiTrigger.Conditions>
-                                            <BindingCondition Binding="{Binding IsUser}" Value="True"/>
+                                            <BindingCondition Binding="{Binding IsThisUser}" Value="True"/>
                                         </MultiTrigger.Conditions>
                                         <Setter Property="ColumnDefinitions" Value="100,*"></Setter>
                                     </MultiTrigger>
                                     <MultiTrigger TargetType="Grid">
                                         <MultiTrigger.Conditions>
-                                            <BindingCondition Binding="{Binding IsUser}" Value="False"/>
+                                            <BindingCondition Binding="{Binding IsThisUser}" Value="False"/>
                                         </MultiTrigger.Conditions>
                                         <Setter Property="ColumnDefinitions" Value="*,100"></Setter>
                                     </MultiTrigger>
@@ -81,7 +81,7 @@
                                     <Frame.Triggers>
                                         <MultiTrigger TargetType="Frame">
                                             <MultiTrigger.Conditions>
-                                                <BindingCondition Binding="{Binding IsUser}" Value="True"/>
+                                                <BindingCondition Binding="{Binding IsThisUser}" Value="True"/>
                                             </MultiTrigger.Conditions>
                                             <Setter Property="BackgroundColor" Value="#587cec"></Setter>
                                             <Setter Property="HorizontalOptions" Value="End"></Setter>
@@ -89,7 +89,7 @@
                                         </MultiTrigger>
                                         <MultiTrigger TargetType="Frame">
                                             <MultiTrigger.Conditions>
-                                                <BindingCondition Binding="{Binding IsUser}" Value="False"/>
+                                                <BindingCondition Binding="{Binding IsThisUser}" Value="False"/>
                                             </MultiTrigger.Conditions>
                                             <Setter Property="BackgroundColor" Value="#f0ecec"></Setter>
                                             <Setter Property="HorizontalOptions" Value="Start"></Setter>

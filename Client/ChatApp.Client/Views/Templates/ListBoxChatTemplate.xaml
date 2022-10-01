@@ -42,7 +42,7 @@
           Margin="0,15,0,15">
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer
-                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainChatViewModel}}, Path= GetChatDetailViewCommand}"                                       />
+                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainChatViewModel}}, Path= GoToConversationDetailCommand}" CommandParameter="{Binding ConversationId}"   />
             </Grid.GestureRecognizers>
             <Grid>
                 <Frame HeightRequest="70" WidthRequest="70" CornerRadius="50">

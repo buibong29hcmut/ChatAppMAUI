@@ -12,5 +12,6 @@ namespace ChatApp.Application.Response.Messages
         public string Content { get; set; }
         public DateTimeOffset SendTime { get; set; }
         public Guid FromUserId { get; set; }
+        public bool IsThisUser { get; set; }
     }
 }

@@ -15,6 +15,6 @@ public partial class LoginView : ContentPage
 	private async void Button_Clicked(object sender, EventArgs e)
 	{
 		await  _auth.Login(userTxt.Text, passwordTxt.Text);
-        App.Current.MainPage = new NavigationPage(new AppShell());
+        App.Current.MainPage = new AppShell();
     }
 }

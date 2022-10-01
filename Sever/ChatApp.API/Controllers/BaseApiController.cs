@@ -1,6 +1,7 @@
 ﻿using ChatApp.Application.Cores.Commands;
 using ChatApp.Application.Cores.Queries;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ChatApp.API.Controllers
 {
@@ -13,6 +14,13 @@ namespace ChatApp.API.Controllers
         {
             _command = command;
             _query = query;
+        }
+        public string UserId
+        {
+            get
+            {
+                return HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier).Value;
+            }
         }
     }
 }
