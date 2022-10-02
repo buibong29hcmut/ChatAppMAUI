@@ -6,36 +6,38 @@
              xmlns:viewmodels="clr-namespace:ChatApp.Client.ViewModels"
              xmlns:controls="clr-namespace:ChatApp.Client.Controls"
              BackgroundColor="#e8e4e4"
+             NavigatedTo="ContentPage_NavigatedTo"
              NavigationPage.HasNavigationBar="False"
              >
    <ContentPage.Content Margin="10" >
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="60" />
-            </Grid.RowDefinitions>
-            <VerticalStackLayout Grid.Row="0" >
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30" />
-                        <ColumnDefinition Width="50"/>
-                        <ColumnDefinition Width="100"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Image Source="back.png" Grid.Column="0" HeightRequest="40"  WidthRequest="40"  ></Image>
-                    <Frame Margin="10,0,0,0" Grid.Column="1" IsClippedToBounds="True"  WidthRequest="40" HeightRequest="40" BorderColor="Transparent" CornerRadius="50">
-                        <Image Source="dotnet_bot.png" Grid.Column="1" HeightRequest="40"  WidthRequest="40"  ></Image>
-                    </Frame>
-                    <HorizontalStackLayout Margin="10,0,0,0" Grid.Column="2" HorizontalOptions="Start" >
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="25"></RowDefinition>
-                                <RowDefinition Height="20"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Label Grid.Row="0" FontSize="18" Text="Bùi Bài Bổng" TextColor="Black" />
-                            <HorizontalStackLayout Grid.Row="1" >
-                                <Ellipse
+        <RefreshView IsRefreshing="{Binding IsRefreshing}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+                <VerticalStackLayout Grid.Row="0" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="back.png" Grid.Column="0" HeightRequest="40"  WidthRequest="40"  ></Image>
+                        <Frame Margin="10,0,0,0" Grid.Column="1" IsClippedToBounds="True"  WidthRequest="40" HeightRequest="40" BorderColor="Transparent" CornerRadius="50">
+                            <Image Source="dotnet_bot.png" Grid.Column="1" HeightRequest="40"  WidthRequest="40"  ></Image>
+                        </Frame>
+                        <HorizontalStackLayout Margin="10,0,0,0" Grid.Column="2" HorizontalOptions="Start" >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="25"></RowDefinition>
+                                    <RowDefinition Height="20"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" FontSize="18" Text="Bùi Bài Bổng" TextColor="Black" />
+                                <HorizontalStackLayout Grid.Row="1" >
+                                    <Ellipse
                                         Fill="Green"
                                         HeightRequest="15"
                                         HorizontalOptions="CenterAndExpand"
@@ -43,96 +45,64 @@
                                         IsVisible="True"
                                         WidthRequest="15" 
                                         Margin="0,0,3,0"/>
-                                <Label FontSize="15"  VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="Đang hoạt động" Margin="0,0,0,0"  />
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </HorizontalStackLayout>
-                    <HorizontalStackLayout Grid.Column="3" HorizontalOptions="EndAndExpand">
-                            <Image  HorizontalOptions="Center" VerticalOptions="Center" Source="phone4.png"  WidthRequest="45" HeightRequest="45"></Image>
-                       
-                            <Image HorizontalOptions="Center" VerticalOptions="Center" Source="camera5.png"  WidthRequest="45" HeightRequest="45"></Image>
-                    </HorizontalStackLayout>
-                </Grid>
-            </VerticalStackLayout>
-
-            <CollectionView Grid.Row="1" ItemsSource="{Binding Messages}" >
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid RowDefinitions="auto, auto">
-                            <Grid  IsVisible="true">
-                                <Grid.Triggers>
-                                    <MultiTrigger TargetType="Grid">
-                                        <MultiTrigger.Conditions>
-                                            <BindingCondition Binding="{Binding IsThisUser}" Value="True"/>
-                                        </MultiTrigger.Conditions>
-                                        <Setter Property="ColumnDefinitions" Value="100,*"></Setter>
-                                    </MultiTrigger>
-                                    <MultiTrigger TargetType="Grid">
-                                        <MultiTrigger.Conditions>
-                                            <BindingCondition Binding="{Binding IsThisUser}" Value="False"/>
-                                        </MultiTrigger.Conditions>
-                                        <Setter Property="ColumnDefinitions" Value="*,100"></Setter>
-                                    </MultiTrigger>
-                                </Grid.Triggers>
-                                <Frame Margin="0,5,0,5"  CornerRadius="15"
-                                       HasShadow="True"     
-                                       Padding="3"
-                                       MinimumWidthRequest="20">
-                                    <Frame.Triggers>
-                                        <MultiTrigger TargetType="Frame">
-                                            <MultiTrigger.Conditions>
-                                                <BindingCondition Binding="{Binding IsThisUser}" Value="True"/>
-                                            </MultiTrigger.Conditions>
-                                            <Setter Property="BackgroundColor" Value="#587cec"></Setter>
-                                            <Setter Property="HorizontalOptions" Value="End"></Setter>
-                                            <Setter Property="Grid.Column" Value="1"></Setter>
-                                        </MultiTrigger>
-                                        <MultiTrigger TargetType="Frame">
-                                            <MultiTrigger.Conditions>
-                                                <BindingCondition Binding="{Binding IsThisUser}" Value="False"/>
-                                            </MultiTrigger.Conditions>
-                                            <Setter Property="BackgroundColor" Value="#f0ecec"></Setter>
-                                            <Setter Property="HorizontalOptions" Value="Start"></Setter>
-                                            <Setter Property="Grid.Row" Value="1"></Setter>
-                                        </MultiTrigger>
-                                    </Frame.Triggers>
-                                    <Frame.GestureRecognizers>
-                                        <DragGestureRecognizer CanDrag="True" />
-                                    </Frame.GestureRecognizers>
-                                    <Label Text="{Binding Content}"  Margin="10"
-                                           TextColor="Black"
-                                           LineBreakMode="WordWrap"/>
-                                </Frame>
+                                    <Label FontSize="15"  VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="Đang hoạt động" Margin="0,0,0,0"  />
+                                </HorizontalStackLayout>
                             </Grid>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Grid.Column="3" HorizontalOptions="EndAndExpand">
+                            <Image  HorizontalOptions="Center" VerticalOptions="Center" Source="phone4.png"  WidthRequest="45" HeightRequest="45"></Image>
 
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            
-            </CollectionView>
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="40" />
-                </Grid.ColumnDefinitions>
+                            <Image HorizontalOptions="Center" VerticalOptions="Center" Source="camera5.png"  WidthRequest="45" HeightRequest="45"></Image>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+                <CollectionView Grid.Row="1" ItemsSource="{Binding Messages}" >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid RowDefinitions="auto, auto">
+                                <Grid  IsVisible="true">
+                                    <VerticalStackLayout Margin="3,5,3,5" HorizontalOptions="{Binding Path=IsThisUser, Converter={StaticResource FromUserIdToHorizontalOptionConverter}} ">
+                                        <Label
+                                Margin="5,0,5,0"
+                                FontSize="11"
+                                HorizontalOptions="{Binding HorizontalOptions, Source={RelativeSource AncestorType={x:Type VerticalStackLayout}}}"
+                                Text="{Binding SendTime, StringFormat='{0:HH:mm}'}" />
 
-                <Frame
+                                        <Frame  HasShadow="True" Padding="10,8,10,8" MaximumWidthRequest="200" CornerRadius="10" BackgroundColor="{Binding Path=IsThisUser, Converter={StaticResource FromUserIdToBackgroudColorConverter}} ">
+                                            <Label
+                                    FontSize="12"
+                                    Text="{Binding Content}"
+                                    TextColor="Black" />
+                                        </Frame>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <Frame
                     Padding="10,0,10,0"
                     CornerRadius=" 20"
                     HeightRequest="40" BorderColor="White" HasShadow="True">
-                    <Entry
+                        <Entry
                         HeightRequest="60"
                         Placeholder="Send Message"
                         TextColor="Black"
                         VerticalOptions="Center" 
                         />
-                </Frame>
-                <ImageButton
+                    </Frame>
+                    <ImageButton
                     Grid.Column="1"
                     HeightRequest="45"
                     WidthRequest="55" Source="download.svg" Margin="5,0,5,0" >
-                </ImageButton>
+                    </ImageButton>
+                </Grid>
             </Grid>
-        </Grid>
+        </RefreshView>
     </ContentPage.Content>
 </ContentPage>

@@ -29,6 +29,7 @@ namespace ChatApp.Client
             builder.Services.AddSingleton<IHttpClientService,HttpClientService>();
             builder.Services.AddSingleton<IAuthenticateClientService, AuthenticateClientService>();
             builder.Services.AddSingleton<MainChatViewModel>();
+            builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddScoped<ListUserViewModel>();
             builder.Services.AddTransient<ConversationDetailViewModel>();
             builder.Services.AddSingleton<LoginView>();

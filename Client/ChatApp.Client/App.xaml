@@ -2,6 +2,7 @@
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ChatApp.Client"
+             xmlns:converters="clr-namespace:ChatApp.Client.Conveters"
              x:Class="ChatApp.Client.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -46,7 +47,8 @@
             <Style ApplyToDerivedTypes="True" TargetType="RefreshView">
                 <Setter Property="RefreshColor" Value="{StaticResource Primary}" />
             </Style>
-
+            <converters:FromUserIdToHorizontalOptionConverter x:Key="FromUserIdToHorizontalOptionConverter" />
+            <converters:FromUserIdToBackgroudColorConverter x:Key="FromUserIdToBackgroudColorConverter" />
             <Style x:Key="ButtonOutline" TargetType="Button">
                 <Setter Property="Background" Value="{StaticResource LightBackground}" />
                 <Setter Property="TextColor" Value="{StaticResource Primary}" />

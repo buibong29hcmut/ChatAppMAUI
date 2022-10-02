@@ -7,20 +7,19 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Client.Conveters
 {
-    public class FromUserIdToHorizontalOptionConverter : IMultiValueConverter
+    public class FromUserIdToHorizontalOptionConverter : IValueConverter
     {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values == null || values.Length == 0) return LayoutOptions.Start;
-
-            if (values[0] == null || values[1] == null) return LayoutOptions.Start;
-
-            if (values[0].ToString() == values[1].ToString()) return LayoutOptions.Start;
+            if ((bool)values == false)
+            {
+                return LayoutOptions.Start;
+            }
 
             return LayoutOptions.End;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

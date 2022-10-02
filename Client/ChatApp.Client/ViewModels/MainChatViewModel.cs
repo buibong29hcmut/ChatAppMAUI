@@ -1,6 +1,5 @@
 ﻿
 using Microsoft.Maui.ApplicationModel.Communication;
-using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -14,6 +13,8 @@ using ChatApp.Client.DataStructures;
 using ChatApp.Client.Models;
 using ChatApp.Client.Views;
 using Microsoft.Toolkit;
+using CommunityToolkit.Mvvm.Input;
+using AndroidX.Navigation;
 
 namespace ChatApp.Client.ViewModels
 {   
@@ -27,7 +28,7 @@ namespace ChatApp.Client.ViewModels
         public MainChatViewModel() 
         {
             _httpClient = new HttpClientService();
-            GetBoxChatModels();
+           GetBoxChatModels();
             
 
 
@@ -47,32 +48,38 @@ namespace ChatApp.Client.ViewModels
                 urlUserOnline.Add(url);
             }
         }
-        [ICommand]
-        public async Task LoadMoreConversationAsync()
-        {
+         [RelayCommand]
+        public async  Task LoadMoreConversationAsync()
+        {  
             if (IsBusy==true)
                 return;
             IsBusy = true;
-            var userId =await SecureStorage.GetAsync("profile");
-            var item =await _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>($"api/v1/user/{userId}/ conversation?CountConversation={BoxChatModels.Count}&RowFetch=10");
+            
+            var userId = await SecureStorage.GetAsync("profile");
+            var item = await _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>($"api/v1/user/{userId}/conversation?CountConversation={BoxChatModels.Count}&RowFetch=10");
             BoxChatModels.AddRange(item);
             IsBusy = false;
 
         }
-        public  void GetBoxChatModels()
+        public   void GetBoxChatModels()
         {
+            if (IsBusy == true)
+                return;
+            IsBusy = true;
             var userId = SecureStorage.GetAsync("profile").Result;
-
             BoxChatModels = _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>($"api/v1/user/{userId}/conversation?CountConversation=0&RowFetch=10").Result;
+            IsBusy = false;
         }
   
-        [ICommand]
-        public   void  GoToConversationDetail(Guid ConversationId)
+        [RelayCommand]
+        public  async void  GoToConversationDetail(Guid ConversationId)
         {
-            Shell.Current.GoToAsync(nameof(ChatDetailView), true, new Dictionary<string, object>()
+
+          await  Shell.Current.GoToAsync(nameof(ChatDetailView), true, new Dictionary<string, object>()
             {
-                {"ConversationId",ConversationId}
-            }).Wait() ;
+                {"ConversationId",ConversationId }
+            });
+
 
         }
 

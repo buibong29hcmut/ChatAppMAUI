@@ -12,5 +12,6 @@ namespace ChatApp.Application.Models
         public DateTimeOffset Created { get; set; }
         public Guid FromUserId { get; set; }
         public bool IsSeen { get; set; }
+      
     }
 }

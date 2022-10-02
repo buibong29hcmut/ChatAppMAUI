@@ -31,8 +31,7 @@ namespace ChatApp.Client.ViewModels
         }
         public  void GetListUser()
         {           
-            var data =  _httpClient.GetAsync<PageList<UserModel>>($"api/v1/user?pageSize=10&pageNumber={PageNumber}").Result;
-        
+            var data =  _httpClient.GetAsync<PageList<UserModel>>($"api/v1/user?pageSize=10&pageNumber={PageNumber}").Result;     
             Users.AddRange(data.Items);
             HasNextPage = data.HasNextPage;
         }
