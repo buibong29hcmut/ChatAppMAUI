@@ -9,9 +9,8 @@
              NavigatedTo="ContentPage_NavigatedTo"
              NavigationPage.HasNavigationBar="False"
              >
-   <ContentPage.Content Margin="10" >
-        <RefreshView IsRefreshing="{Binding IsRefreshing}">
-            <Grid>
+    <ContentPage.Content Margin="10" >
+        <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50" />
                     <RowDefinition Height="*"/>
@@ -103,6 +102,5 @@
                     </ImageButton>
                 </Grid>
             </Grid>
-        </RefreshView>
     </ContentPage.Content>
 </ContentPage>

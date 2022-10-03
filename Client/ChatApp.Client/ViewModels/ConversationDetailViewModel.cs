@@ -3,8 +3,8 @@ using ChatApp.Client.DataStructures;
 using ChatApp.Client.Models;
 using ChatApp.Client.Services;
 using ChatApp.Share.Wrappers;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,8 +18,8 @@ namespace ChatApp.Client.ViewModels
     [QueryProperty("ConversationId", "ConversationId")]
     public partial class ConversationDetailViewModel:BaseViewModel
     {
-
-        public RangeObservableCollection<MessageModel> Messages { get; private set; } 
+        [ObservableProperty]
+        private RangeObservableCollection<MessageModel> messages;
         private readonly IHttpClientService _httpClient;
         [ObservableProperty]
         private Guid conversationId;
@@ -29,26 +29,27 @@ namespace ChatApp.Client.ViewModels
         {
             _httpClient = new HttpClientService();
             Messages = new();
+            
         }
         private int PageNumber = 1;
         private bool HasNextPage = false;
-        public async Task GetMessages()
+        private void GetMessages()
         {
-            string api = $"api/v1/conversation/{ConversationId}/messages?pageSize=20&PageNumber={PageNumber}";
-            var result =  await _httpClient.GetAsync<PageList<MessageModel>>(api);
+            string api = $"api/v1/conversation/{conversationId}/messages?pageSize=20&PageNumber={PageNumber}";
+            var result =   _httpClient.GetAsync<PageList<MessageModel>>(api).Result;
             Messages = new(result.Items);
             HasNextPage = result.HasNextPage;
+            
+            
         }
+        [RelayCommand]
         public void GetMessagesInitial()
         {
-            Task.Run(async () =>
-            {
+          
                 IsRefreshing = true;
-                await GetMessages();
-            }).GetAwaiter().OnCompleted(() =>
-            {
+                GetMessages();
                 IsRefreshing = false;
-            });
+            
 
         }
      

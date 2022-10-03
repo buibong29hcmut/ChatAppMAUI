@@ -14,7 +14,6 @@ using ChatApp.Client.Models;
 using ChatApp.Client.Views;
 using Microsoft.Toolkit;
 using CommunityToolkit.Mvvm.Input;
-using AndroidX.Navigation;
 
 namespace ChatApp.Client.ViewModels
 {   
@@ -30,10 +29,6 @@ namespace ChatApp.Client.ViewModels
             _httpClient = new HttpClientService();
            GetBoxChatModels();
             
-
-
-
-
         }
         public void GetUserOnline()
         {
@@ -74,12 +69,10 @@ namespace ChatApp.Client.ViewModels
         [RelayCommand]
         public  async void  GoToConversationDetail(Guid ConversationId)
         {
-
           await  Shell.Current.GoToAsync(nameof(ChatDetailView), true, new Dictionary<string, object>()
             {
                 {"ConversationId",ConversationId }
             });
-
 
         }
 

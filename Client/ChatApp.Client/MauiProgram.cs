@@ -31,11 +31,11 @@ namespace ChatApp.Client
             builder.Services.AddSingleton<MainChatViewModel>();
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddScoped<ListUserViewModel>();
-            builder.Services.AddTransient<ConversationDetailViewModel>();
+            builder.Services.AddScoped<ConversationDetailViewModel>();
             builder.Services.AddSingleton<LoginView>();
             builder.Services.AddSingleton<ChatViewTest>();
             builder.Services.AddSingleton<ListUserView>();
-            builder.Services.AddTransient<ChatDetailView>();
+            builder.Services.AddScoped<ChatDetailView>();
             builder.Services.AddSingleton<AppShell>();
             builder.Services.AddSingleton<App>();
             return builder.Build();
