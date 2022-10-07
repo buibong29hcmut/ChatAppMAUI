@@ -16,7 +16,7 @@ public partial class ChatDetailView : ContentPage
 
     }
 
-    private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
+    private  void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
     {
         (this.BindingContext as ConversationDetailViewModel).GetMessagesInitialCommand.Execute(null);
 

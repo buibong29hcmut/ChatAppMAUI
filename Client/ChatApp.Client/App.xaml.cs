@@ -9,7 +9,7 @@ namespace ChatApp.Client
         {
             InitializeComponent();
 
-            MainPage = new AppShell();
+            MainPage = view;
         }
     }
 }

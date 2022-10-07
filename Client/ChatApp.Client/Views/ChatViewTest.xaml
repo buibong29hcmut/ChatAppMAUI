@@ -8,7 +8,8 @@
              xmlns:controls="clr-namespace:ChatApp.Client.Controls" BackgroundColor="White"
              xmlns:templates="clr-namespace:ChatApp.Client.Views.Templates"
              NavigationPage.HasNavigationBar="False"
-
+         
+          
              >
    
     <ContentPage.Content>
@@ -82,7 +83,7 @@
                 <CollectionView
                     ItemsSource="{Binding BoxChatModels}"
                     RemainingItemsThreshold="11"
-                    RemainingItemsThresholdReachedCommand ="{Binding LoadMoreConversationCommand}"
+                    RemainingItemsThresholdReachedCommand ="{Binding LoadMoreMessageCommand}"
                     SelectionMode="Single"
                     VerticalScrollBarVisibility="Always"
                     >

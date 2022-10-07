@@ -31,31 +31,38 @@ namespace ChatApp.Client.ViewModels
             Messages = new();
             
         }
-        private int PageNumber = 1;
-        private bool HasNextPage = false;
-        private void GetMessages()
+        [ObservableProperty]
+        private int pageNumber = 1;
+        [ObservableProperty]
+        private bool hasNextPage = true;
+        private  void GetMessages()
         {
             string api = $"api/v1/conversation/{conversationId}/messages?pageSize=20&PageNumber={PageNumber}";
             var result =   _httpClient.GetAsync<PageList<MessageModel>>(api).Result;
             Messages = new(result.Items);
             HasNextPage = result.HasNextPage;
-            
-            
+            PageNumber += 1;
+
+
+
         }
         [RelayCommand]
         public void GetMessagesInitial()
         {
-          
-                IsRefreshing = true;
-                GetMessages();
-                IsRefreshing = false;
-            
-
+              GetMessages();
         }
-     
-        public async Task LoadMoreMessageCommand()
+        [RelayCommand]
+        public async Task LoadMoreMessage()
         {
-            await Task.Delay(300);
+            await Task.Run(() =>
+             {
+                 if (!HasNextPage || IsBusy == true)
+                     return;
+                 IsBusy = true;
+                 GetMessages();
+                 IsBusy = false;
+             });
+            
             
         }
        

@@ -23,6 +23,14 @@ namespace ChatApp.Client.Services
             await SecureStorage.SetAsync("chattoken", response.JwtToken);
             await SecureStorage.SetAsync("profile",response.Info.Id.ToString());
         }
+        public async Task LoginGoogle()
+        {
+            await Task.CompletedTask;
+        }
+        public async Task LoginFacebook()
+        {
+            await Task.CompletedTask;
+        }
     }
     public class AuthenticateResult
     {

@@ -8,6 +8,7 @@
              BackgroundColor="#e8e4e4"
              NavigatedTo="ContentPage_NavigatedTo"
              NavigationPage.HasNavigationBar="False"
+             Shell.TabBarIsVisible="False"
              >
     <ContentPage.Content Margin="10" >
         <Grid>
@@ -55,7 +56,10 @@
                         </HorizontalStackLayout>
                     </Grid>
                 </VerticalStackLayout>
-                <CollectionView Grid.Row="1" ItemsSource="{Binding Messages}" >
+                <CollectionView Grid.Row="1" ItemsSource="{Binding Messages}"
+                                     RemainingItemsThreshold="11"
+                                      RemainingItemsThresholdReachedCommand ="{Binding LoadMoreMessageCommand}"
+                                >
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid RowDefinitions="auto, auto">
