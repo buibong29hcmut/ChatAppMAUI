@@ -1,5 +1,6 @@
 using ChatApp.API.AuthFillters;
 using ChatApp.API.Extensions;
+using ChatApp.API.Hubs;
 using ChatApp.Application;
 using ChatApp.Application.Interfaces.DAL;
 using ChatApp.Application.Interfaces.Services;
@@ -22,6 +23,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
@@ -61,5 +64,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapHub<ChatHub>("/Chat");
+app.MapHub<UserOperationHub>("/userhub");
 app.Run();

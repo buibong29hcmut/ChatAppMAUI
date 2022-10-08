@@ -1,5 +1,6 @@
 ﻿using ChatApp.Application.Interfaces.DAL;
 using ChatApp.Application.Interfaces.Services;
+using ChatApp.Domain.Models;
 using ChatApp.Infrastructure.Contexts;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,10 @@ namespace ChatApp.Infrastructure.Services
         public UserOperation(IUserOperationInMemmory memoryStoreStatus)
         {
             _memoryStoreStatus = memoryStoreStatus;
+        }
+        public async Task<List<UserConnection>> GetConnectionByUserName(string userName)
+        {
+            return await Task.FromResult(_memoryStoreStatus.GetListConnection(userName));
         }
 
         public async Task<bool> IsUserOnline(string userName)

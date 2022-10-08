@@ -56,9 +56,9 @@
                         </HorizontalStackLayout>
                     </Grid>
                 </VerticalStackLayout>
-                <CollectionView Grid.Row="1" ItemsSource="{Binding Messages}"
-                                     RemainingItemsThreshold="11"
-                                      RemainingItemsThresholdReachedCommand ="{Binding LoadMoreMessageCommand}"
+            <RefreshView Grid.Row="1" IsRefreshing="{Binding IsRefreshing}"  Command="{Binding LoadMoreMessageCommand}">
+                <CollectionView  ItemsSource="{Binding Messages}"
+                                      ItemsUpdatingScrollMode="KeepLastItemInView"
                                 >
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
@@ -83,7 +83,8 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Grid Grid.Row="2">
+            </RefreshView>
+            <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="40" />

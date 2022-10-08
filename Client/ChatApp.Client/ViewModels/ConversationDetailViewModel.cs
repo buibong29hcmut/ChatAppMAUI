@@ -24,7 +24,7 @@ namespace ChatApp.Client.ViewModels
         [ObservableProperty]
         private Guid conversationId;
         [ObservableProperty]
-        private bool isRefreshing;
+        private bool isRefreshing=false;
         public ConversationDetailViewModel()
         {
             _httpClient = new HttpClientService();
@@ -37,9 +37,14 @@ namespace ChatApp.Client.ViewModels
         private bool hasNextPage = true;
         private  void GetMessages()
         {
-            string api = $"api/v1/conversation/{conversationId}/messages?pageSize=20&PageNumber={PageNumber}";
-            var result =   _httpClient.GetAsync<PageList<MessageModel>>(api).Result;
-            Messages = new(result.Items);
+            string api = $"api/v1/conversation/{conversationId}/messages?pageSize=30&PageNumber={PageNumber}";
+            var result =    _httpClient.GetAsync<PageList<MessageModel>>(api).Result;
+            if (Messages.Count > 0)
+                Messages.InsertRange(0,result.Items);
+            else
+            {
+                Messages = new(result.Items);
+            }
             HasNextPage = result.HasNextPage;
             PageNumber += 1;
 
@@ -47,23 +52,25 @@ namespace ChatApp.Client.ViewModels
 
         }
         [RelayCommand]
-        public void GetMessagesInitial()
+        public  void GetMessagesInitial()
         {
-              GetMessages();
+            IsBusy = true;
+             GetMessages();
+              IsBusy = false;
         }
         [RelayCommand]
         public async Task LoadMoreMessage()
         {
-            await Task.Run(() =>
-             {
-                 if (!HasNextPage || IsBusy == true)
-                     return;
-                 IsBusy = true;
+
+            if (HasNextPage == false)
+            {
+                IsRefreshing = false;
+                return;
+            }
+                IsRefreshing = true;
                  GetMessages();
-                 IsBusy = false;
-             });
-            
-            
+            IsRefreshing = false;
+             await Task.CompletedTask;
         }
        
   

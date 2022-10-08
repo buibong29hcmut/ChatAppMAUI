@@ -54,7 +54,8 @@ namespace ChatApp.Client.ViewModels
             var item = await _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>($"api/v1/user/{userId}/conversation?CountConversation={BoxChatModels.Count}&RowFetch=10");
             BoxChatModels.AddRange(item);
             IsBusy = false;
-
+            
+           
         }
         public   void GetBoxChatModels()
         {
