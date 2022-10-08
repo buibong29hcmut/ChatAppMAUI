@@ -39,11 +39,14 @@ namespace ChatApp.Client.ViewModels
         {
             string api = $"api/v1/conversation/{conversationId}/messages?pageSize=30&PageNumber={PageNumber}";
             var result =    _httpClient.GetAsync<PageList<MessageModel>>(api).Result;
+            var items = result.Items;
+            if (result != null)
+                items.Reverse();
             if (Messages.Count > 0)
                 Messages.InsertRange(0,result.Items);
             else
             {
-                Messages = new(result.Items);
+                Messages = new(items);
             }
             HasNextPage = result.HasNextPage;
             PageNumber += 1;

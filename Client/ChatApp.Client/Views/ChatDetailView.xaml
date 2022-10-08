@@ -56,7 +56,9 @@
                         </HorizontalStackLayout>
                     </Grid>
                 </VerticalStackLayout>
-            <RefreshView Grid.Row="1" IsRefreshing="{Binding IsRefreshing}"  Command="{Binding LoadMoreMessageCommand}">
+            <RefreshView Grid.Row="1" IsRefreshing="{Binding IsRefreshing}"
+                         Command="{Binding LoadMoreMessageCommand}"
+                         >
                 <CollectionView  ItemsSource="{Binding Messages}"
                                       ItemsUpdatingScrollMode="KeepLastItemInView"
                                 >

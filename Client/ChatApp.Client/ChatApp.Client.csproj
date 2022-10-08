@@ -86,6 +86,9 @@
 
 	<ItemGroup>
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.9" />
+	  <PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="6.0.9" />
+	  <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="6.0.9" />
 	  <PackageReference Include="Microsoft.Toolkit" Version="7.1.2" />
 	  <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
