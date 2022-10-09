@@ -15,6 +15,7 @@ using ChatApp.Client.Views;
 using Microsoft.Toolkit;
 using CommunityToolkit.Mvvm.Input;
 using ChatApp.Client.Hubs;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace ChatApp.Client.ViewModels
 {   
@@ -70,19 +71,17 @@ namespace ChatApp.Client.ViewModels
             BoxChatModels = _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>($"api/v1/user/{userId}/conversation?CountConversation=0&RowFetch=10").Result;
             IsBusy = false;
         }
-  
         [RelayCommand]
-        public  async void  GoToConversationDetail(Guid ConversationId)
+        public async Task GoToConversationDetail(Guid ConversationId)
         {
-         
-            await  Shell.Current.GoToAsync(nameof(ChatDetailView), true, new Dictionary<string, object>()
-            {
-                {"ConversationId",ConversationId }
-            });
-   
 
+            await Shell.Current.GoToAsync(nameof(ChatDetailView), true, new Dictionary<string, object>()
+            {
+                {"ConversationId",ConversationId },
+            });
 
         }
+
 
 
     }

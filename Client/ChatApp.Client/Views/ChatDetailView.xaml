@@ -95,7 +95,7 @@
                     Padding="10,0,10,0"
                     CornerRadius=" 20"
                     HeightRequest="40" BorderColor="White" HasShadow="True">
-                        <Entry
+                        <Editor
                         HeightRequest="60"
                         Placeholder="Send Message"
                         TextColor="Black"

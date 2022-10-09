@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Application.Requests.Users.Queries
 {
-    public class GetProfileUserQuery:IQuery<Result<ProfileUserResponse>>
+    public class GetProfileUserQuery:IQuery<Result<ProfileUserResponseWithOperation>>
     {
-        public string UserName { get; set; }
+        public Guid UserId { get; set; }
           
     }
 }

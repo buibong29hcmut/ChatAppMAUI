@@ -43,7 +43,7 @@ namespace ChatApp.Application.Queries.BoxChats
                 foreach(var boxChatRaw in boxChatRaws)
                 {  
                     Guid UserQueryProfile = boxChatRaw.UserId!=request.UserId? boxChatRaw.UserId : boxChatRaw.OtherUserId;
-                    string queryProfile = "SELECT  \"Name\",\"UserName\",\"UrlAvatar\" FROM public.\"Users\"\r\n\tWHERE \"Id\"= @userId\r\n\tLIMIT 1";
+                    string queryProfile = "SELECT \"Id\",  \"Name\",\"UserName\",\"UrlAvatar\" FROM public.\"Users\"\r\n\tWHERE \"Id\"= @userId\r\n\tLIMIT 1";
                     UserProfileByConversation userByConersation = await db.QueryFirstOrDefaultAsync<UserProfileByConversation>(queryProfile, new {userId= UserQueryProfile });
 
                     BoxChatResponse boxChatResponse = new BoxChatResponse()
@@ -53,7 +53,7 @@ namespace ChatApp.Application.Queries.BoxChats
                         SeenMessage = boxChatRaw.Read,
                         TimeMessage= boxChatRaw.SendTime,
                         User= new UserBoxChatResponse()
-                        {
+                        {   Id= userByConersation.Id,
                             UrlProfile = userByConersation.UrlAvatar,
                             Name = userByConersation.Name,
                             IsOnline = await _operation.IsUserOnline(userByConersation.UserName)

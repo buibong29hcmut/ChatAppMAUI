@@ -1,5 +1,6 @@
 ﻿using ChatApp.Application.Cores.Queries;
 using ChatApp.Application.Interfaces.DAL;
+using ChatApp.Application.Interfaces.Services;
 using ChatApp.Application.Requests.Users.Queries;
 using ChatApp.Application.Response.Users;
 using ChatApp.Share.Wrappers;
@@ -13,23 +14,37 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Application.Queries.Users
 {
-    public class GetProfileUserQueryHandler:IQueryHandler<GetProfileUserQuery,Result<ProfileUserResponse>>
+    public class GetProfileUserQueryHandler:IQueryHandler<GetProfileUserQuery,Result<ProfileUserResponseWithOperation>>
     {
         private readonly IDistributedCache _cache;
         private readonly IDbFactory _factory;
-        public GetProfileUserQueryHandler(IDistributedCache cache, IDbFactory factory)
+        private readonly IUserOperation _operation;
+        public GetProfileUserQueryHandler(IDistributedCache cache,
+            IDbFactory factory,
+            IUserOperation operation)
         {
             _cache = cache;
             _factory = factory;
+            _operation = operation;
         }
 
-        public async Task<Result<ProfileUserResponse>> Handle(GetProfileUserQuery request, CancellationToken cancellationToken)
+        public async Task<Result<ProfileUserResponseWithOperation>> Handle(GetProfileUserQuery request, CancellationToken cancellationToken)
         {
-            string query = "SELECT  \"UserName\",  \"UrlAvatar\",  \"Name\"\r\nFROM public.\"Users\"\r\nWHERE \"UserName\"=@userName\r\nLIMIT 1";
+            string query = "SELECT \"Id\", \"UserName\",  \"UrlAvatar\",  \"Name\"\r\nFROM public.\"Users\"\r\nWHERE \"Id\"=@UserId\r\nLIMIT 1";
             using (var db = _factory.CreateConnection())
             {
-                var profile =await db.QueryFirstAsync<ProfileUserResponse>(query);
-                return Result<ProfileUserResponse>.Success(profile);
+                var profile =await db.QueryFirstAsync<ProfileUserResponse>(query, new
+                {
+                    UserId= request.UserId
+                });
+                var profileWithOperation = new ProfileUserResponseWithOperation()
+                {   Id=profile.Id,
+                    UrlAvatar = profile.UrlAvatar,
+                    IsOnline = await _operation.IsUserOnline(profile.UserName),
+                    Name = profile.Name,
+                    UserName = profile.UserName
+                };
+                return Result<ProfileUserResponseWithOperation>.Success(profileWithOperation);
             }
         }
     }

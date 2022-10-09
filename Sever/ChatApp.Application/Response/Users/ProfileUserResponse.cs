@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ChatApp.Application.Response.Users
 {
     public class ProfileUserResponse
-    {
+    {   public Guid  Id { get; set; }
         public string UserName { get; set; }
         public string UrlAvatar { get; set; }
         public string Name { get; set; }

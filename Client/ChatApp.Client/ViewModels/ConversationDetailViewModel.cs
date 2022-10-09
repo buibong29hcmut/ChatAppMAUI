@@ -17,6 +17,7 @@ using System.Web;
 namespace ChatApp.Client.ViewModels
 {
     [QueryProperty("ConversationId", "ConversationId")]
+    [QueryProperty("UserFriendId","UserFriendId")]
     public partial class ConversationDetailViewModel:BaseViewModel
     {
         [ObservableProperty]

@@ -37,6 +37,15 @@ namespace ChatApp.API.Controllers
             return Ok(result);
 
         }
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetProfileUser(Guid userId)
+        {
+            var result = await _query.Send<Result<ProfileUserResponseWithOperation>>(new GetProfileUserQuery()
+            {
+                UserId = userId
+            });
+            return Ok(result);
+        }
         [HttpPost("upload_avt")]
         public async Task<IActionResult> UploadAvatar([FromForm] IFormFile file)
         {
