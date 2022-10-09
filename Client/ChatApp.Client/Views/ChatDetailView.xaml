@@ -99,13 +99,16 @@
                         HeightRequest="60"
                         Placeholder="Send Message"
                         TextColor="Black"
+                        Text="{Binding Message}"
                         VerticalOptions="Center" 
                         />
                     </Frame>
                     <ImageButton
                     Grid.Column="1"
                     HeightRequest="45"
-                    WidthRequest="55" Source="download.svg" Margin="5,0,5,0" >
+                    WidthRequest="55"
+                    Command="{Binding SendMessageCommand}"
+                    Source="download.svg" Margin="5,0,5,0" >
                     </ImageButton>
                 </Grid>
             </Grid>

@@ -11,7 +11,6 @@ namespace ChatApp.Client.Models
         public Guid ConversationId { get; set; }
         public string Content { get; set; }
         public DateTime SendTime { get; set; } = DateTime.Now;
-        public UserInfoForSendMessageConversation User { get; set; }
     }
     public class UserInfoForSendMessageConversation
     {

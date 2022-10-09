@@ -1,5 +1,6 @@
 ﻿using ChatApp.Client.Contracts;
 using ChatApp.Client.DataStructures;
+using ChatApp.Client.Hubs;
 using ChatApp.Client.Models;
 using ChatApp.Client.Services;
 using ChatApp.Share.Wrappers;
@@ -25,10 +26,15 @@ namespace ChatApp.Client.ViewModels
         private Guid conversationId;
         [ObservableProperty]
         private bool isRefreshing=false;
-        public ConversationDetailViewModel()
+        private readonly ChatHub _chathub;
+        [ObservableProperty]
+        private string message;
+        public ConversationDetailViewModel(ChatHub chathub)
         {
             _httpClient = new HttpClientService();
+            _chathub = chathub;
             Messages = new();
+            Task.Run(async () => await _chathub.Connect());
             
         }
         [ObservableProperty]
@@ -75,7 +81,43 @@ namespace ChatApp.Client.ViewModels
             IsRefreshing = false;
              await Task.CompletedTask;
         }
-       
-  
+        private void OnReceiveMessage(MessageModel message )
+        {
+            Messages.Add(message);
+        }
+        [RelayCommand]
+        private async Task SendMessage()
+        {
+            var userId = await SecureStorage.GetAsync("profile");
+            var currentTime = DateTime.Now;
+            if (string.IsNullOrEmpty(Message))
+                return;
+            MessageModel messageModel = new MessageModel()
+            {
+                FromUserId = new Guid(userId),
+                Content = Message,
+                IsThisUser = true,
+                SendTime = currentTime,
+            };
+
+            await _chathub.SendMessageToConversation(new MessageForSendConversation()
+            {
+                ConversationId= ConversationId,
+                SendTime= currentTime,
+                Content=Message
+            });
+
+            Messages.Add(new MessageModel()
+            {
+                FromUserId = new Guid(userId),
+                Content = Message,
+                IsThisUser = true,
+                SendTime = DateTimeOffset.Now,
+
+            });
+            Message = "";
+            
+        }
+
     }
 }

@@ -25,9 +25,9 @@ namespace ChatApp.Client.Hubs
             var devSslHelper = new DevHttpsConnectionHelper(sslPort: 7028);
             var token = SecureStorage.GetAsync("chattoken").Result;
             _hubConnection = new HubConnectionBuilder()
-           .WithUrl(devSslHelper.DevServerRootUrl + "/ChatHub", options =>
+           .WithUrl(devSslHelper.DevServerRootUrl + "/chathub", options =>
            {
-               options.Headers.Add("Bearer", token);
+               options.AccessTokenProvider = () => Task.FromResult(token);
 #if ANDROID
                options.HttpMessageHandlerFactory = m => devSslHelper.GetPlatformMessageHandler();
 #endif

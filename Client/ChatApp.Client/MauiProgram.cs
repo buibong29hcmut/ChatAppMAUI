@@ -1,5 +1,6 @@
 ﻿
 using ChatApp.Client.Contracts;
+using ChatApp.Client.Hubs;
 using ChatApp.Client.Services;
 using ChatApp.Client.ViewModels;
 using ChatApp.Client.Views;
@@ -28,12 +29,13 @@ namespace ChatApp.Client
                 });
             builder.Services.AddSingleton<IHttpClientService,HttpClientService>();
             builder.Services.AddSingleton<IAuthenticateClientService, AuthenticateClientService>();
-            builder.Services.AddSingleton<MainChatViewModel>();
+            builder.Services.AddSingleton<ChatHub>();
+            builder.Services.AddTransient<MainChatViewModel>();
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddScoped<ListUserViewModel>();
             builder.Services.AddTransient<ConversationDetailViewModel>();
             builder.Services.AddSingleton<LoginView>();
-            builder.Services.AddSingleton<ChatViewTest>();
+            builder.Services.AddTransient<ChatViewTest>();
             builder.Services.AddSingleton<ListUserView>();
             builder.Services.AddTransient<ChatDetailView>();
             builder.Services.AddSingleton<AppShell>();

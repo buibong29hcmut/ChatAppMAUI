@@ -1,4 +1,5 @@
 ﻿using ChatApp.Application.Interfaces.DAL;
+using ChatApp.Domain.Entities;
 using ChatApp.Domain.Models;
 using System;
 using System.Collections.Concurrent;
@@ -12,40 +13,41 @@ namespace ChatApp.Infrastructure.Contexts
     public  class UserOperationInMemmory : IUserOperationInMemmory
     {
         private static readonly  ConcurrentDictionary<string, List<UserConnection>> UserOnlines  = new ConcurrentDictionary<string, List<UserConnection>>();
-        public void AddUserConnection(string userName, string connectionId)
+        public void AddUserConnection(string userId, string connectionId)
         {
 
-            if (UserOnlines.ContainsKey(userName))
+            if (UserOnlines.ContainsKey(userId))
             {
-                UserOnlines[userName].Add(new UserConnection(connectionId));
+                UserOnlines[userId].Add(new UserConnection(connectionId));
             }
             List<UserConnection> connections = new List<UserConnection>();
             connections.Add(new UserConnection(connectionId));
-            UserOnlines.TryAdd(userName, connections);
+            UserOnlines.TryAdd(userId, connections);
         }
         public List<UserConnection> GetListConnection(string userName)
-        {
+        {   if (!UserOnlines.ContainsKey(userName))
+                return new();
             return UserOnlines[userName];
         }
-        public  void RemoveConnection(string userName,string connectionId)
+        public  void RemoveConnection(string userId, string connectionId)
         {
-            if (UserOnlines.ContainsKey(userName))
+            if (UserOnlines.ContainsKey(userId))
             {
-                UserOnlines[userName].Remove(new UserConnection(connectionId));
-                if (UserOnlines[userName].Count == 0)
+                UserOnlines[userId].Remove(new UserConnection(connectionId));
+                if (UserOnlines[userId].Count == 0)
                 {
-                    UserOnlines.TryRemove(userName, out var item);
+                    UserOnlines.TryRemove(userId, out var item);
                 }
             }
         }
-        public int CountConnection(string userName)
-        {   if (!UserOnlines.ContainsKey(userName))
+        public int CountConnection(string userId)
+        {   if (!UserOnlines.ContainsKey(userId))
                 return 0;
-            return UserOnlines[userName].Count;
+            return UserOnlines[userId].Count;
         }
-        public async  Task<bool> IsUserOnline(string userName)
+        public async  Task<bool> IsUserOnline(string userId)
         {
-            return await Task.FromResult(UserOnlines.ContainsKey(userName));
+            return await Task.FromResult(UserOnlines.ContainsKey(userId));
         }
     }
 }

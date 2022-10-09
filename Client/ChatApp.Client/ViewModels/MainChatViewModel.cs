@@ -14,6 +14,7 @@ using ChatApp.Client.Models;
 using ChatApp.Client.Views;
 using Microsoft.Toolkit;
 using CommunityToolkit.Mvvm.Input;
+using ChatApp.Client.Hubs;
 
 namespace ChatApp.Client.ViewModels
 {   
@@ -24,9 +25,12 @@ namespace ChatApp.Client.ViewModels
         public RangeObservableCollection<BoxChatModel> BoxChatModels { get; private set; } = new();
         public string UrlProFileUser { get; set; }
         private  HttpClientService _httpClient;
-        public MainChatViewModel() 
+        private readonly ChatHub _chathub;
+        public MainChatViewModel(ChatHub chathub) 
         {
             _httpClient = new HttpClientService();
+            _chathub = chathub;
+           
            GetBoxChatModels();
             
         }
@@ -70,13 +74,16 @@ namespace ChatApp.Client.ViewModels
         [RelayCommand]
         public  async void  GoToConversationDetail(Guid ConversationId)
         {
-          await  Shell.Current.GoToAsync(nameof(ChatDetailView), true, new Dictionary<string, object>()
+         
+            await  Shell.Current.GoToAsync(nameof(ChatDetailView), true, new Dictionary<string, object>()
             {
                 {"ConversationId",ConversationId }
             });
+   
 
 
         }
+
 
     }
     
