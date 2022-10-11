@@ -29,7 +29,9 @@ namespace ChatApp.Client
                 });
             builder.Services.AddSingleton<IHttpClientService,HttpClientService>();
             builder.Services.AddSingleton<IAuthenticateClientService, AuthenticateClientService>();
-            builder.Services.AddSingleton<ChatHub>();
+            builder.Services.AddSingleton<IChatHub,ChatHub>();
+            builder.Services.AddSingleton<IUserOperationHub,UserOperationHub>();
+
             builder.Services.AddTransient<MainChatViewModel>();
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddScoped<ListUserViewModel>();
@@ -37,10 +39,10 @@ namespace ChatApp.Client
             builder.Services.AddSingleton<LoginView>();
             builder.Services.AddTransient<ChatViewTest>();
             builder.Services.AddSingleton<ListUserView>();
-            builder.Services.AddTransient<ChatDetailView>();
-            builder.Services.AddSingleton<AppShell>();
             builder.Services.AddSingleton<App>();
             return builder.Build();
+            builder.Services.AddTransient<ChatDetailView>();
+            builder.Services.AddSingleton<AppShell>();
         }
     }
 }

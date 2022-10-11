@@ -16,6 +16,7 @@ using Microsoft.Toolkit;
 using CommunityToolkit.Mvvm.Input;
 using ChatApp.Client.Hubs;
 using Microsoft.Toolkit.Mvvm.Input;
+using ChatApp.Client.Contracts;
 
 namespace ChatApp.Client.ViewModels
 {   
@@ -26,12 +27,19 @@ namespace ChatApp.Client.ViewModels
         public RangeObservableCollection<BoxChatModel> BoxChatModels { get; private set; } = new();
         public string UrlProFileUser { get; set; }
         private  HttpClientService _httpClient;
-        private readonly ChatHub _chathub;
-        public MainChatViewModel(ChatHub chathub) 
+        private readonly IChatHub _chathub;
+        private readonly IUserOperationHub _operation;
+       
+        public MainChatViewModel(IChatHub chathub, IUserOperationHub operation) 
         {
             _httpClient = new HttpClientService();
             _chathub = chathub;
-           
+            _operation = operation;
+            Task.Run(async () =>
+            {
+                await _chathub.Connect();
+                await _operation.Connect(); 
+            });
            GetBoxChatModels();
             
         }

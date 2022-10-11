@@ -17,12 +17,12 @@ namespace ChatApp.API.Hubs
 
          public override async Task OnConnectedAsync()
         {
-            string userName = Context.GetHttpContext().User.Claims.FirstOrDefault(p => p.Equals(ClaimTypes.Name)).Value;
-            var offline = await _operation.IsUserOnline(userName);
-            await _operation.UserConnectedAsync(userName,Context.ConnectionId);
+            string userId = Context.GetHttpContext().User.Claims.FirstOrDefault(p => p.Equals(ClaimTypes.NameIdentifier)).Value;
+            var offline = await _operation.IsUserOnline(userId);
+            await _operation.UserConnectedAsync(userId, Context.ConnectionId);
             if (offline==true)
             {
-                await Clients.All.SendAsync("UserOnline", userName);
+                await Clients.All.SendAsync("UserOnline", userId);
             }
             await base.OnConnectedAsync();
         }
