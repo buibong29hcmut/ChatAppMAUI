@@ -12,9 +12,7 @@ public partial class ChatDetailView : ContentPage
  
             InitializeComponent();
             BindingContext = vm;
-
-
-    }
+   }
 
     private  void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
     {

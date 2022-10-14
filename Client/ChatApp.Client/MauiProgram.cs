@@ -40,9 +40,10 @@ namespace ChatApp.Client
             builder.Services.AddTransient<ChatViewTest>();
             builder.Services.AddSingleton<ListUserView>();
             builder.Services.AddSingleton<App>();
-            return builder.Build();
             builder.Services.AddTransient<ChatDetailView>();
             builder.Services.AddSingleton<AppShell>();
+            return builder.Build();
+
         }
     }
 }

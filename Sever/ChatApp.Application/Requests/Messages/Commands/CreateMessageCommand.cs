@@ -15,5 +15,6 @@ namespace ChatApp.Application.Requests.Messages.Commands
         public string Content { get; set; }
         public DateTime SendTime { get; set; } = DateTime.Now;
         public Guid FromUserId { get; set; }
+        public Guid ToUserId { get; set; }
     }
 }

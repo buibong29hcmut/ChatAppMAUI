@@ -66,14 +66,19 @@
                         <DataTemplate>
                             <Grid RowDefinitions="auto, auto">
                                 <Grid  IsVisible="true">
-                                    <VerticalStackLayout Margin="3,5,3,5" HorizontalOptions="{Binding Path=IsThisUser, Converter={StaticResource FromUserIdToHorizontalOptionConverter}} ">
+                                    <VerticalStackLayout Margin="3,5,3,5" HorizontalOptions="{Binding Path=IsThisUser, 
+                                                                                                     Converter={StaticResource FromUserIdToHorizontalOptionConverter}} ">
                                         <Label
                                 Margin="5,0,5,0"
                                 FontSize="11"
-                                HorizontalOptions="{Binding HorizontalOptions, Source={RelativeSource AncestorType={x:Type VerticalStackLayout}}}"
+                                HorizontalOptions="{Binding HorizontalOptions,
+                                                     Source={RelativeSource AncestorType={x:Type VerticalStackLayout}}}"
                                 Text="{Binding SendTime, StringFormat='{0:HH:mm}'}" />
 
-                                        <Frame  HasShadow="True" Padding="10,8,10,8" MaximumWidthRequest="200" CornerRadius="10" BackgroundColor="{Binding Path=IsThisUser, Converter={StaticResource FromUserIdToBackgroudColorConverter}} ">
+                                        <Frame  HasShadow="True" Padding="10,8,10,8" MaximumWidthRequest="200" 
+                                                CornerRadius="10" BackgroundColor="{Binding Path=IsThisUser, 
+                                                                                            Converter={StaticResource 
+                                                                                                       FromUserIdToBackgroudColorConverter}} ">
                                             <Label
                                     FontSize="12"
                                     Text="{Binding Content}"

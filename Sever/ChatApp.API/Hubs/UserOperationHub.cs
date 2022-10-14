@@ -1,12 +1,13 @@
 ﻿using ChatApp.Application.Cores.Commands;
 using ChatApp.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
 
 namespace ChatApp.API.Hubs
 {
-    [Authorize]   
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserOperationHub:Hub
     {
         private readonly IUserOperation _operation;
@@ -17,7 +18,7 @@ namespace ChatApp.API.Hubs
 
          public override async Task OnConnectedAsync()
         {
-            string userId = Context.GetHttpContext().User.Claims.FirstOrDefault(p => p.Equals(ClaimTypes.NameIdentifier)).Value;
+            string userId = Context.GetHttpContext().User.Claims.FirstOrDefault(p => p.Type.Equals(ClaimTypes.NameIdentifier)).Value;
             var offline = await _operation.IsUserOnline(userId);
             await _operation.UserConnectedAsync(userId, Context.ConnectionId);
             if (offline==true)
@@ -28,7 +29,7 @@ namespace ChatApp.API.Hubs
         }
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            string userName = Context.GetHttpContext().User.Claims.FirstOrDefault(p => p.Equals(ClaimTypes.Name)).Value;
+            string userName = Context.GetHttpContext().User.Claims.FirstOrDefault(p => p.Type.Equals(ClaimTypes.Name)).Value;
             await _operation.UserDisConnectedAsync(userName, Context.ConnectionId);
             var userOnline = await _operation.IsUserOnline(userName);
 

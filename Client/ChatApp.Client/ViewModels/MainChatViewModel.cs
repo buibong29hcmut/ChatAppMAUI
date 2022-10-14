@@ -17,6 +17,8 @@ using CommunityToolkit.Mvvm.Input;
 using ChatApp.Client.Hubs;
 using Microsoft.Toolkit.Mvvm.Input;
 using ChatApp.Client.Contracts;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ChatApp.Client.ViewModels
 {   
@@ -24,37 +26,23 @@ namespace ChatApp.Client.ViewModels
     {
         
         public RangeObservableCollection<string> urlUserOnline { get; } = new();
-        public RangeObservableCollection<BoxChatModel> BoxChatModels { get; private set; } = new();
+        [ObservableProperty]
+        private RangeObservableCollection<BoxChatModel> boxChatModels;
         public string UrlProFileUser { get; set; }
         private  HttpClientService _httpClient;
         private readonly IChatHub _chathub;
-        private readonly IUserOperationHub _operation;
-       
+        //private readonly IUserOperationHub _operation;
+        
         public MainChatViewModel(IChatHub chathub, IUserOperationHub operation) 
         {
             _httpClient = new HttpClientService();
             _chathub = chathub;
-            _operation = operation;
             Task.Run(async () =>
             {
                 await _chathub.Connect();
-                await _operation.Connect(); 
             });
-           GetBoxChatModels();
+             GetBoxChatModels();
             
-        }
-        public void GetUserOnline()
-        {
-            HttpClient httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("563492ad6f91700001000001a5f1a924e439437e87eca4b78639f989");
-            var reponse =  httpClient.GetAsync(new Uri(@"https://api.pexels.com/v1/curated?per_page=20")).Result;
-            var stringJson =  reponse.Content.ReadAsStringAsync().Result;
-            dynamic parseJson = JsonConvert.DeserializeObject(stringJson);
-            foreach(var user in parseJson.photos)
-            {
-                string url = Convert.ToString(user.src.original);
-                urlUserOnline.Add(url);
-            }
         }
          [RelayCommand]
         public async  Task LoadMoreConversationAsync()
@@ -75,20 +63,24 @@ namespace ChatApp.Client.ViewModels
             if (IsBusy == true)
                 return;
             IsBusy = true;
-            var userId = SecureStorage.GetAsync("profile").Result;
+            string userId = SecureStorage.GetAsync("profile").Result;
             BoxChatModels = _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>($"api/v1/user/{userId}/conversation?CountConversation=0&RowFetch=10").Result;
             IsBusy = false;
         }
         [RelayCommand]
-        public async Task GoToConversationDetail(Guid ConversationId)
+        public async Task GoToConversationDetail(GoToConversationDetailParam param)
         {
 
             await Shell.Current.GoToAsync(nameof(ChatDetailView), true, new Dictionary<string, object>()
             {
-                {"ConversationId",ConversationId },
+                {"ConversationId",param.ConversationId },
+                {"OtherUserId", param.OtherUserId }
             });
+            
+            
 
         }
+      
 
 
 

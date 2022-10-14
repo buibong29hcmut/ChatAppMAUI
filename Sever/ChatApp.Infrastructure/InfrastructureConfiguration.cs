@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Reflection;
 
 namespace ChatApp.Infrastructure
@@ -31,10 +32,11 @@ namespace ChatApp.Infrastructure
             {
                 options.Configuration = configuration.GetValue<string>("CacheSettings:ConnectionString");
             });
+          
             services.AddScoped<IChatDbContext>(provider=>provider.GetRequiredService<ChatDbContext>());
             services.AddScoped<IDbFactory, DbFactory>();
-            services.AddScoped<IUserOperationInMemmory, UserOperationInMemmory>();
-            services.AddScoped<IUserOperation, UserOperation>();
+            services.AddSingleton<IUserOperationInMemmory, UserOperationInMemmory>();
+            services.AddSingleton<IUserOperation, UserOperation>();
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<IAuthenticateService, AuthenticateService>();

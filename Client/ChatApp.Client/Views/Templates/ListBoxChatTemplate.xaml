@@ -7,8 +7,6 @@
 
     <ContentView.Resources>
         <ResourceDictionary>
-
-
             <Style x:Key="NameTextStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="Black" />
                 <Setter Property="FontSize" Value="16" />
@@ -33,7 +31,6 @@
                 <Setter Property="FontFamily" Value="Metropolis Regular" />
                 <Setter Property="FontSize" Value="11" />
             </Style>
-
         </ResourceDictionary>
     </ContentView.Resources>
     <ContentView.Content>
@@ -42,7 +39,17 @@
           Margin="0,15,0,15">
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer
-                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainChatViewModel}}, Path= GoToConversationDetailCommand}" CommandParameter="{Binding ConversationId}"   />
+                     Command="{Binding GoToConversationDetailCommand}">
+                    <TapGestureRecognizer.CommandParameter>
+                    <MultiBinding Converter="{StaticResource GoToConversationDetailParamConverter}">
+                            <MultiBinding.Bindings>
+                                <Binding  Path="ConversationId"/>
+                                <Binding  Path="User.Id"/>
+                            </MultiBinding.Bindings>
+                        </MultiBinding>
+                    </TapGestureRecognizer.CommandParameter>
+                </TapGestureRecognizer>
+                
             </Grid.GestureRecognizers>
             <Grid>
                 <Frame HeightRequest="70" WidthRequest="70" CornerRadius="50">

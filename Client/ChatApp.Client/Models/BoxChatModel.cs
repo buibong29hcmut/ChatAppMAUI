@@ -15,7 +15,8 @@ namespace ChatApp.Client.Models
         public DateTimeOffset TimeMessage { get; set; }
     }
     public class UserBoxChatResponse
-    {
+    {  
+        public Guid Id { get; set; }
         public string UrlProfile { get; set; }
         public string Name { get; set; }
         public bool IsOnline { get; set; }

@@ -30,5 +30,6 @@ namespace ChatApp.API.Controllers
             return Ok(result);
 
         }
+     
     }
 }

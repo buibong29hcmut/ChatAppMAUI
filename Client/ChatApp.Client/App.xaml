@@ -49,6 +49,8 @@
             </Style>
             <converters:FromUserIdToHorizontalOptionConverter x:Key="FromUserIdToHorizontalOptionConverter" />
             <converters:FromUserIdToBackgroudColorConverter x:Key="FromUserIdToBackgroudColorConverter" />
+            <converters:GoToConversationDetailParamConverter x:Key="GoToConversationDetailParamConverter" />
+
             <Style x:Key="ButtonOutline" TargetType="Button">
                 <Setter Property="Background" Value="{StaticResource LightBackground}" />
                 <Setter Property="TextColor" Value="{StaticResource Primary}" />

@@ -15,7 +15,7 @@ namespace ChatApp.Client.Hubs
     public class ChatHub:IChatHub
     {
         private  HubConnection _hubConnection;
-        private  List<Action<string,string,string>> _handlers;
+        private  List<Action<MessageModel>> _handlers;
         public ChatHub()
         {
             OnitialHub();
@@ -32,8 +32,8 @@ namespace ChatApp.Client.Hubs
                options.HttpMessageHandlerFactory = m => devSslHelper.GetPlatformMessageHandler();
 #endif
            }).Build();
-            _hubConnection.On<string, string, string>("ReceiveMessage", OnRecieveMessage);
-            _handlers= new();
+            _handlers = new();
+            _hubConnection.On<MessageModel>("ReceiveMessage", OnRecieveMessage);
 
        
         }
@@ -51,12 +51,16 @@ namespace ChatApp.Client.Hubs
             await _hubConnection.InvokeAsync("SendMessageToConversation", message);
 
         }
-        public void OnRecieveMessage(string userName,string name, string content)
+        public void OnRecieveMessage(MessageModel message)
         {
             foreach(var handler in _handlers)
             {
-                handler(userName,name, content);
+                handler(message);
             }
+        }
+        public void AddMessageHandler(Action<MessageModel> action)
+        {
+            _handlers.Add(action);  
         }
         public ValueTask DisposeAsync()
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChatApp.Client.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace ChatApp.Client.Contracts
 {
     public interface IChatHub:IHub
     {
+        Task SendMessageToConversation(MessageForSendConversation message);
+        void AddMessageHandler(Action<MessageModel> action);
     }
 }

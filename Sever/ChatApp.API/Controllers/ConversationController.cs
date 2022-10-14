@@ -29,8 +29,13 @@ namespace ChatApp.API.Controllers
             var result= await _query.Send<Result<IReadOnlyCollection<BoxChatResponse>>>(new GetBoxChatByUserId(userId, CountConversation, RowFetch));
             return Ok(result);
         }
-        
-    
-     
+      
+        //public async Task<IActionResult> GetConversation(Guid OtherUserId)
+        //{
+        //    return Ok(new object());
+        //}
+
+
+
     }
 }
