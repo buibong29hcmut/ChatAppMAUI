@@ -37,11 +37,12 @@ namespace ChatApp.Client.ViewModels
         {
             _httpClient = new HttpClientService();
             _chathub = chathub;
+            GetBoxChatModels();
+
             Task.Run(async () =>
             {
                 await _chathub.Connect();
             });
-             GetBoxChatModels();
             
         }
          [RelayCommand]
@@ -68,17 +69,15 @@ namespace ChatApp.Client.ViewModels
             IsBusy = false;
         }
         [RelayCommand]
-        public async Task GoToConversationDetail(GoToConversationDetailParam param)
-        {
-
+        public async void GoToConversationDetail(BoxChatModel param)
+        { 
+            
             await Shell.Current.GoToAsync(nameof(ChatDetailView), true, new Dictionary<string, object>()
             {
                 {"ConversationId",param.ConversationId },
-                {"OtherUserId", param.OtherUserId }
+                {"OtherUser", param.User }
             });
             
-            
-
         }
       
 

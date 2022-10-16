@@ -9,9 +9,11 @@ namespace ChatApp.Client.Conveters
 {
     public class FromUserIdToHorizontalOptionConverter : IValueConverter
     {
+        
         public object Convert(object values, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((bool)values == false)
+            string userId = SecureStorage.GetAsync("profile").Result;
+            if (!(values.ToString() ==(userId)))
             {
                 return LayoutOptions.Start;
             }

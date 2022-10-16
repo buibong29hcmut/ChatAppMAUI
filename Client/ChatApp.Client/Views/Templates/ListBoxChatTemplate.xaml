@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ChatApp.Client.Views.Templates.ListBoxChatTemplate"
              xmlns:viewmodels="clr-namespace:ChatApp.Client.ViewModels"
+             xmlns:models="clr-namespace:ChatApp.Client.Models"
+
              >
 
     <ContentView.Resources>
@@ -39,15 +41,7 @@
           Margin="0,15,0,15">
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer
-                     Command="{Binding GoToConversationDetailCommand}">
-                    <TapGestureRecognizer.CommandParameter>
-                    <MultiBinding Converter="{StaticResource GoToConversationDetailParamConverter}">
-                            <MultiBinding.Bindings>
-                                <Binding  Path="ConversationId"/>
-                                <Binding  Path="User.Id"/>
-                            </MultiBinding.Bindings>
-                        </MultiBinding>
-                    </TapGestureRecognizer.CommandParameter>
+                     Command="{Binding Path=GoToConversationDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodels:MainChatViewModel}}}" CommandParameter="{Binding .}">
                 </TapGestureRecognizer>
                 
             </Grid.GestureRecognizers>

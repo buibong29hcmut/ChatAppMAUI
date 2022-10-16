@@ -38,7 +38,8 @@ namespace ChatApp.Client.Hubs
        
         }
         public async Task Connect()
-        {
+        {  if (_hubConnection.State == HubConnectionState.Connected)
+                return;
            await _hubConnection.StartAsync();
         }
         public async Task DisConnect()

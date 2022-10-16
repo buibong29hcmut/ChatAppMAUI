@@ -12,8 +12,9 @@ namespace ChatApp.Client.Conveters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            string userId = SecureStorage.GetAsync("profile").Result;
 
-            if((bool)value==true)
+            if (!(value.ToString()==userId))
                 return Color.FromArgb("#3b6af9");
 
 

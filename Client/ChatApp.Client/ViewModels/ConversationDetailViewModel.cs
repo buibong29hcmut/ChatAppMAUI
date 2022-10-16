@@ -17,7 +17,7 @@ using System.Web;
 namespace ChatApp.Client.ViewModels
 {
     [QueryProperty("ConversationId", "ConversationId")]
-    [QueryProperty("OtherUserId", "OtherUserId")]
+    [QueryProperty("OtherUser", "OtherUser")]
     public partial class ConversationDetailViewModel:BaseViewModel
     {
         [ObservableProperty]
@@ -29,12 +29,14 @@ namespace ChatApp.Client.ViewModels
         private Guid otherUserId;
         [ObservableProperty]
         private bool isRefreshing=false;
+        [ObservableProperty]
+        private UserBoxChatResponse otherUser;
         private readonly IChatHub _chathub;
         private readonly IUserOperationHub _operation;
         [ObservableProperty]
         private string message;
         public ConversationDetailViewModel(IChatHub chathub)
-        {
+        {   
             _httpClient = new HttpClientService();
             _chathub = chathub;
             _chathub.AddMessageHandler(OnReceiveMessage);

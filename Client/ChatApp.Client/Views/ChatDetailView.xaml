@@ -17,7 +17,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="60" />
                 </Grid.RowDefinitions>
-                <VerticalStackLayout Grid.Row="0" >
+            <VerticalStackLayout BindingContext="{Binding OtherUser}" Grid.Row="0" >
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30" />
@@ -27,7 +27,7 @@
                         </Grid.ColumnDefinitions>
                         <Image Source="back.png" Grid.Column="0" HeightRequest="40"  WidthRequest="40"  ></Image>
                         <Frame Margin="10,0,0,0" Grid.Column="1" IsClippedToBounds="True"  WidthRequest="40" HeightRequest="40" BorderColor="Transparent" CornerRadius="50">
-                            <Image Source="dotnet_bot.png" Grid.Column="1" HeightRequest="40"  WidthRequest="40"  ></Image>
+                        <Image Source="{Binding UrlProfile}" Grid.Column="1" HeightRequest="40"  WidthRequest="40"  ></Image>
                         </Frame>
                         <HorizontalStackLayout Margin="10,0,0,0" Grid.Column="2" HorizontalOptions="Start" >
                             <Grid>
@@ -35,7 +35,7 @@
                                     <RowDefinition Height="25"></RowDefinition>
                                     <RowDefinition Height="20"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Label Grid.Row="0" FontSize="18" Text="Bùi Bài Bổng" TextColor="Black" />
+                                <Label Grid.Row="0"  FontSize="18" Text="{Binding Name}" TextColor="Black" />
                                 <HorizontalStackLayout Grid.Row="1" >
                                     <Ellipse
                                         Fill="Green"
@@ -66,7 +66,7 @@
                         <DataTemplate>
                             <Grid RowDefinitions="auto, auto">
                                 <Grid  IsVisible="true">
-                                    <VerticalStackLayout Margin="3,5,3,5" HorizontalOptions="{Binding Path=IsThisUser, 
+                                    <VerticalStackLayout Margin="3,5,3,5" HorizontalOptions="{Binding Path=FromUserId, 
                                                                                                      Converter={StaticResource FromUserIdToHorizontalOptionConverter}} ">
                                         <Label
                                 Margin="5,0,5,0"
@@ -76,7 +76,7 @@
                                 Text="{Binding SendTime, StringFormat='{0:HH:mm}'}" />
 
                                         <Frame  HasShadow="True" Padding="10,8,10,8" MaximumWidthRequest="200" 
-                                                CornerRadius="10" BackgroundColor="{Binding Path=IsThisUser, 
+                                                CornerRadius="10" BackgroundColor="{Binding Path=FromUserId, 
                                                                                             Converter={StaticResource 
                                                                                                        FromUserIdToBackgroudColorConverter}} ">
                                             <Label

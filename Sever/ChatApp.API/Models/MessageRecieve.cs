@@ -8,6 +8,5 @@ namespace ChatApp.API.Models
         public string Content { get; set; }
         public DateTimeOffset SendTime { get; set; }
         public Guid FromUserId { get; set; }
-        public bool IsThisUser { get; set; }
     }
 }

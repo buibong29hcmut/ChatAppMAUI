@@ -63,17 +63,18 @@ namespace ChatApp.API.Hubs
                     ToUserId= messageDto.ToUserId,
                 };
                 var userConnections = await _operation.GetConnectionByUserName(UserId);
-                var userConnectionIds = userConnections.Select(p => p.connectionId).ToList();
-                userConnectionIds.Remove(Context.ConnectionId);
-                await _command.Send<Result<Unit>>(messagecmd);
-                await Clients.Clients(userConnectionIds)
+                var userOtherConnections = await _operation.GetConnectionByUserName(messageDto.ToUserId.ToString());
+
+                var allConnection = userConnections.Concat(userOtherConnections).ToList();
+                var allconnectionId=  allConnection.Select(p => p.connectionId);
+                    await _command.Send<Result<Unit>>(messagecmd);
+                await Clients.Clients(allconnectionId)
                      .SendAsync("ReceiveMessage", new MessageRecieve
                      {
                          FromUserId = new Guid(UserId),
                          Content = messageDto.Content,
                          Id = messageDto.ConversationId,
                          SendTime = messageDto.SendTime,
-                         IsThisUser = true
                      });
             }
             catch(Exception ex)
