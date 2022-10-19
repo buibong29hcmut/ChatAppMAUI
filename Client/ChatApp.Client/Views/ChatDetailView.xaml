@@ -101,7 +101,7 @@
                     CornerRadius=" 20"
                     HeightRequest="40" BorderColor="White" HasShadow="True">
                         <Editor
-                        HeightRequest="60"
+                        HeightRequest="400"
                         Placeholder="Send Message"
                         TextColor="Black"
                         Text="{Binding Message}"

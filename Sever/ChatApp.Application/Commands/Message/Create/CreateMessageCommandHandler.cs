@@ -24,6 +24,7 @@ namespace ChatApp.Application.Commands.Messages
             _db = db;   
         }
 
+
         public async Task<Result<Unit>> Handle(CreateMessageCommand request, CancellationToken cancellationToken)
         {
             var ConversationIsValid = await CheckConversationIsValid(request.FromUserId, request.ToUserId, request.ConversationId);
@@ -65,8 +66,8 @@ namespace ChatApp.Application.Commands.Messages
         }
         private Expression<Func<Conversation,bool>> FuncCheckConcersationISValid(Guid FromUserId, Guid OtherUserId,Guid ConversationId)
         {
-            return (p=>( p.UserId==OtherUserId&& p.OtherUserId==FromUserId && p.Id == ConversationId)
-                     || (p.UserId == FromUserId && p.OtherUserId == OtherUserId && p.Id == ConversationId));
+            return p=>  (p.UserId==OtherUserId&& p.OtherUserId==FromUserId && p.Id == ConversationId)
+                     || (p.UserId == FromUserId && p.OtherUserId == OtherUserId && p.Id == ConversationId);
         }
     }
 }

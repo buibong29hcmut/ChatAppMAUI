@@ -25,15 +25,16 @@ namespace ChatApp.Infrastructure.Services
             return await Task.FromResult(_memoryStoreStatus.GetListConnection(userName));
         }
 
-        public async Task<bool> IsUserOnline(string userName)
+        public async Task<bool> IsUserOnline(string userId)
         {
-            return await Task.FromResult(_memoryStoreStatus.CountConnection(userName) != 0);
+            int countConnectionId = _memoryStoreStatus.CountConnection(userId);
+            return await Task.FromResult(countConnectionId > 0);
         }
 
-        public async Task UserConnectedAsync(string userName, string connectionId)
+        public async Task UserConnectedAsync(string userId, string connectionId)
         {
-            _memoryStoreStatus.AddUserConnection(userName, connectionId);
-            Console.WriteLine($"{userName} has connectionId {connectionId}");
+            _memoryStoreStatus.AddUserConnection(userId, connectionId);
+            Console.WriteLine($"{userId} has connectionId {connectionId}");
             await Task.CompletedTask;
         }
 

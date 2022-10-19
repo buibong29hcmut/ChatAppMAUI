@@ -31,13 +31,13 @@ namespace ChatApp.Client.ViewModels
         public string UrlProFileUser { get; set; }
         private  HttpClientService _httpClient;
         private readonly IChatHub _chathub;
-        //private readonly IUserOperationHub _operation;
         
         public MainChatViewModel(IChatHub chathub, IUserOperationHub operation) 
         {
             _httpClient = new HttpClientService();
             _chathub = chathub;
             GetBoxChatModels();
+            _chathub.AddMessageHandler(OnReceiveMessage);
 
             Task.Run(async () =>
             {
@@ -79,7 +79,9 @@ namespace ChatApp.Client.ViewModels
             });
             
         }
-      
+        private void OnReceiveMessage(MessageModel message)
+        {
+        }
 
 
 

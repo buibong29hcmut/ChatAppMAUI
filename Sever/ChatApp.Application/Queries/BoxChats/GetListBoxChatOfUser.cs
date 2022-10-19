@@ -51,12 +51,13 @@ namespace ChatApp.Application.Queries.BoxChats
                         ConversationId = boxChatRaw.ConversationId,
                         Message = boxChatRaw.Content,
                         SeenMessage = boxChatRaw.Read,
-                        TimeMessage= boxChatRaw.SendTime,
-                        User= new UserBoxChatResponse()
-                        {   Id= userByConersation.Id,
+                        TimeMessage = boxChatRaw.SendTime,
+                        User = new UserBoxChatResponse()
+                        {   
+                            Id = userByConersation.Id,
                             UrlProfile = userByConersation.UrlAvatar,
                             Name = userByConersation.Name,
-                            IsOnline = await _operation.IsUserOnline(userByConersation.UserName)
+                            IsOnline = await _operation.IsUserOnline(userByConersation.Id.ToString())
                         }
                         
                     };

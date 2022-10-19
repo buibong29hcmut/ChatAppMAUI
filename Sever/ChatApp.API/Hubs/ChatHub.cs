@@ -16,7 +16,6 @@ namespace ChatApp.API.Hubs
     {
         private readonly ICommandBus _command;
         private readonly IUserOperation _operation;
-     
         public ChatHub(ICommandBus command, IUserOperation operation)
         {
             _command = command;
@@ -35,13 +34,13 @@ namespace ChatApp.API.Hubs
         }
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            string userName = Context.GetHttpContext().User.Claims.FirstOrDefault(p => p.Type.Equals(ClaimTypes.Name)).Value;
-            await _operation.UserDisConnectedAsync(userName, Context.ConnectionId);
-            var userOnline = await _operation.IsUserOnline(userName);
+            string userId = Context.GetHttpContext().User.Claims.FirstOrDefault(p => p.Type.Equals(ClaimTypes.NameIdentifier)).Value;
+            await _operation.UserDisConnectedAsync(userId, Context.ConnectionId);
+            var userOnline = await _operation.IsUserOnline(userId);
 
             if (userOnline == false)
             {
-                await Clients.All.SendAsync("UserOffline", userName);
+                await Clients.All.SendAsync("UserOffline", userId);
 
             }
             await base.OnDisconnectedAsync(exception);
@@ -64,11 +63,12 @@ namespace ChatApp.API.Hubs
                 };
                 var userConnections = await _operation.GetConnectionByUserName(UserId);
                 var userOtherConnections = await _operation.GetConnectionByUserName(messageDto.ToUserId.ToString());
-
-                var allConnection = userConnections.Concat(userOtherConnections).ToList();
-                var allconnectionId=  allConnection.Select(p => p.connectionId);
-                    await _command.Send<Result<Unit>>(messagecmd);
-                await Clients.Clients(allconnectionId)
+                userConnections.AddRange(userOtherConnections);
+             
+                var userConnectionsId= userConnections.Select(p => p.connectionId).ToList();
+                userConnectionsId.Remove(this.Context.ConnectionId);
+                var result = await _command.Send<Result<Unit>>(messagecmd, default);
+                await Clients.Clients(userConnectionsId)
                      .SendAsync("ReceiveMessage", new MessageRecieve
                      {
                          FromUserId = new Guid(UserId),

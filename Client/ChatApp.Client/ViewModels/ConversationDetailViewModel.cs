@@ -106,7 +106,6 @@ namespace ChatApp.Client.ViewModels
             {
                 FromUserId = new Guid(userId),
                 Content = Message,
-                IsThisUser = true,
                 SendTime = currentTime,
             };
 
@@ -115,14 +114,13 @@ namespace ChatApp.Client.ViewModels
                 ConversationId= ConversationId,
                 SendTime= currentTime,
                 Content=Message,
-                ToUserId= OtherUserId,
+                ToUserId= OtherUser.Id,
             });
 
             Messages.Add(new MessageModel()
             {
                 FromUserId = new Guid(userId),
                 Content = Message,
-                IsThisUser = true,
                 SendTime = DateTimeOffset.Now,
 
             });
