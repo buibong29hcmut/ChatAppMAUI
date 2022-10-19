@@ -27,12 +27,13 @@ namespace ChatApp.Application.Queries.Messages
                                        "Where \"ConversationId\"=@conversationId";
             using(var connection = _factory.CreateConnection())
             {   
-                int totalCount = connection.QueryFirst<int>(totalMessageQuery, new { conversationId = para.ConversationId });
-                string queryMessage = "SELECT \"Id\", \"FromUserId\", \"Content\", \"Read\", \"SendTime\" " +
-                                      "FROM public.\"Messages\"  \r\nwhere \"ConversationId\"=@conversationId" +
+                  int totalCount = connection.QueryFirst<int>(totalMessageQuery, new { conversationId = para.ConversationId });
+                  string queryMessage = "SELECT \"Id\", \"FromUserId\", \"Content\", \"Read\", \"SendTime\" " +
+                                      "FROM public.\"Messages\"  " +
+                                      "Where \"ConversationId\"=@conversationId" +
                                       "ORDER BY " + "\"SendTime\" desc " +
                                       "LIMIT @pageSize\r\n OFFSET  (@pageNumber-1)*@pageSize";
-                IEnumerable<MessageResponseByConversationId> messageResult =
+                   IEnumerable<MessageResponseByConversationId> messageResult =
                    await connection.QueryAsync<MessageResponseByConversationId>(queryMessage, new
                     {
                         userId= para.UserId,
