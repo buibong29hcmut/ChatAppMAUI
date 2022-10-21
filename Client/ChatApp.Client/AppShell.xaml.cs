@@ -7,7 +7,7 @@ namespace ChatApp.Client
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(ChatViewTest), typeof(ChatViewTest));
+            Routing.RegisterRoute(nameof(ListBoxChatView), typeof(ListBoxChatView));
 
             Routing.RegisterRoute(nameof(ChatDetailView), typeof(ChatDetailView));
 

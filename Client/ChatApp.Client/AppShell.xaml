@@ -27,7 +27,7 @@
         <Tab Title="Message"
             Shell.NavBarIsVisible="False"
             Icon="appicon.svg">
-            <ShellContent ContentTemplate="{DataTemplate view:ChatViewTest}" />
+            <ShellContent ContentTemplate="{DataTemplate view:ListBoxChatView}" />
         </Tab>
         <Tab Title="User"
              Shell.NavBarIsVisible="False"

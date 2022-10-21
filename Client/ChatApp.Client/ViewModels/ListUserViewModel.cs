@@ -49,7 +49,7 @@ namespace ChatApp.Client.ViewModels
             IsBusy = false;
         }
         [ICommand]
-        public async Task GoToChatDetailCommand(UserModel user)
+        public async Task GoToChatDetail(UserModel user)
         {   
             string userId =await  SecureStorage.GetAsync("profile");
             string api = $"api/v1/user/{userId}/conversation/{user.Id.ToString()}";
@@ -59,7 +59,10 @@ namespace ChatApp.Client.ViewModels
                 {"ConversationId",conversation.ConversationId },
                 {"OtherUser", user }
             });
+           
         }
+        
+
       
 
     }

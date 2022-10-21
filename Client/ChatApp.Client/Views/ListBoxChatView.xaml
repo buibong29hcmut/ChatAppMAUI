@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ChatApp.Client.Views.ChatViewTest"
-             Title="ChatViewTest" 
+             x:Class="ChatApp.Client.Views.ListBoxChatView"
+             Title="ListBoxChatView" 
              xmlns:viewmodels="clr-namespace:ChatApp.Client.ViewModels"
              xmlns:models="clr-namespace:ChatApp.Client.Models"
              xmlns:controls="clr-namespace:ChatApp.Client.Controls" BackgroundColor="White"

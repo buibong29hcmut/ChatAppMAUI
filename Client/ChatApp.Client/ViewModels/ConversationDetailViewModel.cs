@@ -30,7 +30,7 @@ namespace ChatApp.Client.ViewModels
         [ObservableProperty]
         private bool isRefreshing=false;
         [ObservableProperty]
-        private UserBoxChatResponse otherUser;
+        private UserModel otherUser;
         private readonly IChatHub _chathub;
         private readonly IUserOperationHub _operation;
         [ObservableProperty]

@@ -78,6 +78,7 @@ namespace ChatApp.Client.ViewModels
                 {"OtherUser", param.User }
             });
             
+            
         }
         private void OnReceiveMessage(MessageModel message)
         {

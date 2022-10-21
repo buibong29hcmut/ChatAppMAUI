@@ -9,7 +9,7 @@ namespace ChatApp.Client.Models
     public class BoxChatModel
     {
         public Guid ConversationId { get; set; }
-        public UserBoxChatResponse User { get; set; }
+        public UserModel User { get; set; }
         public string Message { get; set; }
         public DateTimeOffset SeenMessage { get; set; }
         public DateTimeOffset TimeMessage { get; set; }

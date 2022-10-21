@@ -2,6 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ChatApp.Client.Views.Templates.ListUserChatTemplate"
+             xmlns:viewmodels="clr-namespace:ChatApp.Client.ViewModels"
        >
     <ContentView.Resources>
         <ResourceDictionary>
@@ -33,15 +34,19 @@
 
         </ResourceDictionary>
     </ContentView.Resources>
-    <ContentView.Content>
+    <ContentView.Content >
         <Grid
           ColumnDefinitions="Auto, *"
           Margin="0,15,0,3">
-         
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer
+                     Command="{Binding Path=GoToChatDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodels:ListUserViewModel}}}" CommandParameter="{Binding .}">
+                </TapGestureRecognizer>
+            </Grid.GestureRecognizers>
             <Grid>
                 <Frame HeightRequest="45" WidthRequest="45" CornerRadius="50">
                     <Image
-                    Source="{Binding UrlAvatar}"
+                    Source="{Binding UrlProfile}"
                     HeightRequest="45" WidthRequest="45" Aspect="AspectFill" />
                 </Frame>
                 <Ellipse

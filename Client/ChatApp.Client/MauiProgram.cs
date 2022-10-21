@@ -37,7 +37,7 @@ namespace ChatApp.Client
             builder.Services.AddScoped<ListUserViewModel>();
             builder.Services.AddTransient<ConversationDetailViewModel>();
             builder.Services.AddSingleton<LoginView>();
-            builder.Services.AddTransient<ChatViewTest>();
+            builder.Services.AddTransient<ListBoxChatView>();
             builder.Services.AddSingleton<ListUserView>();
             builder.Services.AddSingleton<App>();
             builder.Services.AddTransient<ChatDetailView>();

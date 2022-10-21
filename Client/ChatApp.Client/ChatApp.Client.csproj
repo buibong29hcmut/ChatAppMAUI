@@ -152,8 +152,8 @@
 	  <Compile Update="Views\ChatDetailView.xaml.cs">
 	    <DependentUpon>%(Filename)</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\ChatViewTest.xaml.cs">
-	    <DependentUpon>%(Filename)</DependentUpon>
+	  <Compile Update="Views\ListBoxChatView.xaml.cs">
+	    <DependentUpon>ListBoxChatView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\ListUserView.xaml.cs">
 	    <DependentUpon>%(Filename)</DependentUpon>
@@ -206,7 +206,7 @@
 	  <MauiXaml Update="Views\ChatDetailView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ChatViewTest.xaml">
+	  <MauiXaml Update="Views\ListBoxChatView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ListUserView.xaml">

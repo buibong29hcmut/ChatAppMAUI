@@ -30,7 +30,7 @@ namespace ChatApp.Application.Queries.Users
 
         public async Task<Result<ProfileUserResponseWithOperation>> Handle(GetProfileUserQuery request, CancellationToken cancellationToken)
         {
-            string query = "SELECT \"Id\", \"UserName\",\"UrlAvatar\",\"Name\"" +
+            string query = "SELECT \"Id\", \"UserName\",\"UrlAvatar\" as \"UrlProfile\",\"Name\"" +
                            "FROM public.\"Users\"\r\nWHERE \"Id\"=@UserId\r\nLIMIT 1";
             using (var db = _factory.CreateConnection())
             {
@@ -40,7 +40,7 @@ namespace ChatApp.Application.Queries.Users
                 });
                 var profileWithOperation = new ProfileUserResponseWithOperation()
                 {   Id=profile.Id,
-                    UrlAvatar = profile.UrlAvatar,
+                    UrlProfile = profile.UrlProfile,
                     IsOnline = await _operation.IsUserOnline(profile.UserName),
                     Name = profile.Name,
                     UserName = profile.UserName

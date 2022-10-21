@@ -25,12 +25,7 @@ namespace ChatApp.Application.Queries.Users
         }
         public async Task<Result<PageList<ProfileUserResponseWithOperation>>> Handle(GetAllProfileUserQuery para, CancellationToken cancellationToken)
         {
-            string query = "SELECT \"Id\", \"UserName\",  \"UrlAvatar\",  \"Name\"" +
-                           "FROM public.\"Users\"" +
-                           "WHERE \"Id\"!=@userId\"" +
-                           "ORDER BY \"UserName\"" +
-                           "LIMIT @pageSize" +
-                           "OFFSET (@pageNumber-1)*@pageSize";
+            string query = "SELECT \"Id\", \"UserName\",  \"UrlAvatar\" as \"UrlProfile\",  \"Name\"\r\n\tFROM public.\"Users\"\r\n\tWHERE \"Id\"!=@userId\r\n\tORDER BY \"UserName\"\r\n\tLIMIT @pageSize\r\n\tOFFSET (@pageNumber-1)*@pageSize"; ;
             string countUserQuery="SELECT COUNT( \"UserName\") FROM public.\"Users\"";
             using (var connection = _factory.CreateConnection())
             {
@@ -51,7 +46,7 @@ namespace ChatApp.Application.Queries.Users
                             UserName = profile.UserName,
                             Name = profile.Name,
                             IsOnline = await _operation.IsUserOnline(profile.UserName),
-                            UrlAvatar = profile.UrlAvatar
+                            UrlProfile = profile.UrlProfile
                         };
                     result.Add(profileUserResponseWithOperation);
                 }

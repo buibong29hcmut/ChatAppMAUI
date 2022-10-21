@@ -2,9 +2,9 @@ using ChatApp.Client.ViewModels;
 
 namespace ChatApp.Client.Views;
 
-public partial class ChatViewTest : ContentPage
+public partial class ListBoxChatView : ContentPage
 {
-	public ChatViewTest(MainChatViewModel viewmodel)
+	public ListBoxChatView(MainChatViewModel viewmodel)
     {
         BindingContext = viewmodel;
         InitializeComponent();
