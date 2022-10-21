@@ -14,6 +14,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using ChatApp.Client.DataStructures;
 using ChatApp.Client.Models;
 using ChatApp.Client.Services;
+using ChatApp.Client.Views;
 
 namespace ChatApp.Client.ViewModels
 {
@@ -46,6 +47,18 @@ namespace ChatApp.Client.ViewModels
             HasNextPage = listUser.HasNextPage;
             PageNumber += 1;
             IsBusy = false;
+        }
+        [ICommand]
+        public async Task GoToChatDetailCommand(UserModel user)
+        {   
+            string userId =await  SecureStorage.GetAsync("profile");
+            string api = $"api/v1/user/{userId}/conversation/{user.Id.ToString()}";
+            var conversation = await _httpClient.GetAsync<ConversationModel>(api);
+            await Shell.Current.GoToAsync(nameof(ChatDetailView), true, new Dictionary<string, object>()
+            {
+                {"ConversationId",conversation.ConversationId },
+                {"OtherUser", user }
+            });
         }
       
 

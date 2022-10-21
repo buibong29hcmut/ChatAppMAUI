@@ -14,7 +14,7 @@ using System.Security.Claims;
 
 namespace ChatApp.API.Controllers
 {
-    [Route("api/v1/user/{userId}/conversation")]
+    [Route("api/v1/user/{userId}")]
     public class ConversationController:BaseApiController
     {
         public ConversationController(ICommandBus _cmd, IQueryBus _query) : base(_cmd, _query)
@@ -22,17 +22,24 @@ namespace ChatApp.API.Controllers
 
         }
    
-        [HttpGet]
+        [HttpGet("conversation")]
         [ServiceFilter(typeof(AuthorizationUserIdFillter))]
         public async Task<IActionResult> GetConversationByUserId(Guid userId,[BindRequired] int CountConversation, [BindRequired] int RowFetch)
         {
             var result= await _query.Send<Result<IReadOnlyCollection<BoxChatResponse>>>(new GetBoxChatByUserId(userId, CountConversation, RowFetch));
             return Ok(result);
         }
-
-        private async Task<IActionResult> GetConversation(Guid OtherUserId)
+        [HttpGet]
+        [Route("conversation/{otherUserId}")]
+        [ServiceFilter(typeof(AuthorizationUserIdFillter))]
+        public async Task<IActionResult> GetConversationByTwoUserId(Guid userId, Guid otherUserId)
         {
-            return await Task.FromResult(Ok(new object()));
+            var result = await _query.Send<Result<ConversationResponseByTwoUserId>>(new GetConversationByTwoUserIdInConversation()
+            {
+                UserId = userId,
+                OtherUserId = otherUserId,
+            });
+            return Ok(result);
         }
 
 

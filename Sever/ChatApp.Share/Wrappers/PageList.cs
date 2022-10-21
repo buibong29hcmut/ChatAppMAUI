@@ -27,13 +27,12 @@ namespace ChatApp.Share.Wrappers
             this.CurrentPage = pageNumer;
             Items = new List<T>();
         }
-
+        public static PageList<T> Empty => new PageList<T>(0, 0, 0);
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
         public int PageSize { get; set; }
 
         public bool HasPreviousPage => CurrentPage > 1;
-
         public bool HasNextPage => CurrentPage < TotalPages;
         public void Add(T item)
         {
