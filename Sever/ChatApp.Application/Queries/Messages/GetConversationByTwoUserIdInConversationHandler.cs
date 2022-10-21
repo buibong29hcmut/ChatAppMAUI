@@ -5,6 +5,7 @@ using ChatApp.Application.Response.Messages;
 using ChatApp.Share.Wrappers;
 using Dapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,12 @@ namespace ChatApp.Application.Queries.Messages
     public class GetConversationByTwoUserIdInConversationHandler : IQueryHandler<GetConversationByTwoUserIdInConversation, Result<ConversationResponseByTwoUserId>>
     {
         private readonly IDbFactory _factory;
-        public GetConversationByTwoUserIdInConversationHandler(IDbFactory factory)
+        private readonly IChatDbContext _db;
+
+        public GetConversationByTwoUserIdInConversationHandler(IDbFactory factory, IChatDbContext db)
         {
             _factory = factory;
+            _db = db;   
         }
 
         public async Task<Result<ConversationResponseByTwoUserId>> Handle(GetConversationByTwoUserIdInConversation request, CancellationToken cancellationToken)
@@ -29,8 +33,13 @@ namespace ChatApp.Application.Queries.Messages
                            "OR (\"UserId\"=@otherUserId\r\n" +
                            "AND \"OtherUserId\"=@userId)\r\n" +
                            "LIMIT 1";
-            using (var connection= _factory.CreateConnection())
+            bool CheckTwoUserInDb = (await _db.Users.AnyAsync(p => p.Id == request.UserId)) && (await _db.Users.AnyAsync(p => p.Id == request.OtherUserId));
+            if (!CheckTwoUserInDb)
             {
+                throw new Exception("Users aren't in database");
+            }
+            using (var connection= _factory.CreateConnection())
+            {   
                 Guid ConversationId = await connection.QueryFirstAsync<Guid>(query,new
                 {
                     userId = request.UserId,
@@ -38,7 +47,13 @@ namespace ChatApp.Application.Queries.Messages
                 });
                 if (ConversationId.Equals(Guid.Empty))
                 {
-                    return Result<ConversationResponseByTwoUserId>.Success(ConversationResponseByTwoUserId.Default);
+                    var conversationEntity = new Domain.Entities.Conversation(request.UserId, request.OtherUserId, DateTime.Now);
+                    await _db.Conversations.AddAsync(conversationEntity);
+                    await _db.SaveChangesAsync();
+                    return Result<ConversationResponseByTwoUserId>.Success(new ConversationResponseByTwoUserId()
+                    {
+                        ConversationId = conversationEntity.Id,    
+                    });
                 }
                 return Result<ConversationResponseByTwoUserId>.Success(new ConversationResponseByTwoUserId()
                 {
@@ -46,7 +61,6 @@ namespace ChatApp.Application.Queries.Messages
                 });
 
             }
-            return default;
         }
         
     }

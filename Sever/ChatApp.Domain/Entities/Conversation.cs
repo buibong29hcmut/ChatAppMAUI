@@ -18,6 +18,7 @@ namespace ChatApp.Domain.Entities
         public Guid LastMessageId { get; private set; }
         public Conversation(Guid userId, Guid otherUserId, DateTime created)
         {
+            Id = Guid.NewGuid();
             UserId = userId;
             OtherUserId = otherUserId;
             Created = created;
