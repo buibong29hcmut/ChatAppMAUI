@@ -1,7 +1,6 @@
 ﻿using ChatApp.Application.Cores.Queries;
 using ChatApp.Application.Interfaces.DAL;
 using ChatApp.Application.Requests.BoxChats;
-using ChatApp.Application.Response;
 using ChatApp.Share.Wrappers;
 using System;
 using System.Collections.Generic;
@@ -12,6 +11,7 @@ using System.Threading.Tasks;
 using Dapper;
 using ChatApp.Application.Interfaces.Services;
 using System.Collections.ObjectModel;
+using ChatApp.Application.Response.Conversations;
 
 namespace ChatApp.Application.Queries.BoxChats
 {

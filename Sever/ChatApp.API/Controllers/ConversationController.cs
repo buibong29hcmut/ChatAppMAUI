@@ -3,7 +3,7 @@ using ChatApp.Application.Cores.Commands;
 using ChatApp.Application.Cores.Queries;
 using ChatApp.Application.Requests.BoxChats;
 using ChatApp.Application.Requests.Messages.Queries;
-using ChatApp.Application.Response;
+using ChatApp.Application.Response.Conversations;
 using ChatApp.Application.Response.Messages;
 using ChatApp.Share.Wrappers;
 using Microsoft.AspNetCore.Authorization;
@@ -29,11 +29,11 @@ namespace ChatApp.API.Controllers
             var result= await _query.Send<Result<IReadOnlyCollection<BoxChatResponse>>>(new GetBoxChatByUserId(userId, CountConversation, RowFetch));
             return Ok(result);
         }
-      
-        //public async Task<IActionResult> GetConversation(Guid OtherUserId)
-        //{
-        //    return Ok(new object());
-        //}
+
+        private async Task<IActionResult> GetConversation(Guid OtherUserId)
+        {
+            return await Task.FromResult(Ok(new object()));
+        }
 
 
 

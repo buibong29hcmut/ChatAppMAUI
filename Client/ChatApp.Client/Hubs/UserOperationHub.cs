@@ -17,8 +17,9 @@ namespace ChatApp.Client.Hubs
         {
             OnitialHub(); 
         }
+        public HubConnection _Hub => _hubConnection;
 
-        public  async Task Connect()
+        public async Task Connect()
         {
            await  _hubConnection.StartAsync();
         }

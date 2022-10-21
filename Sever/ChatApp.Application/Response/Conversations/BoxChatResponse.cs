@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApp.Application.Response
+namespace ChatApp.Application.Response.Conversations
 {
     public class BoxChatResponse
     {
@@ -15,7 +15,8 @@ namespace ChatApp.Application.Response
         public DateTimeOffset TimeMessage { get; set; }
     }
     public class UserBoxChatResponse
-    {   public Guid Id { get; set; }
+    {
+        public Guid Id { get; set; }
         public string UrlProfile { get; set; }
         public string Name { get; set; }
         public bool IsOnline { get; set; }
@@ -32,10 +33,11 @@ namespace ChatApp.Application.Response
         public DateTimeOffset Read { get; set; }
     }
     public class UserProfileByConversation
-    {   public Guid Id { get; set; }
-        public string UserName { get;  set; }
-        public string UrlAvatar { get;  set; }
-        public string Name { get;  set; }
-      
+    {
+        public Guid Id { get; set; }
+        public string UserName { get; set; }
+        public string UrlAvatar { get; set; }
+        public string Name { get; set; }
+
     }
 }

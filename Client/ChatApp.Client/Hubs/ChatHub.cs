@@ -20,6 +20,7 @@ namespace ChatApp.Client.Hubs
         {
             OnitialHub();
         }
+        public HubConnection _Hub => _hubConnection;
         private void OnitialHub()
         {
             var devSslHelper = new DevHttpsConnectionHelper(sslPort: 7028);
@@ -31,7 +32,7 @@ namespace ChatApp.Client.Hubs
 #if ANDROID
                options.HttpMessageHandlerFactory = m => devSslHelper.GetPlatformMessageHandler();
 #endif
-           }).Build();
+           }).WithAutomaticReconnect().Build();
             _handlers = new();
             _hubConnection.On<MessageModel>("ReceiveMessage", OnRecieveMessage);
 

@@ -1,6 +1,6 @@
 ﻿using ChatApp.Application.Cores.Queries;
 using ChatApp.Application.Requests.BoxChats;
-using ChatApp.Application.Response;
+using ChatApp.Application.Response.Conversations;
 using ChatApp.Share.Wrappers;
 using Microsoft.Extensions.DependencyInjection;
 using System;

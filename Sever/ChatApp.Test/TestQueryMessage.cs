@@ -1,6 +1,6 @@
 ﻿using ChatApp.Application.Interfaces.DAL;
 using ChatApp.Application.Requests.BoxChats;
-using ChatApp.Application.Response;
+using ChatApp.Application.Response.Conversations;
 using ChatApp.Infrastructure.Contexts;
 using Dapper;
 using Microsoft.Extensions.DependencyInjection;

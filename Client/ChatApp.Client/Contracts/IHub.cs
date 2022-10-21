@@ -10,6 +10,7 @@ namespace ChatApp.Client.Contracts
     public interface IHub:IAsyncDisposable
     {
         Task Connect();
+        HubConnection _Hub { get; }
 
         Task DisConnect();
     }

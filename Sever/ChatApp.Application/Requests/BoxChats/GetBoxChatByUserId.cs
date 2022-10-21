@@ -1,5 +1,5 @@
 ﻿using ChatApp.Application.Cores.Queries;
-using ChatApp.Application.Response;
+using ChatApp.Application.Response.Conversations;
 using ChatApp.Share.Wrappers;
 using System;
 using System.Collections.Generic;
