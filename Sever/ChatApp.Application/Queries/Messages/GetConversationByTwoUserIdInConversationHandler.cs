@@ -27,25 +27,13 @@ namespace ChatApp.Application.Queries.Messages
 
         public async Task<Result<ConversationResponseByTwoUserId>> Handle(GetConversationByTwoUserIdInConversation request, CancellationToken cancellationToken)
         {
-            string query = "SELECT \"Id\" FROM public.\"Conversations\"\r\n" +
-                           "WHERE (\"UserId\"= @userId\r\n" +
-                           "AND \"OtherUserId\"=@otherUserId)\r\n" +
-                           "OR (\"UserId\"=@otherUserId\r\n" +
-                           "AND \"OtherUserId\"=@userId)\r\n" +
-                           "LIMIT 1";
-            bool CheckTwoUserInDb = (await _db.Users.AnyAsync(p => p.Id == request.UserId)) && (await _db.Users.AnyAsync(p => p.Id == request.OtherUserId));
-            if (!CheckTwoUserInDb)
-            {
-                throw new Exception("Users aren't in database");
-            }
-            using (var connection= _factory.CreateConnection())
-            {   
-                Guid ConversationId = await connection.QueryFirstAsync<Guid>(query,new
-                {
-                    userId = request.UserId,
-                    otherUserId = request.OtherUserId,
-                });
-                if (ConversationId.Equals(Guid.Empty))
+
+                var conversationId =await  _db.Conversations.Where(p => (p.UserId == request.UserId && p.OtherUserId == request.OtherUserId)
+                                                                         || (p.UserId == request.OtherUserId && p.OtherUserId == request.UserId))
+                                                        .Select(p=>p.Id)
+                                                        .FirstOrDefaultAsync();
+           
+                if (conversationId.Equals(Guid.Empty))
                 {
                     var conversationEntity = new Domain.Entities.Conversation(request.UserId, request.OtherUserId, DateTime.Now);
                     await _db.Conversations.AddAsync(conversationEntity);
@@ -57,10 +45,10 @@ namespace ChatApp.Application.Queries.Messages
                 }
                 return Result<ConversationResponseByTwoUserId>.Success(new ConversationResponseByTwoUserId()
                 {
-                    ConversationId = ConversationId
+                    ConversationId = conversationId
                 });
 
-            }
+            
         }
         
     }

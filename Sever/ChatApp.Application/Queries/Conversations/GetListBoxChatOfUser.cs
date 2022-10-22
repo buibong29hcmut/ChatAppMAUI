@@ -1,6 +1,5 @@
 ﻿using ChatApp.Application.Cores.Queries;
 using ChatApp.Application.Interfaces.DAL;
-using ChatApp.Application.Requests.BoxChats;
 using ChatApp.Share.Wrappers;
 using System;
 using System.Collections.Generic;
@@ -12,8 +11,9 @@ using Dapper;
 using ChatApp.Application.Interfaces.Services;
 using System.Collections.ObjectModel;
 using ChatApp.Application.Response.Conversations;
+using ChatApp.Application.Requests.Conversations;
 
-namespace ChatApp.Application.Queries.BoxChats
+namespace ChatApp.Application.Queries.Conversations
 {
     public class GetBoxChatOfUser:IQueryHandler<GetBoxChatByUserId,Result<IReadOnlyCollection<BoxChatResponse>>>
     {

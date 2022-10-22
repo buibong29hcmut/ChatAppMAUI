@@ -1,5 +1,5 @@
 ﻿using ChatApp.Application.Interfaces.DAL;
-using ChatApp.Application.Requests.BoxChats;
+using ChatApp.Application.Requests.Conversations;
 using ChatApp.Application.Response.Conversations;
 using ChatApp.Infrastructure.Contexts;
 using Dapper;

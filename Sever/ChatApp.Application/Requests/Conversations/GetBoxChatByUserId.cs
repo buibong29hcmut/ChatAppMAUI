@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApp.Application.Requests.BoxChats
+namespace ChatApp.Application.Requests.Conversations
 {
     public class GetBoxChatByUserId:IQuery<Result<IReadOnlyCollection<BoxChatResponse>>>
     {
