@@ -15,19 +15,25 @@ using ChatApp.Client.DataStructures;
 using ChatApp.Client.Models;
 using ChatApp.Client.Services;
 using ChatApp.Client.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ChatApp.Client.ViewModels
 {
     public partial class ListUserViewModel:BaseViewModel
     {
         private readonly HttpClientService _httpClient;
-        public RangeObservableCollection<UserModel> Users { get; private set; } = new();
+        [ObservableProperty]
+        private RangeObservableCollection<UserModel> users;
+        [ObservableProperty]
+        private UserProfileModel user;
         private int PageNumber = 1;
         bool HasNextPage;
         public ListUserViewModel()
         {
             _httpClient= new HttpClientService();
+            Users = new();
             GetListUser();
+            Task.Run(async () => await GetProfileUser());
             
         }
         public  void GetListUser()
@@ -35,6 +41,12 @@ namespace ChatApp.Client.ViewModels
             var data =  _httpClient.GetAsync<PageList<UserModel>>($"api/v1/user?pageSize=10&pageNumber={PageNumber}").Result;     
             Users.AddRange(data.Items);
             HasNextPage = data.HasNextPage;
+        }
+        public async Task GetProfileUser()
+        {
+            var userId = await SecureStorage.GetAsync("profile");
+            User = await _httpClient.GetAsync<UserProfileModel>($"api/v1/user/{userId}");
+
         }
         [ICommand]
         public async void LoadMoreUserAsync()

@@ -45,7 +45,7 @@
                                         IsVisible="True"
                                         WidthRequest="15" 
                                         Margin="0,0,3,0"/>
-                                    <Label FontSize="15"  VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="Đang hoạt động" Margin="0,0,0,0"  />
+                                    <Label FontSize="15"  VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="Online" Margin="0,0,0,0"  />
                                 </HorizontalStackLayout>
                             </Grid>
                         </HorizontalStackLayout>

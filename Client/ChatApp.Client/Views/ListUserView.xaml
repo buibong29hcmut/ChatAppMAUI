@@ -18,14 +18,14 @@
                 ColumnSpacing="0"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand">
-                    <StackLayout
+                    <StackLayout BindingContext="{Binding User}"
                     Orientation="Horizontal"
                     Grid.Row="0"
                     HorizontalOptions="FillAndExpand">
                         <Frame Grid.Row="0" CornerRadius="50" IsClippedToBounds="True" WidthRequest="40" HeightRequest="40" Margin="0,0,10,0"  >
                             <Image
                         Aspect="AspectFill"         
-                        Source="dotnet_bot.svg"
+                        Source="{Binding UrlProfile}"
                         HorizontalOptions="Center"
                         VerticalOptions="Center"
                          WidthRequest="40"
@@ -35,9 +35,9 @@
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span
-                                    FontSize="22"
-                                    Text="Chats" 
-                                    FontAttributes="Bold" TextColor="White"/>
+                                    FontSize="18"
+                                    Text="{Binding Name}" 
+                                    FontAttributes="Bold" TextColor="Black"/>
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>

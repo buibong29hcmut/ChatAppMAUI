@@ -6,8 +6,6 @@
        >
     <ContentView.Resources>
         <ResourceDictionary>
-
-
             <Style x:Key="NameTextStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="Black" />
                 <Setter Property="FontSize" Value="16" />
