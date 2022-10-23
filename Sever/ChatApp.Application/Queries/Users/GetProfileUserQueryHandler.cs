@@ -6,6 +6,7 @@ using ChatApp.Application.Response.Users;
 using ChatApp.Share.Wrappers;
 using Dapper;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace ChatApp.Application.Queries.Users
             string query = "SELECT \"Id\", \"UserName\",\"UrlAvatar\" as \"UrlProfile\",\"Name\"" +
                            "FROM public.\"Users\"\r\nWHERE \"Id\"=@UserId\r\nLIMIT 1";
             using (var db = _factory.CreateConnection())
-            {
+            {  
                 var profile =await db.QueryFirstAsync<ProfileUserResponse>(query, new
                 {
                     UserId= request.UserId
