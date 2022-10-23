@@ -35,6 +35,7 @@ namespace ChatApp.Infrastructure.Contexts
         {
             if (this._connection != null && this._connection.State == ConnectionState.Open)
             {
+                this._connection.Close();
                 this._connection.Dispose();
             }
         }

@@ -25,20 +25,20 @@ namespace ChatApp.Domain.Entities
         {
             get
             {
-                return Read != null;
+                return Read != null || Read.HasValue;
             }
         }
-        public User FromUser { get;  private set; }
         public Guid ConversationId { get; private set; }
-        public  virtual Conversation Conversation { get; private set; } 
+        public User FromUser { get; private set; }
+        public virtual Conversation Conversation { get; private set; } 
 
         public void SetMessageRead()
         {
             SetMessageRead(DateTimeOffset.Now);
         }
-        public void SetMessageRead(DateTimeOffset time)
+        public void SetMessageRead(DateTimeOffset timeRead)
         {
-            Read = time;
+            Read = timeRead;
         }
 
     }

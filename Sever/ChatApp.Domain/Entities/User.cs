@@ -9,13 +9,13 @@ namespace ChatApp.Domain.Entities
 {
     public class User : Entity
     {
-        public string UserName { get;  set; }
-        public string Password { get;  set; }
-        public string ?UrlAvatar { get;  set; }
-        public string ?PhoneNumber { get;  set; }
-        public string ?Email { get;  set; }
-        public string Salt { get;  set; }
-        public string ?Name { get;  set; }
+        public string UserName { get; private set; }
+        public string Password { get; private  set; }
+        public string ?UrlAvatar { get;  private set; }
+        public string ?PhoneNumber { get; private set; }
+        public string ?Email { get; private set; }
+        public string Salt { get; private set; }
+        public string ?Name { get;  private set; }
         public User()
         {
 
@@ -34,12 +34,13 @@ namespace ChatApp.Domain.Entities
         {
             message.SetMessageRead();
         }
+     
         public void UpdateInfo(string Name, string UrlAvatar)
         {
             this.Name = Name;
             this.UrlAvatar = UrlAvatar;
         }
-        public static User CreateRegister(string UserName, string PasswordHash, string Salt)
+        public static User CreateUser(string UserName, string PasswordHash, string Salt)
         {
             return new User()
             {

@@ -35,37 +35,56 @@ namespace ChatApp.Client.Services
         }
         public  async  Task<T> GetAsync<T>(string uri)
         {
-            var _httpClient= OnInitialHttp();
-            var response =  _httpClient.GetAsync(uri).Result;
-            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            try
             {
-                SecureStorage.Remove("chattoken");
-                await Shell.Current.GoToAsync("Login", true);
-                return default;
+                var _httpClient = OnInitialHttp();
+                var response =await  _httpClient.GetAsync(uri);
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    SecureStorage.Remove("chattoken");
+                    await Shell.Current.GoToAsync("Login", true);
+                    return default;
+                }
+                var content = await response.Content.ReadAsStringAsync();
+                var data = JObject.Parse(content)["data"].ToString();
+                var result = JsonConvert.DeserializeObject<T>(data);
+                return result;
+
             }
-            var content = await response.Content.ReadAsStringAsync();
-            var data = JObject.Parse(content)["data"].ToString();
-            var result = JsonConvert.DeserializeObject<T>(data);
-            return result;
+            catch(Exception ex)
+            {
+                await  Application.Current.MainPage.DisplayAlert("Error", ex.Message,"Ok");
+            }
+            return default(T);
         }
         public  async Task<T> PostAsync<T>(string uri, object val)
         {
-            var _httpClient =  OnInitialHttp();
-            HttpContent content = new StringContent(JsonConvert.SerializeObject(val), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(uri, content);
-            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            try
             {
-                SecureStorage.Remove("chattoken");
-                await Shell.Current.GoToAsync("Login", true);
-                return default;
+                var _httpClient = OnInitialHttp();
+                HttpContent content = new StringContent(JsonConvert.SerializeObject(val), Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync(uri, content);
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    SecureStorage.Remove("chattoken");
+                    await Shell.Current.GoToAsync("Login", true);
+                    return default;
+
+                }
+                var contentResponse = await response.Content.ReadAsStringAsync();
+                var data = JObject.Parse(contentResponse)["data"].ToString();
+                var result = JsonConvert.DeserializeObject<T>(data);
+                return result;
+            }
+            catch(Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
 
             }
-            var contentResponse = await response.Content.ReadAsStringAsync();
-            var data = JObject.Parse(contentResponse)["data"].ToString();
-            var result = JsonConvert.DeserializeObject<T>(data);
-            return result;
+            return default(T);
+
         }
-         
+
     }
 }
 

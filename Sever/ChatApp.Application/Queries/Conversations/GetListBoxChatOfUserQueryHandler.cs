@@ -15,11 +15,11 @@ using ChatApp.Application.Requests.Conversations;
 
 namespace ChatApp.Application.Queries.Conversations
 {
-    public class GetBoxChatOfUser:IQueryHandler<GetBoxChatByUserId,Result<IReadOnlyCollection<BoxChatResponse>>>
+    public class GetListBoxChatOfUserQueryHandler:IQueryHandler<GetBoxChatByUserId,Result<IReadOnlyCollection<BoxChatResponse>>>
     {
         private readonly IDbFactory _factory;
         private readonly IUserOperation _operation;
-        public GetBoxChatOfUser(IDbFactory factory,IUserOperation operation)
+        public GetListBoxChatOfUserQueryHandler(IDbFactory factory,IUserOperation operation)
         {
             _factory = factory;
             _operation = operation; 

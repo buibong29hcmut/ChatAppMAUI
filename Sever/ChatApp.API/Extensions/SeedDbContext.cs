@@ -21,13 +21,13 @@ namespace ChatApp.API.Extensions
 
             var hashPass = _hasher.HashWithSHA256Algo(password);
 
-            User admin = User.CreateRegister(UserName, hashPass.PasswordHash, hashPass.Salt);
+            User admin = User.CreateUser(UserName, hashPass.PasswordHash, hashPass.Salt);
             db.Users.Add(admin);
             db.SaveChanges();
             List<User> users = new List<User>();
             for (int i = 0; i < 100; i++)
             {
-                var user = User.CreateRegister(UserName + Guid.NewGuid().ToString().Replace('-', '_'), hashPass.PasswordHash, hashPass.Salt);
+                var user = User.CreateUser(UserName + Guid.NewGuid().ToString().Replace('-', '_'), hashPass.PasswordHash, hashPass.Salt);
                 users.Add(user);
             }
 
@@ -124,16 +124,16 @@ namespace ChatApp.API.Extensions
                 await  db.SaveChangesAsync();
             }
         }
-        public static async Task SeedName(this ChatDbContext db)
-        {
-            string[] Names = { "Bùi Bổng", "Huy Bùi", "Ngọc Bảo", "Đoàn Thế Đạt", "Thu Hà", "Thu Trà", "Ánh Ngọc", "Lê Hồng Phúc" };
-            var users = await db.Users.ToListAsync();
-            foreach(var u in users)
-            {
-                u.Name = Names[new Random().Next(0, Names.Length)];
-                await db.SaveChangesAsync();
-            }
-        }
+        //public static async Task SeedName(this ChatDbContext db)
+        //{
+        //    string[] Names = { "Bùi Bổng", "Huy Bùi", "Ngọc Bảo", "Đoàn Thế Đạt", "Thu Hà", "Thu Trà", "Ánh Ngọc", "Lê Hồng Phúc" };
+        //    var users = await db.Users.ToListAsync();
+        //    foreach(var u in users)
+        //    {
+        //        u.Name = Names[new Random().Next(0, Names.Length)];
+        //        await db.SaveChangesAsync();
+        //    }
+        //}
 
     }
 }

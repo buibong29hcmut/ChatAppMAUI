@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using ChatApp.Application.Models;
+using FluentValidation;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Application.Behaviors
 {
-    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
+                                                           where TRequest : IRequest<TResponse>
+                                                           where TResponse:ErrorDetailModel
+                                                             
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -17,7 +21,7 @@ namespace ChatApp.Application.Behaviors
             _validators = validators;
         }
 
-        public Task<TResponse> Handle(
+        public async Task<TResponse> Handle(
             TRequest request,
             CancellationToken cancellationToken,
             RequestHandlerDelegate<TResponse> next)
@@ -34,11 +38,14 @@ namespace ChatApp.Application.Behaviors
 
                 if (failures.Count != 0)
                 {
-                    throw new ValidationException(failures);
+                    int code = 400;
+                    var message= failures.Select(p=>p.ErrorMessage).ToList();
+
+                    return await Task.FromResult((TResponse) Activator.CreateInstance(typeof(TResponse), code, message));
                 }
             }
 
-            return next();
+            return await next();
         }
     }
 }
