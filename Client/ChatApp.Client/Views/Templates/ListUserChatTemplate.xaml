@@ -40,6 +40,7 @@
           Margin="0,15,0,3">
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer
+                     NumberOfTapsRequired="1"
                      Command="{Binding Path=GoToChatDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodels:ListUserViewModel}}}" CommandParameter="{Binding .}">
                 </TapGestureRecognizer>
             </Grid.GestureRecognizers>

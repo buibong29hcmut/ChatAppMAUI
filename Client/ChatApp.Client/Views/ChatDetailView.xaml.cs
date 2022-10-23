@@ -9,14 +9,16 @@ public partial class ChatDetailView : ContentPage
 
     public ChatDetailView(ConversationDetailViewModel vm )
     {
- 
-            InitializeComponent();
-            BindingContext = vm;
-   }
+        BindingContext = vm;
+        InitializeComponent();
+    }
 
     private  void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
-    {
-        (this.BindingContext as ConversationDetailViewModel).GetMessagesInitialCommand.Execute(null);
+    {   
+        var vm = this.BindingContext as ConversationDetailViewModel;
+        vm.GetMessagesInitialCommand.Execute(null);
+        collectionMessageView.ScrollTo(vm.Messages[vm.Messages.Count-1], true);
 
     }
+
 }

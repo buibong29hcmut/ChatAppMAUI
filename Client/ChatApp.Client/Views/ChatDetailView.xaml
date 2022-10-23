@@ -59,7 +59,7 @@
             <RefreshView Grid.Row="1" IsRefreshing="{Binding IsRefreshing}"
                          Command="{Binding LoadMoreMessageCommand}"
                          >
-                <CollectionView  ItemsSource="{Binding Messages}"
+                <CollectionView x:Name="collectionMessageView" ItemsSource="{Binding Messages}"
                                       ItemsUpdatingScrollMode="KeepLastItemInView"
                                 >
                     <CollectionView.ItemTemplate>

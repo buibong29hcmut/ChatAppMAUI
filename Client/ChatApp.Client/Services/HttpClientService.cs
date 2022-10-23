@@ -35,10 +35,9 @@ namespace ChatApp.Client.Services
         }
         public  async  Task<T> GetAsync<T>(string uri)
         {
-            try
-            {
+          
                 var _httpClient = OnInitialHttp();
-                var response =await  _httpClient.GetAsync(uri);
+                var response =  _httpClient.GetAsync(uri).Result;
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     SecureStorage.Remove("chattoken");
@@ -50,17 +49,14 @@ namespace ChatApp.Client.Services
                 var result = JsonConvert.DeserializeObject<T>(data);
                 return result;
 
-            }
-            catch(Exception ex)
-            {
-                await  Application.Current.MainPage.DisplayAlert("Error", ex.Message,"Ok");
-            }
-            return default(T);
+            
+       
+
+            
         }
         public  async Task<T> PostAsync<T>(string uri, object val)
         {
-            try
-            {
+            
                 var _httpClient = OnInitialHttp();
                 HttpContent content = new StringContent(JsonConvert.SerializeObject(val), Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(uri, content);
@@ -75,15 +71,10 @@ namespace ChatApp.Client.Services
                 var data = JObject.Parse(contentResponse)["data"].ToString();
                 var result = JsonConvert.DeserializeObject<T>(data);
                 return result;
-            }
-            catch(Exception ex)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+            
+          
 
-            }
-            return default(T);
-
-        }
+          }
 
     }
 }
