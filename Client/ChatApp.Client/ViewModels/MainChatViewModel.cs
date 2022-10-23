@@ -28,6 +28,8 @@ namespace ChatApp.Client.ViewModels
         public RangeObservableCollection<string> urlUserOnline { get; } = new();
         [ObservableProperty]
         private RangeObservableCollection<BoxChatModel> boxChatModels;
+        [ObservableProperty]
+        private UserProfileModel user;
         public string UrlProFileUser { get; set; }
         private  HttpClientService _httpClient;
         private readonly IChatHub _chathub;
@@ -42,6 +44,7 @@ namespace ChatApp.Client.ViewModels
             Task.Run(async () =>
             {
                 await _chathub.Connect();
+                await GetProfileUser();
             });
             
         }
@@ -57,7 +60,12 @@ namespace ChatApp.Client.ViewModels
             BoxChatModels.AddRange(item);
             IsBusy = false;
             
-           
+        }
+        public async Task GetProfileUser()
+        {
+            var userId = await SecureStorage.GetAsync("profile");
+            User = await _httpClient.GetAsync<UserProfileModel>($"api/v1/user/{userId}");
+
         }
         public   void GetBoxChatModels()
         {

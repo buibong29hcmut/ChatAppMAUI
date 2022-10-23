@@ -1,7 +1,6 @@
 ﻿using ChatApp.Application.Cores.Commands;
 using ChatApp.Application.Interfaces.DAL;
 using ChatApp.Application.Requests.Messages.Commands;
-using ChatApp.Application.Specifications.Contracts;
 using ChatApp.Domain.Entities;
 using ChatApp.Share.Wrappers;
 using MediatR;

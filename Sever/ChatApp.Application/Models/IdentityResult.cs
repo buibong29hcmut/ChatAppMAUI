@@ -11,14 +11,9 @@ namespace ChatApp.Application.Models
     public class IdentityResult:Result<UserIdentity>
     {
         
-       
-
     }
     public class UserInfo
     {
-        public string Name { get; set; }
-        public string UserName { get; set; }
-        public string UrlAvatar { get; set; }
         public Guid Id { get; set; }
     }
     public class UserIdentity

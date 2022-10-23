@@ -2,7 +2,6 @@
 using ChatApp.Application.Interfaces.Services;
 using ChatApp.Application.Models;
 using ChatApp.Application.Requests.Users.Commands;
-using ChatApp.Application.Specifications.Contracts;
 using ChatApp.Domain.Entities;
 using ChatApp.Share.Wrappers;
 using Dapper;
@@ -33,7 +32,7 @@ namespace ChatApp.Infrastructure.Services
         {
             using (var connection = _dbFactory.CreateConnection())
             {
-                string queryUser = "SELECT \"Id\", \"UserName\", \"UrlAvatar\",\"Password\",\"Salt\"" +","+
+                string queryUser = "SELECT \"Id\", \"UserName\",\"Name\", \"UrlAvatar\",\"Password\",\"Salt\"" +","+
                 "\"Password\" FROM public.\"Users\" WHERE \"UserName\"=@UserName LIMIT 1";
                 var user= await connection.QueryFirstOrDefaultAsync<User>(queryUser,new { UserName = userInfo.UserName});
                 if (user != null)
@@ -46,11 +45,8 @@ namespace ChatApp.Infrastructure.Services
                         {
                             JwtToken= token,
                             Info= new UserInfo()
-                            {
-                                UrlAvatar=user.UrlAvatar,
-                                UserName=user.UserName,
-                                Name=user.Name,
-                                Id=user.Id,
+                            {                              
+                                Id=user.Id
                             }
                         });
 
@@ -77,9 +73,6 @@ namespace ChatApp.Infrastructure.Services
                     JwtToken = tokenForRegister,
                     Info = new UserInfo()
                     {
-                        UrlAvatar = user.UrlAvatar,
-                        UserName = user.UserName,
-                        Name = user.Name,
                         Id = user.Id,
                     }
                 });
