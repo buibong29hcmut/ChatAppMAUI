@@ -1,7 +1,6 @@
 ﻿using ChatApp.Application.Cores.Commands;
 using ChatApp.Application.Cores.Queries;
 using ChatApp.Application.Models;
-using ChatApp.Application.Requests.Users;
 using ChatApp.Application.Requests.Users.Commands;
 using ChatApp.Share.Wrappers;
 using Microsoft.AspNetCore.Authentication;

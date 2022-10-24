@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApp.Application.Requests.Users
+namespace ChatApp.Application.Requests.Users.Commands
 {
-    public class UserForRegisterCommand: ICommand<Result<UserIdentity>>
+    public class UserForRegisterCommand : ICommand<Result<UserIdentity>>
     {
         public string UserName { get; set; }
         public string Password { get; set; }
