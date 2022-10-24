@@ -10,6 +10,7 @@ namespace ChatApp.Infrastructure.Services
 {
     public class PasswordHasher:IPasswordHasher
     {
+        private static RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
 
         public HashPassWordResult HashWithSHA256Algo(string password)
         {
@@ -23,11 +24,11 @@ namespace ChatApp.Infrastructure.Services
             return newPasswordHash.Equals(passWordHash);
         }
         private byte[] GenerateSalt(int Keylength)
-        {
-           var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
-            byte[] randomBytes = new byte[Keylength];
-            rngCryptoServiceProvider.GetBytes(randomBytes);
-            return randomBytes;
+        {            
+                byte[] randomBytes = new byte[Keylength];
+                rngCsp.GetBytes(randomBytes);
+                return randomBytes;
+
         }
         private string GeneratePassWordHashSHA256(string passWordInput,string salt)
         {

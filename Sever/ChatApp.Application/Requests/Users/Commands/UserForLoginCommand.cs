@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Application.Requests.Users.Commands
 {
-    public class UserForLoginOrRegisterCommand : UserForLoginOrRegister,ICommand<Result<UserIdentity>>
+    public class UserForLoginCommand : UserForLoginOrRegister,ICommand<Result<UserIdentity>>
     {
       
-        public UserForLoginOrRegisterCommand(string userName, string password):base(userName, password)
+        public UserForLoginCommand(string userName, string password):base(userName, password)
         {
             UserName = userName;
             Password = password;

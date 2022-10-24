@@ -1,10 +1,12 @@
 ﻿using ChatApp.Application.Interfaces.DAL;
 using ChatApp.Application.Interfaces.Services;
 using ChatApp.Application.Models;
+using ChatApp.Application.Requests.Users;
 using ChatApp.Application.Requests.Users.Commands;
 using ChatApp.Domain.Entities;
 using ChatApp.Share.Wrappers;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,17 +20,20 @@ namespace ChatApp.Infrastructure.Services
         private readonly IDbFactory _dbFactory;
         private readonly IPasswordHasher _hasher;
         private readonly IJwtGenerator _jwtGenerator;
+        private readonly IChatDbContext _db;
         public AuthenticateService(
             IDbFactory dbFactory,
             IPasswordHasher hasher
-            ,IJwtGenerator jwtGenerator
+           ,IJwtGenerator jwtGenerator,
+            IChatDbContext db
            )
         {
             _dbFactory = dbFactory;
             _hasher = hasher;
             _jwtGenerator = jwtGenerator;
+            _db = db;
         }
-        public async  Task<Result<UserIdentity>> LoginOrRegister(UserForLoginOrRegister userInfo)
+        public async  Task<Result<UserIdentity>> LoginAsync(UserForLoginOrRegister userInfo)
         {
             using (var connection = _dbFactory.CreateConnection())
             {
@@ -56,29 +61,29 @@ namespace ChatApp.Infrastructure.Services
                         "Password is not correct"
                     });
                 }
-                var hashPassWordResult= _hasher.HashWithSHA256Algo(userInfo.Password);
-                User registerUser = User.CreateUser(userInfo.UserName, hashPassWordResult.PasswordHash, hashPassWordResult.Salt);
-              int result=
-                    await connection
-                    .ExecuteAsync($"INSERT INTO public.\"Users\"(\r\n\t \"Id\", \"UserName\", \"Password\",\"Salt\")\r\n\tVALUES (@Id,@UserName,@Password,@Salt)", 
-                    new {
-                        Id=registerUser.Id,
-                        UserName = registerUser.UserName,
-                        Password = registerUser.Password,
-                        Salt= registerUser.Salt
-                       });
-                string tokenForRegister= _jwtGenerator.GenerateToken(registerUser.Id, registerUser.UserName);
-                return IdentityResult.Success(new UserIdentity()
-                {
-                    JwtToken = tokenForRegister,
-                    Info = new UserInfo()
-                    {
-                        Id = user.Id,
-                    }
-                });
+                return Result<UserIdentity>.Fail("UserName Or Password isn't correct");
 
             }
+            
         }
-        
+        public async Task<Result<UserIdentity>> RegisterAsync(UserForRegisterCommand newUser)
+        {
+            if (await _db.Users.AnyAsync(p => p.UserName == newUser.UserName))
+                return Result<UserIdentity>.Fail("UserName is existing in database");
+            var hashPassWordResult = _hasher.HashWithSHA256Algo(newUser.Password);
+            User newUserEntity = User.CreateUser(newUser.UserName, newUser.Name, hashPassWordResult.PasswordHash, hashPassWordResult.Salt);
+            await _db.Users.AddAsync(newUserEntity);
+            await _db.SaveChangesAsync();
+            string tokenForRegister = _jwtGenerator.GenerateToken(newUserEntity.Id, newUserEntity.UserName);
+            return IdentityResult.Success(new UserIdentity()
+            {
+                JwtToken = tokenForRegister,
+                Info = new UserInfo()
+                {
+                    Id = newUserEntity.Id,
+                }
+            });
+        }
+
     }
 }

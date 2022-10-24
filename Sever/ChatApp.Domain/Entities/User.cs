@@ -35,18 +35,15 @@ namespace ChatApp.Domain.Entities
             message.SetMessageRead();
         }
      
-        public void UpdateInfo(string Name, string UrlAvatar)
-        {
-            this.Name = Name;
-            this.UrlAvatar = UrlAvatar;
-        }
-        public static User CreateUser(string UserName, string PasswordHash, string Salt)
+  
+        public static User CreateUser(string UserName,string Name, string PasswordHash, string Salt)
         {
             return new User()
             {
                 Id = Guid.NewGuid(),
                 UserName = UserName,
                 Password = PasswordHash,
+                Name = Name,
                 Salt = Salt,
 
             };
