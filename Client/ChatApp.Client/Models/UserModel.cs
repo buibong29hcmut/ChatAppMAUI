@@ -19,4 +19,25 @@ namespace ChatApp.Client.Models
         public string UrlProfile { get; set; }
 
     }
+    public class UserApplication: UserProfileModel
+    {
+        private static UserApplication instance;
+        public static  UserApplication Intance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new();
+                return instance;
+
+            }
+            set=> instance = value;
+            
+        }
+        public static void SetValueIntance(UserApplication data)
+        {
+            instance = data;
+        }
+      
+    }
 }

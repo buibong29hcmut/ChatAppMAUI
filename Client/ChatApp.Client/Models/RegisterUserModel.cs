@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Client.Models
 {
-    internal class ImageModel
+    public class RegisterUserModel
     {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Name { get; set; }
     }
 }

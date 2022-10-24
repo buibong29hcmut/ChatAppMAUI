@@ -19,9 +19,16 @@ namespace ChatApp.Client.Services
 
         public async Task Login(string userName, string Password)
         {
-            var response = await _http.PostAsync<AuthenticateModel>("api/v1/auth", new { userName = userName, password = Password });
+            var response = await _http.PostAsync<AuthenticateModel>("api/v1/auth/log_in", new { userName = userName, password = Password });
             await SecureStorage.SetAsync("chattoken", response.JwtToken);
-            await SecureStorage.SetAsync("profile",response.Info.Id.ToString());
+            await SecureStorage.SetAsync("user_id",response.Info.Id.ToString());
+        }
+        public async Task RegisterAsync(RegisterUserModel User)
+        {
+            var response = await _http.PostAsync<AuthenticateModel>("api/v1/auth/register", User);
+            await SecureStorage.SetAsync("chattoken", response.JwtToken);
+            await SecureStorage.SetAsync("user_id", response.Info.Id.ToString());
+
         }
         public async Task LoginGoogle()
         {

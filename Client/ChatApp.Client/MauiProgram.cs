@@ -31,12 +31,13 @@ namespace ChatApp.Client
             builder.Services.AddSingleton<IAuthenticateClientService, AuthenticateClientService>();
             builder.Services.AddSingleton<IChatHub,ChatHub>();
             builder.Services.AddSingleton<IUserOperationHub,UserOperationHub>();
-
+            builder.Services.AddSingleton<RegisterUserViewModel>();
             builder.Services.AddTransient<MainChatViewModel>();
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddScoped<ListUserViewModel>();
             builder.Services.AddTransient<ConversationDetailViewModel>();
             builder.Services.AddSingleton<LoginView>();
+            builder.Services.AddSingleton<RegisterUserView>();
             builder.Services.AddTransient<ListBoxChatView>();
             builder.Services.AddSingleton<ListUserView>();
             builder.Services.AddSingleton<App>();

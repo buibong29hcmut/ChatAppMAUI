@@ -28,9 +28,10 @@ namespace ChatApp.Client.ViewModels
         public ListUserViewModel()
         {
             _httpClient= new HttpClientService();
-            Users = new();
+            Users = new RangeObservableCollection<UserModel>();
+            User= UserApplication.Intance;
             GetListUser();
-            Task.Run(async () => await GetProfileUser());
+            //Task.Run(async () => await GetProfileUser());
             
         }
         public  void GetListUser()
@@ -39,12 +40,12 @@ namespace ChatApp.Client.ViewModels
             Users.AddRange(data.Items);
             HasNextPage = data.HasNextPage;
         }
-        public async Task GetProfileUser()
-        {
-            var userId = await SecureStorage.GetAsync("profile");
-            User = await _httpClient.GetAsync<UserProfileModel>($"api/v1/user/{userId}");
+        //public async Task GetProfileUser()
+        //{
+        //    var userId = await SecureStorage.GetAsync("user_id");
+        //    //User = await _httpClient.GetAsync<UserProfileModel>($"api/v1/user/{userId}");
 
-        }
+        //}
         [RelayCommand]
         public async void LoadMoreUserAsync()
         {
@@ -61,7 +62,7 @@ namespace ChatApp.Client.ViewModels
         [RelayCommand]
         public async Task GoToChatDetail(UserModel user)
         {   
-            string userId =await  SecureStorage.GetAsync("profile");
+            string userId =await  SecureStorage.GetAsync("user_id");
             string api = $"api/v1/user/{userId}/conversation/{user.Id.ToString()}";
             var conversation = await _httpClient.GetAsync<ConversationModel>(api);
             await Shell.Current.GoToAsync(nameof(ChatDetailView), true, new Dictionary<string, object>()
@@ -70,13 +71,12 @@ namespace ChatApp.Client.ViewModels
                 {"OtherUser", user }
             });
            
-           
         }
         [ObservableProperty]
         private RangeObservableCollection<UserModel> users;
 
         [ObservableProperty]
-        private UserProfileModel user;
+        private UserApplication user;
 
 
 

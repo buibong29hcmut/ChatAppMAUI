@@ -17,7 +17,10 @@ public partial class ChatDetailView : ContentPage
     {   
         var vm = this.BindingContext as ConversationDetailViewModel;
         vm.GetMessagesInitialCommand.Execute(null);
-        collectionMessageView.ScrollTo(vm.Messages[vm.Messages.Count-1], true);
+        if (vm.Messages.Count > 0)
+        {
+            collectionMessageView.ScrollTo(vm.Messages[vm.Messages.Count - 1], true);
+        }
 
     }
 

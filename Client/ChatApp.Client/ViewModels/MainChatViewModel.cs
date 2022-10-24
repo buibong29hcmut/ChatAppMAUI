@@ -49,7 +49,7 @@ namespace ChatApp.Client.ViewModels
             if (IsBusy==true)
                 return;
             IsBusy = true;          
-            var userId = await SecureStorage.GetAsync("profile");
+            var userId = await SecureStorage.GetAsync("user_id");
             var item = await _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>($"api/v1/user/{userId}/conversation?CountConversation={BoxChatModels.Count}&RowFetch=10");
             BoxChatModels.AddRange(item);
             IsBusy = false;
@@ -57,8 +57,10 @@ namespace ChatApp.Client.ViewModels
         }
         public async Task GetProfileUser()
         {
-            var userId = await SecureStorage.GetAsync("profile");
-            User = await _httpClient.GetAsync<UserProfileModel>($"api/v1/user/{userId}");
+            var userId = await SecureStorage.GetAsync("user_id");
+            var data = await _httpClient.GetAsync<UserApplication>($"api/v1/user/{userId}");
+            UserApplication.SetValueIntance(data);
+            User = UserApplication.Intance;
 
         }
         public   void GetBoxChatModels()
@@ -66,7 +68,7 @@ namespace ChatApp.Client.ViewModels
             if (IsBusy == true)
                 return;
             IsBusy = true;
-            string userId = SecureStorage.GetAsync("profile").Result;
+            string userId = SecureStorage.GetAsync("user_id").Result;
             BoxChatModels = _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>($"api/v1/user/{userId}/conversation?CountConversation=0&RowFetch=10").Result;
             IsBusy = false;
         }
@@ -91,7 +93,7 @@ namespace ChatApp.Client.ViewModels
         private RangeObservableCollection<BoxChatModel> boxChatModels;
 
         [ObservableProperty]
-        private UserProfileModel user;
+        private UserApplication user;
 
 
 
