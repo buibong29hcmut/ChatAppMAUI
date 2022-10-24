@@ -16,16 +16,13 @@ using ChatApp.Client.Models;
 using ChatApp.Client.Services;
 using ChatApp.Client.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace ChatApp.Client.ViewModels
 {
     public partial class ListUserViewModel:BaseViewModel
     {
         private readonly HttpClientService _httpClient;
-        [ObservableProperty]
-        private RangeObservableCollection<UserModel> users;
-        [ObservableProperty]
-        private UserProfileModel user;
         private int PageNumber = 1;
         bool HasNextPage;
         public ListUserViewModel()
@@ -48,7 +45,7 @@ namespace ChatApp.Client.ViewModels
             User = await _httpClient.GetAsync<UserProfileModel>($"api/v1/user/{userId}");
 
         }
-        [ICommand]
+        [RelayCommand]
         public async void LoadMoreUserAsync()
         {
             if (IsBusy==true|| HasNextPage==false)
@@ -59,8 +56,9 @@ namespace ChatApp.Client.ViewModels
             HasNextPage = listUser.HasNextPage;
             PageNumber += 1;
             IsBusy = false;
+           
         }
-        [ICommand]
+        [RelayCommand]
         public async Task GoToChatDetail(UserModel user)
         {   
             string userId =await  SecureStorage.GetAsync("profile");
@@ -72,10 +70,16 @@ namespace ChatApp.Client.ViewModels
                 {"OtherUser", user }
             });
            
+           
         }
-        
+        [ObservableProperty]
+        private RangeObservableCollection<UserModel> users;
 
-      
+        [ObservableProperty]
+        private UserProfileModel user;
+
+
+
 
     }
 }

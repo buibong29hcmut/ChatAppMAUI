@@ -20,21 +20,9 @@ namespace ChatApp.Client.ViewModels
     [QueryProperty("OtherUser", "OtherUser")]
     public partial class ConversationDetailViewModel:BaseViewModel
     {
-        [ObservableProperty]
-        private RangeObservableCollection<MessageModel> messages;
         private readonly IHttpClientService _httpClient;
-        [ObservableProperty]
-        private Guid conversationId;
-        [ObservableProperty]
-        private Guid otherUserId;
-        [ObservableProperty]
-        private bool isRefreshing=false;
-        [ObservableProperty]
-        private UserModel otherUser;
         private readonly IChatHub _chathub;
         private readonly IUserOperationHub _operation;
-        [ObservableProperty]
-        private string message;
         public ConversationDetailViewModel(IChatHub chathub)
         {   
             _httpClient = new HttpClientService();
@@ -73,9 +61,9 @@ namespace ChatApp.Client.ViewModels
         [RelayCommand]
         public  void GetMessagesInitial()
         {
-            IsBusy = true;
+             IsBusy = true;
              GetMessages();
-              IsBusy = false;
+             IsBusy = false;
         }
         [RelayCommand]
         public async Task LoadMoreMessage()
@@ -88,8 +76,8 @@ namespace ChatApp.Client.ViewModels
             }
                 IsRefreshing = true;
                  GetMessages();
-            IsRefreshing = false;
-             await Task.CompletedTask;
+                 IsRefreshing = false;
+                 await Task.CompletedTask;
         }
         private void OnReceiveMessage(MessageModel message )
         {
@@ -127,6 +115,22 @@ namespace ChatApp.Client.ViewModels
             Message = "";
             
         }
+        [ObservableProperty]
+        private RangeObservableCollection<MessageModel> messages;
 
+        [ObservableProperty]
+        private Guid conversationId;
+
+        [ObservableProperty]
+        private Guid otherUserId;
+
+        [ObservableProperty]
+        private bool isRefreshing = false;
+
+        [ObservableProperty]
+        private string message;
+
+        [ObservableProperty]
+        private UserModel otherUser;
     }
 }

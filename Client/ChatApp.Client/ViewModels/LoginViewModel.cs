@@ -14,14 +14,9 @@ namespace ChatApp.Client.ViewModels
         private readonly IAuthenticateClientService _http;
         public LoginViewModel(IAuthenticateClientService http)
         {
-            _http = http;
-            
+            _http = http;          
         }
-        [ObservableProperty]
-        private string username;
-        [ObservableProperty]
-
-        private string password;
+   
         [RelayCommand]
         private async Task LoginAsync()
         {
@@ -30,5 +25,10 @@ namespace ChatApp.Client.ViewModels
             App.Current.MainPage = new AppShell();
             IsBusy = false;
         }
+        [ObservableProperty]
+        private string username;
+
+        [ObservableProperty]
+        private string password;
     }
 }

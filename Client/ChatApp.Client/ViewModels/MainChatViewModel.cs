@@ -24,14 +24,9 @@ namespace ChatApp.Client.ViewModels
 {   
     public partial class MainChatViewModel:BaseViewModel
     {
-        
-        public RangeObservableCollection<string> urlUserOnline { get; } = new();
-        [ObservableProperty]
-        private RangeObservableCollection<BoxChatModel> boxChatModels;
-        [ObservableProperty]
-        private UserProfileModel user;
-        public string UrlProFileUser { get; set; }
+
         private  HttpClientService _httpClient;
+
         private readonly IChatHub _chathub;
         
         public MainChatViewModel(IChatHub chathub, IUserOperationHub operation) 
@@ -53,8 +48,7 @@ namespace ChatApp.Client.ViewModels
         {  
             if (IsBusy==true)
                 return;
-            IsBusy = true;
-            
+            IsBusy = true;          
             var userId = await SecureStorage.GetAsync("profile");
             var item = await _httpClient.GetAsync<RangeObservableCollection<BoxChatModel>>($"api/v1/user/{userId}/conversation?CountConversation={BoxChatModels.Count}&RowFetch=10");
             BoxChatModels.AddRange(item);
@@ -86,11 +80,18 @@ namespace ChatApp.Client.ViewModels
                 {"OtherUser", param.User }
             });
             
-            
         }
         private void OnReceiveMessage(MessageModel message)
         {
         }
+
+
+
+        [ObservableProperty]
+        private RangeObservableCollection<BoxChatModel> boxChatModels;
+
+        [ObservableProperty]
+        private UserProfileModel user;
 
 
 
