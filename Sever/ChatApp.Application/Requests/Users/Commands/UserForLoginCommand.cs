@@ -19,4 +19,10 @@ namespace ChatApp.Application.Requests.Users.Commands
             Password = password;
         }
     }
+    public class UserForLoginGoogleCommand: ICommand<Result<UserIdentity>>
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string UrlAvatar { get; set; }
+    }
 }

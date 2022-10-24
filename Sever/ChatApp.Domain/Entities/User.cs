@@ -36,7 +36,7 @@ namespace ChatApp.Domain.Entities
         }
      
   
-        public static User CreateUser(string UserName,string Name, string PasswordHash, string Salt)
+        public static User CreateUser(string UserName,string Name, string PasswordHash, string Salt,string email="")
         {
             return new User()
             {
@@ -45,7 +45,8 @@ namespace ChatApp.Domain.Entities
                 Password = PasswordHash,
                 Name = Name,
                 Salt = Salt,
-                UrlAvatar= "https://images.pexels.com/photos/13554906/pexels-photo-13554906.jpeg",
+                Email= email,
+                UrlAvatar = "https://images.pexels.com/photos/13554906/pexels-photo-13554906.jpeg",
             };
         }
     

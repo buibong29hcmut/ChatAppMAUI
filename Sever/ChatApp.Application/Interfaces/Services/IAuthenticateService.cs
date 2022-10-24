@@ -11,7 +11,10 @@ namespace ChatApp.Application.Interfaces.Services
 {
     public interface IAuthenticateService
     {
-        Task<Result<UserIdentity>> LoginAsync(UserForLoginOrRegister userInfo);
+
+        Task<Result<UserIdentity>> LoginAsync(UserForLoginCommand userInfo);
         Task<Result<UserIdentity>> RegisterAsync(UserForRegisterCommand newUser);
+        Task<Result<UserIdentity>> LogInGoogleAsync(UserForLoginGoogleCommand userInfo);
+
     }
 }

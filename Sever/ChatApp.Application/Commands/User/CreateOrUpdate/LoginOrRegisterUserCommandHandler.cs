@@ -12,7 +12,9 @@ using System.Threading.Tasks;
 namespace ChatApp.Application.Commands.User.CreateOrUpdate
 {
     public class LoginOrRegisterUserCommandHandler:ICommandHandler<UserForLoginCommand, Result<UserIdentity>>,
-                                                   ICommandHandler<UserForRegisterCommand,Result<UserIdentity>>
+                                                   ICommandHandler<UserForRegisterCommand,Result<UserIdentity>>,
+                                                  ICommandHandler<UserForLoginGoogleCommand, Result<UserIdentity>>
+
     {
         private readonly IAuthenticateService _auth;
         public LoginOrRegisterUserCommandHandler(IAuthenticateService auth)
@@ -29,6 +31,11 @@ namespace ChatApp.Application.Commands.User.CreateOrUpdate
         public async Task<Result<UserIdentity>> Handle(UserForRegisterCommand request, CancellationToken cancellationToken)
         {
             return await _auth.RegisterAsync(request);
+        }
+
+        public async Task<Result<UserIdentity>> Handle(UserForLoginGoogleCommand request, CancellationToken cancellationToken)
+        {
+            return await _auth.LogInGoogleAsync(request);
         }
     }
 }

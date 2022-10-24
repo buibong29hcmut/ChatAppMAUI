@@ -2,6 +2,7 @@
 using ChatApp.Application.Cores.Queries;
 using ChatApp.Application.Models;
 using ChatApp.Application.Requests.Users.Commands;
+using ChatApp.Domain.Entities;
 using ChatApp.Share.Wrappers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace ChatApp.API.Controllers
         }
         const string callbackScheme = "chatmaui";
 
-        [HttpGet("{scheme}")] // eg: Microsoft, Facebook, Apple, etc
+        [HttpGet("{scheme}")] 
         public async Task Get([FromRoute] string scheme)
         {
             var auth = await Request.HttpContext.AuthenticateAsync(scheme);
@@ -34,18 +35,24 @@ namespace ChatApp.API.Controllers
             else
             {
                 var claims = auth.Principal.Identities.FirstOrDefault()?.Claims;
-                var email = string.Empty;
-                email = claims?.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value;
+                string email = claims?.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value;
+                string givenName = claims?.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.GivenName)?.Value;
+                string surName = claims?.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Surname)?.Value;
+                string picture = claims?.FirstOrDefault(c => c.Type == "picture")?.Value;
 
+                UserForLoginGoogleCommand User = new UserForLoginGoogleCommand()
+                {
+                    Email = email,
+                    Name = givenName + " " + surName,
+                    UrlAvatar= picture
+                };
+               var result=await  _command.Send<Result<UserIdentity>>(User);
                 var qs = new Dictionary<string, string>
                 {
-                    { "access_token", auth.Properties.GetTokenValue("access_token") },
-                    { "refresh_token", auth.Properties.GetTokenValue("refresh_token") ?? string.Empty },
-                    { "expires", (auth.Properties.ExpiresUtc?.ToUnixTimeSeconds() ?? -1).ToString() },
-                    { "email", email }
+                    { "access_token", result.Data.JwtToken },
+                    { "Id", result.Data.Info.Id.ToString() }
                 };
-
-                // Build the result url
+              
                 var url = callbackScheme + "://#" + string.Join(
                     "&",
                     qs.Where(kvp => !string.IsNullOrEmpty(kvp.Value) && kvp.Value != "-1")

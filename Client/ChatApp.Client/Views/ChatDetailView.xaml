@@ -50,24 +50,24 @@
                             </Grid>
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Grid.Column="3" HorizontalOptions="EndAndExpand">
-                            <Image  HorizontalOptions="Center" VerticalOptions="Center" Source="phone4.png"  WidthRequest="45" HeightRequest="45"></Image>
-
-                            <Image HorizontalOptions="Center" VerticalOptions="Center" Source="camera5.png"  WidthRequest="45" HeightRequest="45"></Image>
+                        <Image  HorizontalOptions="Center" VerticalOptions="Center" Source="phone4.png"  WidthRequest="45" HeightRequest="45"></Image>
+                        <Image  HorizontalOptions="Center" VerticalOptions="Center" Source="camera5.png"  WidthRequest="45" HeightRequest="45"></Image>
                         </HorizontalStackLayout>
                     </Grid>
                 </VerticalStackLayout>
-            <RefreshView Grid.Row="1" IsRefreshing="{Binding IsRefreshing}"
+            <RefreshView Grid.Row="1"
+                         IsRefreshing="{Binding IsRefreshing}"
                          Command="{Binding LoadMoreMessageCommand}"
                          >
-                <CollectionView x:Name="collectionMessageView" ItemsSource="{Binding Messages}"
-                                      ItemsUpdatingScrollMode="KeepLastItemInView"
+                <CollectionView x:Name="collectionMessageView" 
+                                ItemsSource="{Binding Messages}"
+                                ItemsUpdatingScrollMode="KeepLastItemInView"
                                 >
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid RowDefinitions="auto, auto">
                                 <Grid  IsVisible="true">
-                                    <VerticalStackLayout Margin="3,5,3,5" HorizontalOptions="{Binding Path=FromUserId, 
-                                                                                                     Converter={StaticResource FromUserIdToHorizontalOptionConverter}} ">
+                                    <VerticalStackLayout Margin="3,5,3,5" HorizontalOptions="{Binding Path=FromUserId,                                                                                                     Converter={StaticResource FromUserIdToHorizontalOptionConverter}} ">
                                         <Label
                                 Margin="5,0,5,0"
                                 FontSize="11"
@@ -83,6 +83,7 @@
                                     FontSize="12"
                                     Text="{Binding Content}"
                                     TextColor="Black" />
+                                            
                                         </Frame>
                                     </VerticalStackLayout>
                                 </Grid>
@@ -99,7 +100,9 @@
                     <Frame
                     Padding="10,0,10,0"
                     CornerRadius=" 20"
-                    HeightRequest="40" BorderColor="White" HasShadow="True">
+                    HeightRequest="40" 
+                    BorderColor="White" 
+                    HasShadow="True">
                         <Editor
                         HeightRequest="400"
                         Placeholder="Send Message"

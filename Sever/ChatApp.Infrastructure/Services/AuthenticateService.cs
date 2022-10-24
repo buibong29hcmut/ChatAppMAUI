@@ -32,7 +32,7 @@ namespace ChatApp.Infrastructure.Services
             _jwtGenerator = jwtGenerator;
             _db = db;
         }
-        public async  Task<Result<UserIdentity>> LoginAsync(UserForLoginOrRegister userInfo)
+        public async  Task<Result<UserIdentity>> LoginAsync(UserForLoginCommand userInfo)
         {
             using (var connection = _dbFactory.CreateConnection())
             {
@@ -64,6 +64,37 @@ namespace ChatApp.Infrastructure.Services
 
             }
             
+        }
+        public async Task<Result<UserIdentity>> LogInGoogleAsync(UserForLoginGoogleCommand userInfo)
+        {
+            var user = await _db.Users.Where(p => p.Email == userInfo.Email).FirstOrDefaultAsync();
+            if (user != null)
+            {
+                string token = _jwtGenerator.GenerateToken(user.Id, user.UserName);
+                return IdentityResult.Success(new UserIdentity()
+                {
+                    JwtToken = token,
+                    Info = new UserInfo()
+                    {
+                        Id = user.Id,
+                    }
+                });
+            }
+            string randomPassword = Guid.NewGuid().ToString().Substring(0, 11).Replace("-","_");
+            var hashResult= _hasher.HashWithSHA256Algo(randomPassword);
+            User newUser = User.CreateUser("user"+Guid.NewGuid().ToString().Substring(0,6).Replace("-","_"),
+                userInfo.Name, hashResult.PasswordHash, hashResult.Salt, userInfo.Email);
+            newUser.UploadAvatar(userInfo.UrlAvatar);
+            await _db.Users.AddAsync(newUser);
+            var tokenRegister=  _jwtGenerator.GenerateToken(newUser.Id, newUser.UserName);
+            return IdentityResult.Success(new UserIdentity()
+            {
+                JwtToken = tokenRegister,
+                Info = new UserInfo()
+                {
+                    Id = newUser.Id,
+                }
+            });
         }
         public async Task<Result<UserIdentity>> RegisterAsync(UserForRegisterCommand newUser)
         {
