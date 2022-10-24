@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 
 namespace ChatApp.Client.DataStructures
-{
+{   //reference: https://gist.github.com/weitzhandler/65ac9113e31d12e697cb58cd92601091
     public class RangeObservableCollection<T> : ObservableCollection<T>
     {
         //------------------------------------------------------
