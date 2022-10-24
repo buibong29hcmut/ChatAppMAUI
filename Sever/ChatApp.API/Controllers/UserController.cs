@@ -4,6 +4,7 @@ using ChatApp.Application.Cores.Commands;
 using ChatApp.Application.Cores.Queries;
 using ChatApp.Application.Interfaces.Services;
 using ChatApp.Application.Models;
+using ChatApp.Application.Requests.Users;
 using ChatApp.Application.Requests.Users.Commands;
 using ChatApp.Application.Requests.Users.Queries;
 using ChatApp.Application.Response.Users;
@@ -46,6 +47,7 @@ namespace ChatApp.API.Controllers
             });
             return Ok(result);
         }
+     
         [HttpPost("upload_avt")]
         public async Task<IActionResult> UploadAvatar([FromForm] IFormFile file)
         {

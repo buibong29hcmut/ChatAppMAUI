@@ -1,6 +1,7 @@
 ﻿using ChatApp.Application.Cores.Commands;
 using ChatApp.Application.Cores.Queries;
 using ChatApp.Application.Models;
+using ChatApp.Application.Requests.Users;
 using ChatApp.Application.Requests.Users.Commands;
 using ChatApp.Share.Wrappers;
 using Microsoft.AspNetCore.Authentication;
@@ -54,8 +55,14 @@ namespace ChatApp.API.Controllers
                 Request.HttpContext.Response.Redirect(url);
             }
         }
-        [HttpPost]
-        public async Task<IActionResult> LoginOrRegister([FromBody] UserForLoginOrRegisterCommand cmd)
+        [HttpPost("log_in")]
+        public async Task<IActionResult> LoginUser([FromBody] UserForLoginCommand cmd)
+        {
+            var result = await _command.Send<Result<UserIdentity>>(cmd);
+            return Ok(result);
+        }
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterUser([FromBody] UserForRegisterCommand cmd)
         {
             var result = await _command.Send<Result<UserIdentity>>(cmd);
             return Ok(result);

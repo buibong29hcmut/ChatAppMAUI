@@ -45,9 +45,10 @@ namespace ChatApp.Domain.Entities
                 Password = PasswordHash,
                 Name = Name,
                 Salt = Salt,
-
+                UrlAvatar= "https://images.pexels.com/photos/13554906/pexels-photo-13554906.jpeg",
             };
         }
+    
         public void UploadAvatar(string urlImage)
         {
             this.UrlAvatar = urlImage;
