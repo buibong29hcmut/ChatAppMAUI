@@ -4,14 +4,19 @@ using ChatApp.API.Hubs;
 using ChatApp.Application;
 using ChatApp.Application.Interfaces.DAL;
 using ChatApp.Application.Interfaces.Services;
+using ChatApp.Domain.Entities;
 using ChatApp.Infrastructure;
 using ChatApp.Infrastructure.Contexts;
 using ChatApp.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using System.Net.WebSockets;
@@ -29,22 +34,25 @@ builder.Services.AddSignalR();
 builder.Services.AddApplication()
                 .AddInfrastructure(builder.Configuration,
                 typeof(IChatDbContext), typeof(ChatDbContext));
+builder.Services.AddAuthorization(options =>
+{
+    var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder(
+        JwtBearerDefaults.AuthenticationScheme);
+
+    defaultAuthorizationPolicyBuilder =
+        defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
+
+    options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+});
 builder.Services.AddAuthentication(options =>
 {
-  
+
     {
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
     }
-}).AddCookie(options =>
-{
-    options.Events.OnRedirectToLogin = options.Events.OnRedirectToAccessDenied = context =>
-    {
-        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-        return Task.CompletedTask;
-    };
-})
+}).AddCookie(options=>options.LoginPath = "/account/google-login")
 .AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
@@ -62,7 +70,7 @@ builder.Services.AddAuthentication(options =>
 {
     opts.ClientId = "1010640552619-lkbctg2btcb7rllau01pt5pj1nb935t2.apps.googleusercontent.com";
     opts.ClientSecret = "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";
-    opts.Scope.Add("profile");
+    opts.SaveTokens = true;
     opts.Events.OnCreatingTicket = (context) =>
     {
         var picture = context.User.GetProperty("picture").GetString();
@@ -71,7 +79,6 @@ builder.Services.AddAuthentication(options =>
 
         return Task.CompletedTask;
     };
-    opts.SaveTokens = true;
 }); 
 
 builder.Services.AddDbContext<ChatDbContext>(options =>

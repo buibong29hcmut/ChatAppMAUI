@@ -86,7 +86,8 @@ namespace ChatApp.Infrastructure.Services
                 userInfo.Name, hashResult.PasswordHash, hashResult.Salt, userInfo.Email);
             newUser.UploadAvatar(userInfo.UrlAvatar);
             await _db.Users.AddAsync(newUser);
-            var tokenRegister=  _jwtGenerator.GenerateToken(newUser.Id, newUser.UserName);
+            await _db.SaveChangesAsync();
+            var tokenRegister =  _jwtGenerator.GenerateToken(newUser.Id, newUser.UserName);
             return IdentityResult.Success(new UserIdentity()
             {
                 JwtToken = tokenRegister,
